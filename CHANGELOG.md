@@ -5,6 +5,14 @@ All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) ar
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-11-04
+### Added
+- **Subpath Deployment Flexibility**: PWA and assets configured with relative base paths (`./`) enabling publishing at any subpath or nested directory on any generic web server (Apache, Nginx, Caddy, Cloudflare Pages, GitHub Pages).
+- **Comprehensive Package & License Matrix**: Interactive catalog of all runtime, development, and CDN libraries with versions, purposes, and open-source licenses inside the About dialog.
+- **Embedded Changelog Viewer**: Full in-app release history tab integrated directly into the user interface.
+- **Automated CI/CD & GitHub Actions Release Pipeline**: Complete workflow (`.github/workflows/release.yml`) to compile TypeScript, run unit tests, create compressed tarballs, and publish version-tagged GitHub releases.
+- **AI Coding Assistant Constitution**: Comprehensive `AI_GUIDELINES.md` guide for maintaining, extending, and re-creating the application from scratch.
+
 ## [1.0.0] - 2026-11-04
 ### Added
 - **Interactive EIB Recipe Wizard**:

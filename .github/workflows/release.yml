@@ -1,0 +1,125 @@
+name: CI, Build & GitHub Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Publish as GitHub project release'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-build:
+    name: Lint, Test & Compile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Static Analysis & TypeScript Type Check
+        run: npm run lint
+
+      - name: Execute Unit Test Suite
+        run: npm test
+
+      - name: Compile Production Build
+        run: npm run build
+
+      - name: Extract App Version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Detected project version: v${VERSION}"
+
+      - name: Create Distribution Compressed Tar Archive
+        run: |
+          mkdir -p release-artifacts
+          # Package the compiled production web application
+          tar -czvf "release-artifacts/suse-eib-pea-dist-v${VERSION}.tar.gz" -C dist .
+          # Package the complete source tree (excluding node_modules and temp files)
+          tar --exclude='./node_modules' \
+              --exclude='./.git' \
+              --exclude='./.playwright-cli' \
+              --exclude='./release-artifacts' \
+              --exclude='./dist' \
+              -czvf "release-artifacts/suse-eib-pea-src-v${VERSION}.tar.gz" .
+          ls -la release-artifacts/
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: suse-eib-pea-v${{ env.VERSION }}
+          path: release-artifacts/*
+
+  publish-release:
+    name: Publish GitHub Project Release
+    needs: check-and-build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish_release == 'true' || (github.ref == 'refs/heads/main' && github.event_name == 'push')
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: suse-eib-pea-*
+          merge-multiple: true
+          path: release-artifacts
+
+      - name: Extract Project Version
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "TAG_NAME=v${VERSION}" >> $GITHUB_ENV
+
+      - name: Extract Release Notes from CHANGELOG.md
+        id: extract_changelog
+        run: |
+          # Extract notes for the current version section
+          sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$d' > RELEASE_NOTES.md || true
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "Release v${VERSION} of SUSE Edge Image Builder Provisioning & Execution Assistant." > RELEASE_NOTES.md
+          fi
+          cat RELEASE_NOTES.md
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: SUSE Edge EIB-PEA ${{ env.TAG_NAME }}
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+          files: |
+            release-artifacts/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -91,7 +91,29 @@ This assistant automates the end-to-end recipe configuration for generating cust
 
 ---
 
-## 5. Official References & Upstream Documentation
+## 5. Development & AI Assistant Maintenance Guidelines
+
+For developers, maintainers, and future AI assistants, see the comprehensive [AI_MAINTENANCE_GUIDELINES.md](./AI_MAINTENANCE_GUIDELINES.md) document. It outlines:
+- Complete re-creation instructions from scratch.
+- Universal subpath publishing (`base: './'`).
+- Multi-architecture QEMU binfmt emulation rules.
+- Pinned SRI CDN hashes and supply-chain integrity controls.
+- Tested component matrix updates and version bump enforcement.
+
+---
+
+## 6. Continuous Integration & GitHub Releases
+
+Automated workflows are located in [`.github/workflows/release.yml`](./.github/workflows/release.yml). On every version tag push (`v*`) or manual workflow dispatch, the pipeline:
+1. Runs static type checking (`npm run lint`).
+2. Executes the unit test suite (`npm test`).
+3. Compiles the production build with relative asset paths (`npm run build`).
+4. Generates compressed distribution tarballs (`suse-eib-pea-dist-v${VERSION}.tar.gz` and `suse-eib-pea-src-v${VERSION}.tar.gz`).
+5. Automatically creates and publishes a GitHub Project Release with release notes extracted from `CHANGELOG.md`.
+
+---
+
+## 7. Official References & Upstream Documentation
 
 - **SUSE Edge Official Documentation**: [https://documentation.suse.com/edge/](https://documentation.suse.com/edge/)
 - **EIB GitHub Project**: [https://github.com/suse-edge/edge-image-builder](https://github.com/suse-edge/edge-image-builder)
@@ -102,8 +124,9 @@ This assistant automates the end-to-end recipe configuration for generating cust
 
 ---
 
-## 6. License
+## 8. License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the **GNU Affero General Public License** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 See the [LICENSE](./LICENSE) file for details.
+

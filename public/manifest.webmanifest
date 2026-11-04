@@ -1,10 +1,10 @@
 {
-  "id": "/",
+  "id": "./",
   "name": "SUSE Edge Image Builder Assistant",
   "short_name": "EIB-PEA",
   "description": "Interactive, secure Provisioning/Execution Assistant (PEA) wizard for SUSE Edge Image Builder (EIB), generating hardened Kubernetes appliance ISO recipes.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#090d16",
