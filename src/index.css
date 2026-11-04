@@ -1,0 +1,47 @@
+/**
+ * @license
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-suse-green: #30BA78;
+    --color-suse-dark-green: #027A48;
+  }
+
+  /* High Visibility Accessibility Overrides */
+  .high-contrast {
+    filter: contrast(1.15);
+  }
+
+  .high-contrast input,
+  .high-contrast select,
+  .high-contrast textarea,
+  .high-contrast button {
+    border-width: 2px !important;
+    border-color: #30BA78 !important;
+  }
+
+  .high-contrast code,
+  .high-contrast pre {
+    background-color: #000000 !important;
+    border: 2px solid #30BA78 !important;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.6);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}

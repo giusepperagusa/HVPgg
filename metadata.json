@@ -1,0 +1,6 @@
+{
+  "name": "SUSE Edge Image Builder Assistant",
+  "description": "Interactive, secure Provisioning/Execution Assistant (PEA) wizard for SUSE Edge Image Builder (EIB), generating hardened Kubernetes appliance ISO recipes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
