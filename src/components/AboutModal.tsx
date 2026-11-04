@@ -176,7 +176,7 @@ const PACKAGES_CATALOG: PackageInfo[] = [
   },
   {
     name: 'esbuild',
-    version: '0.25.0',
+    version: '0.28.0',
     license: 'MIT',
     category: 'dev',
     purpose: 'Ultra-fast Go-based JavaScript/TypeScript bundler & minifier',
@@ -233,7 +233,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About SUSE Edge EIB-PEA</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.1.0
+                  v1.1.1
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -421,13 +421,46 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.1.0 */}
+              {/* Release 1.1.1 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.1.0</span>
+                    <span className="font-mono font-bold text-base text-white">v1.1.1</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-04</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Fixed & Hardened
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>README Section 3 Directory Tree Display:</strong> Replaced backslash-escaped code fences with standard preformatted multiline markdown blocks, restoring clean tree rendering in both repository root and dynamic ZIP bundle exports.
+                    </li>
+                    <li>
+                      <strong>GitHub Actions CI/CD Pipeline Hardening:</strong> Resolved dependency lockfile missing error by committing verified <code className="font-mono text-cyan-300">package-lock.json</code> and updating setup-node caching to resilient <code className="font-mono text-cyan-300">~/.npm</code> cache.
+                    </li>
+                    <li>
+                      <strong>Runner Image & Peer Dep Standardization:</strong> Pinned runner to <code className="font-mono text-cyan-300">ubuntu-24.04</code> with Node.js 24 LTS, bumped esbuild to <code className="font-mono text-emerald-300">^0.28.0</code> for Vite 8 peer resolution, and added fallback logic for non-shrinkwrap environments.
+                    </li>
+                    <li>
+                      <strong>AI Maintenance Guide:</strong> Added <code className="font-mono text-cyan-300">AI_MAINTENANCE_GUIDELINES.md</code> with full prompt history, architecture specifications, and verification procedures.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.1.0 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.1.0</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-04</span>

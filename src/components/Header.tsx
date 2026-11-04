@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning & Execution Assistant (v1.0.0)
+              Provisioning & Execution Assistant (v1.1.1)
             </p>
           </div>
         </div>

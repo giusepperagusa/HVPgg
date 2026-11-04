@@ -55,7 +55,7 @@ This assistant automates the end-to-end recipe configuration for generating cust
 
 ## 3. Exported Workspace Bundle Structure
 
-\`\`\`
+```text
 .
 ├── definition.yaml            # EIB master recipe specification
 ├── build.sh                   # Hardened automated runner script (chmod 755)
@@ -72,7 +72,7 @@ This assistant automates the end-to-end recipe configuration for generating cust
 ├── README.md                  # Detailed deployment guide
 ├── CHANGELOG.md               # Version history
 └── LICENSE                    # GNU Affero General Public License v3.0
-\`\`\`
+```
 
 ---
 
@@ -81,13 +81,13 @@ This assistant automates the end-to-end recipe configuration for generating cust
 ### On the Build Host:
 1. Ensure `podman`, `curl`, and `sha256sum` are installed.
 2. Unzip your bundle:
-   \`\`\`bash
+   ```bash
    unzip suse-eib-*.zip -d edge-build/ && cd edge-build/
-   \`\`\`
+   ```
 3. Execute the automated builder:
-   \`\`\`bash
+   ```bash
    ./build.sh
-   \`\`\`
+   ```
 
 ---
 

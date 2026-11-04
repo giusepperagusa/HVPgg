@@ -5,6 +5,11 @@ All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) ar
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-11-04
+### Fixed
+- **Markdown Tree Formatting**: Fixed README.md Section 3 directory tree formatting by removing backslash-escaped code fences so the full tree and commands render as readable multiline code blocks across all markdown parsers.
+- **GitHub Actions Lockfile & Runner Hardening**: Generated and committed `package-lock.json`, aligned `esbuild` dependency with Vite 8 (`^0.28.0`), updated action runners to `ubuntu-24.04`, and added fallback npm dependency caching via `actions/cache@v4` with resilient `npm ci || npm install --legacy-peer-deps`.
+
 ## [1.1.0] - 2026-11-04
 ### Added
 - **Subpath Deployment Flexibility**: PWA and assets configured with relative base paths (`./`) enabling publishing at any subpath or nested directory on any generic web server (Apache, Nginx, Caddy, Cloudflare Pages, GitHub Pages).

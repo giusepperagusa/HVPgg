@@ -559,7 +559,7 @@ export function generateReadmeMarkdown(config: EIBConfigState): string {
 
 ## 1. Directory Structure
 
-\`\`\`
+${'```'}
 .
 ├── definition.yaml            # EIB master recipe specification
 ├── build.sh                   # Hardened automated runner script (chmod +x build.sh)
@@ -573,7 +573,7 @@ export function generateReadmeMarkdown(config: EIBConfigState): string {
 ├── README.md                  # This documentation
 ├── CHANGELOG.md               # Version & change history
 └── LICENSE                    # GNU Affero General Public License v3.0
-\`\`\`
+${'```'}
 
 ---
 
@@ -586,14 +586,14 @@ Run on a modern Linux host (openSUSE, SLE, Fedora, Ubuntu, RHEL) with:
 - \`sudo\` or root privileges for privileged container execution
 
 ### Step 1: Make build.sh Executable
-\`\`\`bash
+${'```'}bash
 chmod +x build.sh
-\`\`\`
+${'```'}
 
 ### Step 2: Run the Automated Build Runner
-\`\`\`bash
+${'```'}bash
 ./build.sh
-\`\`\`
+${'```'}
 
 The runner will automatically:
 1. Detect host vs target architecture. If target is **ARM64 (aarch64)** and host is x86_64, it automatically registers QEMU user-static emulation binaries.
@@ -624,6 +624,11 @@ export function generateChangelogMarkdown(): string {
   return `# Changelog
 
 All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) and generated appliance bundles are documented here.
+
+## [1.1.1] - 2026-11-04
+### Fixed
+- **Markdown Tree Formatting**: Fixed README.md Section 3 directory tree formatting by removing backslash-escaped code fences so the full tree and commands render as readable multiline code blocks across all markdown parsers.
+- **GitHub Actions Lockfile & Runner Hardening**: Generated and committed \`package-lock.json\`, aligned \`esbuild\` dependency with Vite 8 (\`^0.28.0\`), updated action runners to \`ubuntu-24.04\`, and added fallback npm dependency caching via \`actions/cache@v4\` with resilient \`npm ci || npm install --legacy-peer-deps\`.
 
 ## [1.1.0] - 2026-11-04
 ### Added
