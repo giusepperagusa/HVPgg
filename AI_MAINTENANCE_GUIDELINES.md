@@ -2,7 +2,7 @@
 # SUSE Edge Image Builder - Provisioning & Execution Assistant
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.2.0+  
+> **Applicable Version**: 1.3.0+  
 > **Project License**: AGPL-3.0-only  
 > **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
 
@@ -64,6 +64,13 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
   - Capture and defer `beforeinstallprompt` to render a prominent "Install App" button in the header and about dialog.
   - Provide an iOS Safari guidance modal explaining "Share" -> "Add to Home Screen".
   - Detect `display-mode: standalone` to display the "Installed App" badge.
+
+### Directive 7: Profile Management, Zero-Binary Serialization, Collision Handling & Future-Proof Schemas
+- **Multi-Profile Persistence**: Users can save multiple configuration profiles in browser `localStorage`. Each profile contains user-defined names, descriptive comments, timestamps, and form state without any huge binary ISO blobs.
+- **Human-Editable Commented YAML**: Exported profiles (`.eib-profile.yaml`) are rendered in clean YAML with multi-line explanatory header comments and field descriptions, enabling operators to inspect and manually edit configuration values.
+- **Web Crypto AES-256-GCM Encryption**: To safeguard sensitive values (Kubernetes cluster tokens, root passwords, SUSE Customer Center registration codes), users can choose AES-256-GCM encryption with a custom passphrase on export. Key derivation uses PBKDF2 (100,000 iterations, SHA-256). If unencrypted export is chosen, a prominent security warning is displayed.
+- **Collision Detection & Diff Inspection**: When importing a profile whose name or ID already exists, the app must never silently overwrite data. Instead, it triggers a side-by-side diff comparison modal highlighting changed fields and providing 3 explicit choices: Overwrite Existing, Keep Both (Rename), or Cancel.
+- **Future-Proof Normalization**: The `normalizeEIBConfig()` utility guarantees forward and backward schema compatibility. When an older profile lacking newer fields is imported, default baseline values are backfilled so the application never breaks or encounters `undefined` state errors.
 
 ---
 

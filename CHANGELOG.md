@@ -5,6 +5,16 @@ All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) ar
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-11-05
+### Added
+- **Multi-Profile Management**: Save unlimited configuration profiles in browser memory with custom names, comments, and fast switching without losing wizard states.
+- **Zero-Binary Profile Serialization**: Clean, lightweight profile exports containing all form parameters without large binary ISO blobs.
+- **Human-Editable Commented YAML**: Full export and import in standard YAML (`.eib-profile.yaml`) enriched with descriptive documentation and security notices for easy inspection and manual editing.
+- **Web Crypto AES-256-GCM Encryption**: Optional enterprise-grade client-side encryption using PBKDF2 (100,000 iterations, SHA-256) and AES-GCM to protect cluster tokens, root passwords, and SCC registration credentials.
+- **Collision Detection & Diff Comparison**: Smart import conflict engine detecting existing profile names, presenting a side-by-side diff table with changed-field filtering, and offering Overwrite, Keep Both (Rename), or Cancel options.
+- **Future-Proof Backward Compatibility**: Automatic schema normalization (`normalizeEIBConfig`) ensuring older profile exports gracefully backfill missing attributes with safe production defaults.
+- **Multi-Profile Backup Bundles**: Export and import complete profile collections in a single commented or encrypted archive.
+
 ## [1.2.0] - 2026-11-04
 ### Added
 - **Total Offline Execution (Workbox Precaching)**: Full offline service worker caching (`sw.js`) allowing the app to run completely air-gapped without internet connectivity.

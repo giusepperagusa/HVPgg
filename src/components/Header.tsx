@@ -21,6 +21,7 @@ import {
   Share2,
   RefreshCw,
   Sparkles,
+  FolderGit2,
 } from 'lucide-react';
 import { EnvironmentMode } from '../types/eib';
 import { ThemeMode } from '../hooks/useTheme';
@@ -29,6 +30,8 @@ import { usePWA } from '../context/PWAContext';
 interface HeaderProps {
   environmentMode: EnvironmentMode;
   themeMode: ThemeMode;
+  activeProfileName?: string;
+  onOpenProfiles?: () => void;
   onThemeChange: (mode: ThemeMode) => void;
   onOpenDocs: () => void;
   onOpenAbout: () => void;
@@ -38,6 +41,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   environmentMode,
   themeMode,
+  activeProfileName,
+  onOpenProfiles,
   onThemeChange,
   onOpenDocs,
   onOpenAbout,
@@ -96,13 +101,29 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning & Execution Assistant (v1.2.0)
+              Provisioning & Execution Assistant (v1.3.0)
             </p>
           </div>
         </div>
 
         {/* Status badges & actions */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Profile Switcher / Manager Button */}
+          {onOpenProfiles && (
+            <button
+              onClick={onOpenProfiles}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 hover:border-emerald-500/50 transition group"
+              title={`Active Profile: ${activeProfileName || 'Default'}. Click to manage, save, export, or import profiles.`}
+              aria-label="Open Configuration Profiles Manager"
+            >
+              <FolderGit2 className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+              <span className="hidden sm:inline text-slate-400">Profile:</span>
+              <span className="max-w-[110px] truncate font-bold text-white group-hover:text-emerald-300">
+                {activeProfileName || 'Default'}
+              </span>
+            </button>
+          )}
+
           {/* Mode Pill Indicator */}
           <div
             className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${

@@ -6,7 +6,7 @@
  * Provisioning & Execution Assistant (PEA).
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Header } from './components/Header';
 import { TabsNav, WizardTab } from './components/TabsNav';
 import { TabEnvironment } from './components/TabEnvironment';
@@ -16,10 +16,14 @@ import { TabNodesStorage } from './components/TabNodesStorage';
 import { TabExport } from './components/TabExport';
 import { AboutModal } from './components/AboutModal';
 import { DocsModal } from './components/DocsModal';
+import { ProfileManagerModal } from './components/ProfileManagerModal';
+import { ProfileConflictModal } from './components/ProfileConflictModal';
 import { PWAProvider } from './context/PWAContext';
 import { PWAUpdateNotification } from './components/PWAUpdateNotification';
 import { useTheme } from './hooks/useTheme';
+import { useProfiles } from './hooks/useProfiles';
 import { INITIAL_CONFIG_STATE, EIBConfigState } from './types/eib';
+import { EIBProfile, ProfileConflictResolution } from './types/profile';
 import { exportWorkspaceZip } from './utils/zipExporter';
 
 export default function App() {
@@ -28,6 +32,44 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState<WizardTab>('environment');
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isDocsOpen, setIsDocsOpen] = useState(false);
+  const [isProfileManagerOpen, setIsProfileManagerOpen] = useState(false);
+  const [conflictModalData, setConflictModalData] = useState<{
+    existing: EIBProfile;
+    candidate: EIBProfile;
+    resolve: (resolution: ProfileConflictResolution) => void;
+  } | null>(null);
+
+  // Profiles management hook
+  const {
+    profiles,
+    activeProfile,
+    activeProfileId,
+    saveCurrentAsNewProfile,
+    updateActiveProfileFromForm,
+    updateProfileMetadata,
+    loadProfile,
+    deleteProfile,
+    duplicateProfile,
+    findExistingProfileConflict,
+    commitImportedProfile,
+    exportProfileToFile,
+    exportAllProfilesBundle,
+  } = useProfiles(config, setConfig);
+
+  const handleConflictDetected = useCallback(
+    (
+      existing: EIBProfile,
+      candidate: EIBProfile,
+      resolveCallback: (resolution: ProfileConflictResolution) => void
+    ) => {
+      setConflictModalData({
+        existing,
+        candidate,
+        resolve: resolveCallback,
+      });
+    },
+    []
+  );
 
   // Track completed tabs for wizard progress checkmarks
   const completedTabs = useMemo<Record<WizardTab, boolean>>(() => {
@@ -58,6 +100,8 @@ export default function App() {
         <Header
           environmentMode={config.environmentMode}
           themeMode={themeMode}
+          activeProfileName={activeProfile?.name}
+          onOpenProfiles={() => setIsProfileManagerOpen(true)}
           onThemeChange={setThemeMode}
           onOpenDocs={() => setIsDocsOpen(true)}
           onOpenAbout={() => setIsAboutOpen(true)}
@@ -156,6 +200,43 @@ export default function App() {
       {/* Modals */}
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
       <DocsModal isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
+      
+      {/* Profile Management Modal */}
+      <ProfileManagerModal
+        isOpen={isProfileManagerOpen}
+        onClose={() => setIsProfileManagerOpen(false)}
+        profiles={profiles}
+        activeProfile={activeProfile}
+        activeProfileId={activeProfileId}
+        onSaveCurrentAsNew={saveCurrentAsNewProfile}
+        onUpdateActiveProfile={updateActiveProfileFromForm}
+        onUpdateProfileMetadata={updateProfileMetadata}
+        onLoadProfile={loadProfile}
+        onDeleteProfile={deleteProfile}
+        onDuplicateProfile={duplicateProfile}
+        findExistingProfileConflict={findExistingProfileConflict}
+        onCommitImportedProfile={commitImportedProfile}
+        onExportProfile={exportProfileToFile}
+        onExportAllBundle={exportAllProfilesBundle}
+        onConflictDetected={handleConflictDetected}
+      />
+
+      {/* Collision Diff Comparison & Resolution Modal */}
+      {conflictModalData && (
+        <ProfileConflictModal
+          isOpen={!!conflictModalData}
+          existingProfile={conflictModalData.existing}
+          importedProfile={conflictModalData.candidate}
+          onResolve={(res) => {
+            conflictModalData.resolve(res);
+            setConflictModalData(null);
+          }}
+          onCancel={() => {
+            conflictModalData.resolve({ action: 'cancel' });
+            setConflictModalData(null);
+          }}
+        />
+      )}
     </div>
   </PWAProvider>
   );

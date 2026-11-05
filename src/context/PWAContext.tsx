@@ -9,7 +9,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 
-export const APP_CURRENT_VERSION = '1.2.0';
+export const APP_CURRENT_VERSION = '1.3.0';
 
 export interface PWAContextType {
   // Connectivity

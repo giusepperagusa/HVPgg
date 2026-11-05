@@ -283,7 +283,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About SUSE Edge EIB-PEA</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.2.0
+                  v1.3.0
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -592,13 +592,52 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
+              {/* Release 1.3.0 */}
+              <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.3.0</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
+                      Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-05</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Added & Enhanced
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Multi-Profile Management:</strong> Save, name, annotate, switch, duplicate, and delete multiple cluster profiles directly in browser storage without losing in-flight form states.
+                    </li>
+                    <li>
+                      <strong>Zero-Binary Serialization:</strong> Fast, lightweight profiles containing all wizard form fields while keeping heavy ISO binary blobs completely out of profile exports.
+                    </li>
+                    <li>
+                      <strong>Human-Editable Commented YAML:</strong> Export profile definitions in clear, commented YAML with section headers and field explanations for easy manual editing.
+                    </li>
+                    <li>
+                      <strong>Web Crypto AES-256-GCM Encryption:</strong> Optional client-side AES-256 encryption via standard Web Crypto API with PBKDF2 (100,000 iterations, SHA-256) to safeguard sensitive tokens and passwords.
+                    </li>
+                    <li>
+                      <strong>Collision Detection & Side-by-Side Diff:</strong> Smart conflict detection upon importing profiles, complete with an interactive diff table and options to overwrite, keep both (rename), or cancel.
+                    </li>
+                    <li>
+                      <strong>Future-Proof Backward Compatibility:</strong> Automatic normalization logic backfills safe production defaults for older profile versions.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
               {/* Release 1.2.0 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-base text-white">v1.2.0</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
-                      Latest Release
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+                      Offline & PWA Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-04</span>
