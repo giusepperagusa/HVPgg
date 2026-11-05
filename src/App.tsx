@@ -16,6 +16,8 @@ import { TabNodesStorage } from './components/TabNodesStorage';
 import { TabExport } from './components/TabExport';
 import { AboutModal } from './components/AboutModal';
 import { DocsModal } from './components/DocsModal';
+import { PWAProvider } from './context/PWAContext';
+import { PWAUpdateNotification } from './components/PWAUpdateNotification';
 import { useTheme } from './hooks/useTheme';
 import { INITIAL_CONFIG_STATE, EIBConfigState } from './types/eib';
 import { exportWorkspaceZip } from './utils/zipExporter';
@@ -47,16 +49,20 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans transition-colors selection:bg-emerald-500 selection:text-white">
-      {/* Global Application Header */}
-      <Header
-        environmentMode={config.environmentMode}
-        themeMode={themeMode}
-        onThemeChange={setThemeMode}
-        onOpenDocs={() => setIsDocsOpen(true)}
-        onOpenAbout={() => setIsAboutOpen(true)}
-        onQuickExport={handleQuickExport}
-      />
+    <PWAProvider>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans transition-colors selection:bg-emerald-500 selection:text-white">
+        {/* PWA Floating Update & Offline Alerts */}
+        <PWAUpdateNotification />
+
+        {/* Global Application Header */}
+        <Header
+          environmentMode={config.environmentMode}
+          themeMode={themeMode}
+          onThemeChange={setThemeMode}
+          onOpenDocs={() => setIsDocsOpen(true)}
+          onOpenAbout={() => setIsAboutOpen(true)}
+          onQuickExport={handleQuickExport}
+        />
 
       {/* Wizard Step Navigation */}
       <TabsNav
@@ -151,5 +157,6 @@ export default function App() {
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
       <DocsModal isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
     </div>
+  </PWAProvider>
   );
 }

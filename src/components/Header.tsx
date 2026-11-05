@@ -19,10 +19,12 @@ import {
   WifiOff,
   CheckCircle2,
   Share2,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import { EnvironmentMode } from '../types/eib';
 import { ThemeMode } from '../hooks/useTheme';
-import { usePWAInstall } from '../hooks/usePWAInstall';
+import { usePWA } from '../context/PWAContext';
 
 interface HeaderProps {
   environmentMode: EnvironmentMode;
@@ -41,20 +43,21 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAbout,
   onQuickExport,
 }) => {
-  const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
-  const [showIOSGuide, setShowIOSGuide] = useState(false);
-  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
-
-  React.useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+  const {
+    isOnline,
+    isInstalled,
+    isInstallable,
+    isIOS,
+    installApp,
+    setShowIOSGuide,
+    isUpdateAvailable,
+    updateVersion,
+    checkForUpdate,
+    isCheckingUpdate,
+    updateCheckMessage,
+    currentVersion,
+  } = usePWA();
+  const [showStatusToast, setShowStatusToast] = useState(false);
 
   return (
     <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 transition-colors">
@@ -93,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning & Execution Assistant (v1.1.1)
+              Provisioning & Execution Assistant (v1.2.0)
             </p>
           </div>
         </div>
@@ -134,10 +137,50 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
+          {/* Standalone Local App Badge */}
+          {isInstalled && (
+            <div
+              className="hidden xl:flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border bg-emerald-950/30 border-emerald-800/40 text-emerald-300"
+              title="Running as installed local PWA application"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Installed App</span>
+            </div>
+          )}
+
+          {/* Check for Updates Button */}
+          <button
+            onClick={async () => {
+              const res = await checkForUpdate(true);
+              setShowStatusToast(true);
+              setTimeout(() => setShowStatusToast(false), 4500);
+            }}
+            disabled={isCheckingUpdate}
+            className={`relative p-2 rounded-lg transition ${
+              isUpdateAvailable
+                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-lg shadow-emerald-500/20'
+                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+            }`}
+            title={
+              isUpdateAvailable
+                ? `Update v${updateVersion || 'new'} ready! Click to apply`
+                : `Check for Online Updates (Running v${currentVersion})`
+            }
+            aria-label="Check for Online Updates"
+          >
+            <RefreshCw className={`w-4 h-4 ${isCheckingUpdate ? 'animate-spin text-emerald-400' : ''}`} />
+            {isUpdateAvailable && (
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+            )}
+          </button>
+
           {/* PWA Install Button */}
           {!isInstalled && isInstallable && (
             <button
-              onClick={install}
+              onClick={() => void installApp()}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm transition active:scale-95"
               aria-label="Install EIB Assistant as Progressive Web App"
             >
@@ -223,26 +266,11 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* iOS Safari Guide Modal */}
-      {showIOSGuide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-slate-900 border border-slate-700 p-6 shadow-2xl">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Share2 className="w-5 h-5 text-emerald-400" />
-              Install on iOS Safari
-            </h3>
-            <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-              1. Tap the <strong className="text-white">Share</strong> icon in Safari toolbar.<br />
-              2. Scroll down and tap <strong className="text-emerald-400">Add to Home Screen</strong>.<br />
-              3. Launch the app directly from your home screen for full-screen offline use.
-            </p>
-            <button
-              onClick={() => setShowIOSGuide(false)}
-              className="mt-5 w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 py-2.5 text-sm font-semibold text-white transition"
-            >
-              Got it
-            </button>
-          </div>
+      {/* Update Check Feedback Toast */}
+      {showStatusToast && (
+        <div className="absolute top-full right-4 sm:right-8 mt-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 shadow-2xl text-xs text-white max-w-sm flex items-center gap-2.5 animate-fadeIn z-50">
+          <RefreshCw className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{updateCheckMessage || `Checked for updates: Running v${currentVersion}`}</span>
         </div>
       )}
     </header>

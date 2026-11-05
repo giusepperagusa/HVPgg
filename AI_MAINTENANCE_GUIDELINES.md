@@ -2,7 +2,7 @@
 # SUSE Edge Image Builder - Provisioning & Execution Assistant
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.1.0+  
+> **Applicable Version**: 1.2.0+  
 > **Project License**: AGPL-3.0-only  
 > **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
 
@@ -48,6 +48,22 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 ### Directive 5: AGPL-3.0-only Licensing Enforcement
 - Every source code file must declare the `@license SPDX-License-Identifier: AGPL-3.0-only` header.
 - The full AGPL-3.0 license text must remain available in the repository root (`/LICENSE`) and fully viewable within the in-app "About & Legal" dialog.
+
+### Directive 6: Full Offline PWA & Proactive Online Update Lifecycle
+- **Air-Gapped & Offline Execution**: The application must be 100% executable offline with Workbox precaching (`sw.js`). All core JavaScript, CSS, HTML, SVG, and webmanifest files must be precached so that air-gapped laptops can generate full EIB recipes and export `.zip` bundles without network access.
+- **Bypass Browser SW HTTP Cache**: Always register the service worker with `updateViaCache: 'none'` so the browser never serves stale service worker scripts.
+- **Proactive Online Update Detection**:
+  - Offline apps do not easily receive updates unless actively polled.
+  - The app must check for updates on app mount, on network reconnect (`online`), on tab focus (`visibilitychange`), on a 15-minute background interval, and via a manual "Check for Updates" button.
+  - It queries both `registration.update()` and `./version.json` with cache-busting.
+- **Controlled Skip-Waiting & Non-Disruptive Reload**:
+  - Never reload the application automatically while a user might be filling out recipe fields.
+  - When an update is waiting, display an interactive update banner.
+  - Clicking "Update Now" posts `{ type: 'SKIP_WAITING' }` to the waiting service worker, which triggers `controllerchange` and clean page reload into the new version.
+- **In-App PWA Installation**:
+  - Capture and defer `beforeinstallprompt` to render a prominent "Install App" button in the header and about dialog.
+  - Provide an iOS Safari guidance modal explaining "Share" -> "Add to Home Screen".
+  - Detect `display-mode: standalone` to display the "Installed App" badge.
 
 ---
 

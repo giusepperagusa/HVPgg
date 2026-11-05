@@ -625,6 +625,15 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) and generated appliance bundles are documented here.
 
+## [1.2.0] - 2026-11-04
+### Added
+- **Total Offline Execution (Workbox Precaching)**: Full offline service worker caching (\`sw.js\`) allowing the app to run completely air-gapped without internet connectivity.
+- **Automated Online Update Detection**: Proactive update polling (15-minute background interval, network reconnect, and focus/tab visibility change triggers) and immediate feedback.
+- **Interactive Update Notification & Controlled Reload**: High-visibility update banner with single-click skip-waiting activation to prevent losing in-progress recipe inputs.
+- **Manual "Check for Updates" Button**: Real-time update check in Header and About dialog querying both \`version.json\` and service worker byte-diffing.
+- **In-App PWA Installation**: Prominent "Install App" button and native iOS Safari "Add to Home Screen" step-by-step guidance modal.
+- **Cache-Bypass SW Registration**: Registered with \`updateViaCache: 'none'\` to overcome aggressive browser HTTP caching of service worker scripts.
+
 ## [1.1.1] - 2026-11-04
 ### Fixed
 - **Markdown Tree Formatting**: Fixed README.md Section 3 directory tree formatting by removing backslash-escaped code fences so the full tree and commands render as readable multiline code blocks across all markdown parsers.

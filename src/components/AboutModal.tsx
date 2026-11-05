@@ -20,8 +20,15 @@ import {
   History,
   Search,
   Sparkles,
+  RefreshCw,
+  Wifi,
+  WifiOff,
+  HardDrive,
+  Download,
+  Trash2,
 } from 'lucide-react';
 import { generateLicenseText, generateChangelogMarkdown } from '../utils/eibGenerator';
+import { usePWA } from '../context/PWAContext';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -199,6 +206,24 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   const [copiedLicense, setCopiedLicense] = useState(false);
   const [packageSearch, setPackageSearch] = useState('');
   const [packageFilter, setPackageFilter] = useState<'all' | 'runtime' | 'dev' | 'cdn'>('all');
+  const [clearingCache, setClearingCache] = useState(false);
+
+  const {
+    isOnline,
+    isInstalled,
+    isInstallable,
+    isIOS,
+    installApp,
+    setShowIOSGuide,
+    isUpdateAvailable,
+    updateVersion,
+    currentVersion,
+    applyUpdate,
+    checkForUpdate,
+    isCheckingUpdate,
+    updateCheckMessage,
+    lastUpdateCheck,
+  } = usePWA();
 
   if (!isOpen) return null;
 
@@ -209,6 +234,31 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
     navigator.clipboard.writeText(licenseText);
     setCopiedLicense(true);
     setTimeout(() => setCopiedLicense(false), 2000);
+  };
+
+  const handleClearCacheAndReload = async () => {
+    if (!window.confirm('This will unregister the service worker, clear offline CacheStorage, and reload the application from the server. Proceed?')) {
+      return;
+    }
+    setClearingCache(true);
+    try {
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const reg of registrations) {
+          await reg.unregister();
+        }
+      }
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        for (const name of cacheNames) {
+          await caches.delete(name);
+        }
+      }
+      window.location.reload();
+    } catch (err) {
+      console.error('Failed clearing caches:', err);
+      window.location.reload();
+    }
   };
 
   const filteredPackages = PACKAGES_CATALOG.filter((pkg) => {
@@ -233,7 +283,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About SUSE Edge EIB-PEA</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.1.1
+                  v1.2.0
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -322,6 +372,127 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                   <p className="text-slate-400 text-[11px]">
                     Derive freshly updated base ISOs with containerized SUSE Kiwi before applying EIB customizations.
                   </p>
+                </div>
+              </div>
+
+              {/* PWA Offline & Online Update System Card */}
+              <div className="p-4 rounded-xl bg-slate-850 border border-slate-700/80 space-y-3 mt-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <HardDrive className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-xs">PWA Offline & Online Update System</h4>
+                      <p className="text-[11px] text-slate-400">
+                        Zero-cloud architecture with local caching and automated version detection
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                      Version: {currentVersion}
+                    </span>
+                    <span
+                      className={`text-[11px] px-2 py-0.5 rounded font-semibold border flex items-center gap-1 ${
+                        isOnline
+                          ? 'bg-emerald-950/60 text-emerald-300 border-emerald-700/40'
+                          : 'bg-amber-950/60 text-amber-300 border-amber-700/40'
+                      }`}
+                    >
+                      {isOnline ? <Wifi className="w-3 h-3 text-emerald-400" /> : <WifiOff className="w-3 h-3 text-amber-400" />}
+                      {isOnline ? 'Online' : 'Offline Mode'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[11px]">
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Installation</span>
+                    <span className="text-slate-200 font-medium">
+                      {isInstalled ? 'Installed as Local App' : isInstallable ? 'Installable (PWA Ready)' : 'Standard Web Browser'}
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Cache State</span>
+                    <span className="text-emerald-400 font-medium">
+                      Precached in Service Worker
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                    <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Last Update Check</span>
+                    <span className="text-slate-300 font-mono">
+                      {lastUpdateCheck ? lastUpdateCheck.toLocaleTimeString() : 'On startup'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Status Message */}
+                {updateCheckMessage && (
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-300 flex items-center gap-2">
+                    <RefreshCw className={`w-3.5 h-3.5 text-emerald-400 shrink-0 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+                    <span>{updateCheckMessage}</span>
+                  </div>
+                )}
+
+                {/* Update Available Action Prompt */}
+                {isUpdateAvailable && (
+                  <div className="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/50 flex items-center justify-between gap-3">
+                    <div className="text-xs text-emerald-200">
+                      <strong>New Release Ready:</strong> Version {updateVersion || 'newer'} has been downloaded and is waiting in cache.
+                    </div>
+                    <button
+                      onClick={applyUpdate}
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition flex items-center gap-1.5 shrink-0"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      Apply & Reload
+                    </button>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-800/80">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => void checkForUpdate(true)}
+                      disabled={isCheckingUpdate}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition"
+                    >
+                      <RefreshCw className={`w-3.5 h-3.5 text-emerald-400 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+                      <span>{isCheckingUpdate ? 'Checking Server...' : 'Check for Updates Now'}</span>
+                    </button>
+
+                    {!isInstalled && isInstallable && (
+                      <button
+                        onClick={() => void installApp()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Install Local App</span>
+                      </button>
+                    )}
+
+                    {!isInstalled && isIOS && (
+                      <button
+                        onClick={() => setShowIOSGuide(true)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-750 transition"
+                      >
+                        <span>iOS Install Guide</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={handleClearCacheAndReload}
+                    disabled={clearingCache}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-slate-400 hover:text-amber-400 hover:bg-slate-800 transition"
+                    title="Force unregisters service worker and clears local CacheStorage"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-slate-500" />
+                    <span>{clearingCache ? 'Resetting...' : 'Clear Cache & Reset'}</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -421,13 +592,52 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.1.1 */}
+              {/* Release 1.2.0 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.1.1</span>
+                    <span className="font-mono font-bold text-base text-white">v1.2.0</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-04</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Added & Enhanced
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Total Offline Execution (Workbox Precaching):</strong> Complete service worker asset caching (<code className="font-mono text-emerald-300">sw.js</code>) enabling the app to run completely air-gapped without an active internet connection.
+                    </li>
+                    <li>
+                      <strong>Automated Online Update Detection:</strong> Active update monitoring with background polling every 15 minutes, auto-check upon network reconnect, and focus/tab visibility change triggers.
+                    </li>
+                    <li>
+                      <strong>Interactive Update Notification & Controlled Reload:</strong> High-visibility update banner notifying users when a new release is waiting, with single-click skip-waiting activation to prevent losing in-progress recipe inputs.
+                    </li>
+                    <li>
+                      <strong>Manual "Check for Updates" Diagnostics:</strong> Real-time update checking button in Header and About dialog querying both <code className="font-mono text-cyan-300">version.json</code> and service worker byte-diffing.
+                    </li>
+                    <li>
+                      <strong>In-App PWA Installation:</strong> Prominent "Install App" action and native iOS Safari "Add to Home Screen" step-by-step guidance modal.
+                    </li>
+                    <li>
+                      <strong>Cache-Bypass SW Registration:</strong> Registered with <code className="font-mono text-emerald-300">updateViaCache: 'none'</code> to overcome aggressive browser HTTP caching of service worker scripts.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.1.1 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.1.1</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-04</span>
