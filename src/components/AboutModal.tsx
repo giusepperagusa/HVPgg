@@ -281,13 +281,13 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-white">About SUSE Edge EIB-PEA</h3>
+                <h3 className="text-base font-bold text-white">About Edge Image Builder Assistant</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.3.0
+                  v1.3.1
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Provisioning & Execution Assistant for SUSE Edge Image Builder
+                Independent Community Provisioning & Execution Assistant for SUSE Edge Image Builder
               </p>
             </div>
           </div>
@@ -329,8 +329,19 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 1: ABOUT */}
           {activeTab === 'about' && (
             <div className="space-y-4 leading-relaxed text-xs">
+              {/* Important Disclaimer Notice */}
+              <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-600/40 text-amber-200/90 space-y-1 text-xs">
+                <div className="flex items-center gap-1.5 font-bold text-amber-300">
+                  <Shield className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Important Notice & Legal Disclaimer</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-amber-200/80">
+                  This project is an independent community development tool and is <strong>neither affiliated with nor officially endorsed by SUSE</strong>. No explicit or implied support path is provided. While compatible with SUSE Customer Center (SCC) credentials, the <strong>actual supportability of resulting build artifacts and installed systems must be verified directly with SUSE</strong>.
+                </p>
+              </div>
+
               <p>
-                The <strong>SUSE Edge Image Builder Provisioning/Execution Assistant (EIB-PEA)</strong> is a stateless, client-side Progressive Web Application designed for security architects, DevOps engineers, and edge platform administrators.
+                The <strong>Edge Image Builder Provisioning & Execution Assistant (EIB-PEA)</strong> is an independent, stateless, client-side Progressive Web Application designed for security architects, DevOps engineers, and edge platform administrators preparing configuration recipes for SUSE Edge Image Builder (EIB).
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -592,13 +603,49 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.3.0 */}
+              {/* Release 1.3.1 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.3.0</span>
+                    <span className="font-mono font-bold text-base text-white">v1.3.1</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-05</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Brand Identity & Trademark Disclaimers
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Trademark Decoupling:</strong> Removed bare/unqualified SUSE naming from project titles, page headers, bundle archives, and output ISO filenames to avoid trademark confusion.
+                    </li>
+                    <li>
+                      <strong>Clear Attribution & Technical Context:</strong> Maintained technical accuracy when referencing official tools and components (e.g., "for SUSE EIB", "openSUSE Leap Micro", "SLE Micro", "SUSE Customer Center").
+                    </li>
+                    <li>
+                      <strong>Prominent Non-Affiliation Disclaimers:</strong> Added explicit advisory notices across README.md, UI modals, and environment forms clarifying that this tool is not affiliated with or endorsed by SUSE and provides no warranty or support path.
+                    </li>
+                    <li>
+                      <strong>Commercial Supportability Warning:</strong> Added advisories reminding operators that even when utilizing valid SCC credentials, the supportability of resulting appliances and deployed systems must be confirmed directly with SUSE.
+                    </li>
+                    <li>
+                      <strong>Archive & Release Artifact Renaming:</strong> Standardized tarball and zip bundle exports to <code className="font-mono text-cyan-300">eib-pea-dist-v*.tar.gz</code>, <code className="font-mono text-cyan-300">eib-recipe-*.zip</code>, and output image to <code className="font-mono text-cyan-300">edge-image-*.iso</code>.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.3.0 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.3.0</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-05</span>

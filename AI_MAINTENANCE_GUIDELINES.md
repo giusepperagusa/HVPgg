@@ -1,12 +1,12 @@
 # AI Maintenance & Development Constitution (EIB-PEA)
-# SUSE Edge Image Builder - Provisioning & Execution Assistant
+# Edge Image Builder - Provisioning & Execution Assistant (for SUSE EIB)
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.3.0+  
+> **Applicable Version**: 1.3.1+  
 > **Project License**: AGPL-3.0-only  
 > **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
 
-This document serves as the **master knowledge base and operational constitution** for maintaining, extending, and re-creating the **SUSE Edge Image Builder Provisioning/Execution Assistant (EIB-PEA)** application from scratch. Any future AI model or human engineer MUST adhere strictly to the rules, architectural patterns, and domain models documented below.
+This document serves as the **master knowledge base and operational constitution** for maintaining, extending, and re-creating the **Edge Image Builder Provisioning & Execution Assistant (EIB-PEA)** application from scratch. Any future AI model or human engineer MUST adhere strictly to the rules, architectural patterns, and domain models documented below.
 
 ---
 
@@ -71,6 +71,12 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 - **Web Crypto AES-256-GCM Encryption**: To safeguard sensitive values (Kubernetes cluster tokens, root passwords, SUSE Customer Center registration codes), users can choose AES-256-GCM encryption with a custom passphrase on export. Key derivation uses PBKDF2 (100,000 iterations, SHA-256). If unencrypted export is chosen, a prominent security warning is displayed.
 - **Collision Detection & Diff Inspection**: When importing a profile whose name or ID already exists, the app must never silently overwrite data. Instead, it triggers a side-by-side diff comparison modal highlighting changed fields and providing 3 explicit choices: Overwrite Existing, Keep Both (Rename), or Cancel.
 - **Future-Proof Normalization**: The `normalizeEIBConfig()` utility guarantees forward and backward schema compatibility. When an older profile lacking newer fields is imported, default baseline values are backfilled so the application never breaks or encounters `undefined` state errors.
+
+### Directive 8: Trademark Attribution & Decoupled Project Identity
+- **Independent Identity**: The project name, artifacts, page titles, HTML metadata, and release tarballs MUST NOT use unqualified "SUSE" branding (use "Edge Image Builder Assistant" or "EIB-PEA").
+- **Clear Technical Context**: "SUSE" is permitted ONLY when the reference or attribution is explicit and technically accurate (e.g., "for SUSE Edge Image Builder", "openSUSE Leap Micro", "SUSE Linux Enterprise Micro", "SUSE Customer Center", or "SUSE Kiwi").
+- **Prominent Non-Affiliation Disclaimers**: All user-facing documentation (`README.md`, in-app About dialog, Docs modal) must feature a clear legal notice stating that the project is not a SUSE product, is neither affiliated with nor endorsed by SUSE, provides no warranty or support path, and advises operators to verify the commercial supportability of resulting images directly with SUSE even when using SCC credentials.
+- **Safe Storage Migration**: Local storage keys should prefer neutral names (`eib_profiles_v1`) while retaining fallback reads for legacy keys (`suse_eib_profiles_v1`) to prevent data loss.
 
 ---
 

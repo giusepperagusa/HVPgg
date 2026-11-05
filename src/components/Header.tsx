@@ -93,15 +93,15 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 truncate">
               <span className="font-extrabold tracking-tight text-base sm:text-lg text-white truncate">
-                SUSE Edge <span className="text-emerald-400 font-mono">EIB</span>
+                Edge Image Builder <span className="text-emerald-400 font-mono">PEA</span>
               </span>
               <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-700/50">
                 <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                Hardened
+                Community
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning & Execution Assistant (v1.3.0)
+              Provisioning Assistant for SUSE EIB (v1.3.1)
             </p>
           </div>
         </div>

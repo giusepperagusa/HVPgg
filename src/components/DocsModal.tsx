@@ -36,7 +36,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <h3 className="text-base font-bold text-white">
-                SUSE Edge Deployment & Hardening Guide
+                Edge Appliance Deployment & Hardening Guide (for SUSE EIB)
               </h3>
               <p className="text-xs text-slate-400">
                 Air-gapped appliance architecture, proxy handling, and multi-node installation
@@ -55,6 +55,16 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-300 leading-relaxed">
+          {/* Important Disclaimer Notice */}
+          <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-600/40 text-amber-200/90 space-y-1">
+            <div className="flex items-center gap-1.5 font-bold text-amber-300 text-xs">
+              <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Independent Community Documentation Notice</span>
+            </div>
+            <p className="text-[11px] leading-relaxed text-amber-200/80">
+              This guide is maintained by an independent community project and is <strong>neither affiliated with nor officially endorsed by SUSE</strong>. No explicit or implied support path is provided. When building images with commercial SLE Micro or SCC subscriptions, the <strong>supportability of resulting appliances must be verified directly with SUSE</strong>.
+            </p>
+          </div>
           {/* Section 1 */}
           <section className="space-y-2">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">

@@ -332,6 +332,11 @@ export const TabEnvironment: React.FC<TabEnvironmentProps> = ({
             These credentials authorize your <code className="font-mono">build.sh</code> execution runner to authenticate against SUSE commercial download mirrors and <code className="font-mono">registry.suse.com</code>.
           </p>
 
+          <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-600/40 text-[11px] text-amber-200/80 leading-relaxed">
+            <strong className="text-amber-300 font-semibold block mb-0.5">Supportability Advisory:</strong>
+            This tool is an independent community project and is not affiliated with or endorsed by SUSE. Even when using valid SCC credentials, the actual supportability of the resulting build artifacts and deployed systems must be verified directly with SUSE.
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">

@@ -1,9 +1,22 @@
 # Changelog
 
-All notable changes to the SUSE Edge Provisioning & Execution Assistant (PEA) are documented in this file.
+All notable changes to the Edge Image Builder Provisioning & Execution Assistant (EIB-PEA) are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.3.1] - 2026-11-05
+### Changed & Decoupled
+- **Project Identity & Trademark Decoupling**: Removed bare "SUSE" branding from project titles, page titles, HTML metadata, manifest headers, exported ZIP bundle filenames, and distribution tarballs.
+- **Explicit Technical Attribution**: Kept legitimate technical references to official technologies (e.g., "for SUSE EIB", "openSUSE Leap Micro", "SLE Micro", "SUSE Customer Center", "SUSE Kiwi").
+- **Prominent Non-Affiliation Disclaimers**: Added explicit legal notices in `README.md`, in-app About dialog, and Docs modal clarifying non-affiliation, non-endorsement, and absence of warranty or support path.
+- **Commercial Supportability Advisories**: Added specific advisory notes in documentation and in the commercial SCC configuration panel advising users to verify commercial supportability directly with SUSE even when utilizing valid SCC credentials.
+- **Export & Artifact Renaming**:
+  - Exported recipe ZIP: `eib-recipe-${mode}-${k8s}-${arch}-${timestamp}.zip`
+  - Output ISO: `edge-image-${mode}-${k8s}-${arch}.iso`
+  - Profile bundle: `eib-profiles-bundle-${timestamp}.yaml`
+  - GitHub release tarballs: `eib-pea-dist-v${VERSION}.tar.gz` and `eib-pea-src-v${VERSION}.tar.gz`
+- **Dual-Format Compatibility**: Profile envelope formats safely accept both `eib-profile` (current) and legacy `suse-eib-profile` signatures without breaking existing user files or local storage caches.
 
 ## [1.3.0] - 2026-11-05
 ### Added

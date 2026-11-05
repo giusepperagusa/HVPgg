@@ -170,7 +170,7 @@ export async function exportWorkspaceZip(config: EIBConfigState): Promise<{ file
   });
 
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-  const filename = `suse-eib-${config.environmentMode}-${config.versions.k8sEngine}-${config.targetArch}-${timestamp}.zip`;
+  const filename = `eib-recipe-${config.environmentMode}-${config.versions.k8sEngine}-${config.targetArch}-${timestamp}.zip`;
 
   // Trigger browser download
   const url = URL.createObjectURL(blob);

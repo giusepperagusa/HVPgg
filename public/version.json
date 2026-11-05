@@ -1,7 +1,7 @@
 {
-  "version": "1.3.0",
-  "name": "SUSE Edge Image Builder Assistant",
+  "version": "1.3.1",
+  "name": "Edge Image Builder Assistant",
   "shortName": "EIB-PEA",
-  "buildTime": "2026-11-05T12:00:00Z",
-  "releaseNotes": "Configuration profile management with save/load, commented YAML export/import, optional Web Crypto AES-256-GCM encryption, collision diff inspection, and multi-profile backups."
+  "buildTime": "2026-11-05T12:45:00Z",
+  "releaseNotes": "Branding refactor: removed SUSE from project titles and artifacts, added explicit non-endorsement notice and commercial supportability verification warning."
 }

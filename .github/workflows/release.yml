@@ -73,20 +73,20 @@ jobs:
         run: |
           mkdir -p release-artifacts
           # Package the compiled production web application
-          tar -czvf "release-artifacts/suse-eib-pea-dist-v${VERSION}.tar.gz" -C dist .
+          tar -czvf "release-artifacts/eib-pea-dist-v${VERSION}.tar.gz" -C dist .
           # Package the complete source tree (excluding node_modules and temp files)
           tar --exclude='./node_modules' \
               --exclude='./.git' \
               --exclude='./.playwright-cli' \
               --exclude='./release-artifacts' \
               --exclude='./dist' \
-              -czvf "release-artifacts/suse-eib-pea-src-v${VERSION}.tar.gz" .
+              -czvf "release-artifacts/eib-pea-src-v${VERSION}.tar.gz" .
           ls -la release-artifacts/
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: suse-eib-pea-v${{ env.VERSION }}
+          name: eib-pea-v${{ env.VERSION }}
           path: release-artifacts/*
 
   publish-release:
@@ -102,7 +102,7 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: suse-eib-pea-*
+          pattern: eib-pea-*
           merge-multiple: true
           path: release-artifacts
 
@@ -119,7 +119,7 @@ jobs:
           # Extract notes for the current version section
           sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$d' > RELEASE_NOTES.md || true
           if [ ! -s RELEASE_NOTES.md ]; then
-            echo "Release v${VERSION} of SUSE Edge Image Builder Provisioning & Execution Assistant." > RELEASE_NOTES.md
+            echo "Release v${VERSION} of Edge Image Builder Provisioning & Execution Assistant (EIB-PEA)." > RELEASE_NOTES.md
           fi
           cat RELEASE_NOTES.md
 
@@ -127,7 +127,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG_NAME }}
-          name: SUSE Edge EIB-PEA ${{ env.TAG_NAME }}
+          name: EIB-PEA ${{ env.TAG_NAME }}
           body_path: RELEASE_NOTES.md
           draft: false
           prerelease: false

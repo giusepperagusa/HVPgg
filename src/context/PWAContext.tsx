@@ -9,7 +9,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 
-export const APP_CURRENT_VERSION = '1.3.0';
+export const APP_CURRENT_VERSION = '1.3.1';
 
 export interface PWAContextType {
   // Connectivity
@@ -181,7 +181,7 @@ export const PWAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 // An old controller exists -> this is an UPDATE!
                 waitingWorkerRef.current = newWorker;
                 setIsUpdateAvailable(true);
-                setUpdateCheckMessage('A new version of SUSE EIB Assistant is downloaded and ready to activate!');
+                setUpdateCheckMessage('A new version of EIB Assistant is downloaded and ready to activate!');
               } else {
                 // First-time precache completed -> offline ready!
                 setIsOfflineReady(true);

@@ -173,9 +173,9 @@ export function normalizeEIBConfig(raw: unknown): EIBConfigState {
 /**
  * Serializes a single profile to human-readable, commented YAML.
  */
-export function serializeProfileToCommentedYaml(profile: EIBProfile, appVersion = '1.3.0'): string {
+export function serializeProfileToCommentedYaml(profile: EIBProfile, appVersion = '1.3.1'): string {
   const envelope: ProfileExportEnvelope = {
-    format: 'suse-eib-profile',
+    format: 'eib-profile',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
     appVersion,
     exportedAt: new Date().toISOString(),
@@ -193,7 +193,8 @@ export function serializeProfileToCommentedYaml(profile: EIBProfile, appVersion 
   });
 
   return `# ==============================================================================
-# SUSE Edge Image Builder (EIB) - Profile Configuration File
+# Edge Image Builder (EIB) - Profile Configuration File
+# Compatible with SUSE Edge Image Builder
 # ==============================================================================
 # Profile Name : ${profile.name}
 # Description  : ${profile.description.replace(/\n/g, ' ')}
@@ -218,11 +219,11 @@ ${yamlBody}
 export async function serializeProfileToEncryptedYaml(
   profileOrProfiles: EIBProfile | EIBProfile[],
   passphrase: string,
-  appVersion = '1.3.0'
+  appVersion = '1.3.1'
 ): Promise<string> {
   const isBundle = Array.isArray(profileOrProfiles);
   const plainTextEnvelope: ProfileExportEnvelope = {
-    format: isBundle ? 'suse-eib-profile-bundle' : 'suse-eib-profile',
+    format: isBundle ? 'eib-profile-bundle' : 'eib-profile',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
     appVersion,
     exportedAt: new Date().toISOString(),
@@ -236,7 +237,7 @@ export async function serializeProfileToEncryptedYaml(
   const encryptedPayload = await encryptProfilePayload(plainText, passphrase);
 
   const envelope: ProfileExportEnvelope = {
-    format: isBundle ? 'suse-eib-profile-bundle' : 'suse-eib-profile',
+    format: isBundle ? 'eib-profile-bundle' : 'eib-profile',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
     appVersion,
     exportedAt: new Date().toISOString(),
@@ -247,7 +248,8 @@ export async function serializeProfileToEncryptedYaml(
   const yamlBody = yaml.dump(envelope, { indent: 2, lineWidth: 120, noRefs: true });
 
   return `# ==============================================================================
-# SUSE Edge Image Builder (EIB) - ENCRYPTED Profile File
+# Edge Image Builder (EIB) - ENCRYPTED Profile File
+# Compatible with SUSE Edge Image Builder
 # ==============================================================================
 # Encryption   : AES-256-GCM (PBKDF2 key derivation, 100,000 iterations, SHA-256)
 # Exported At  : ${new Date().toISOString()}
@@ -255,7 +257,7 @@ export async function serializeProfileToEncryptedYaml(
 # Schema Ver   : ${CURRENT_PROFILE_SCHEMA_VERSION}
 #
 # NOTE: This file is password-protected. The passphrase chosen during export
-# will be required to decrypt and import this profile back into SUSE EIB-PEA.
+# will be required to decrypt and import this profile back into EIB-PEA.
 # ==============================================================================
 
 ${yamlBody}
@@ -265,9 +267,9 @@ ${yamlBody}
 /**
  * Serializes all profiles into a commented YAML bundle.
  */
-export function serializeProfileBundleToCommentedYaml(profiles: EIBProfile[], appVersion = '1.3.0'): string {
+export function serializeProfileBundleToCommentedYaml(profiles: EIBProfile[], appVersion = '1.3.1'): string {
   const envelope: ProfileExportEnvelope = {
-    format: 'suse-eib-profile-bundle',
+    format: 'eib-profile-bundle',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
     appVersion,
     exportedAt: new Date().toISOString(),
@@ -281,7 +283,8 @@ export function serializeProfileBundleToCommentedYaml(profiles: EIBProfile[], ap
   const yamlBody = yaml.dump(envelope, { indent: 2, lineWidth: 120, noRefs: true });
 
   return `# ==============================================================================
-# SUSE Edge Image Builder (EIB) - Profile Bundle Backup (${profiles.length} Profiles)
+# Edge Image Builder (EIB) - Profile Bundle Backup (${profiles.length} Profiles)
+# Compatible with SUSE Edge Image Builder
 # ==============================================================================
 # Exported At  : ${new Date().toISOString()}
 # App Version  : ${appVersion}

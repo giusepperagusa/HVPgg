@@ -253,14 +253,14 @@ export const INITIAL_CONFIG_STATE: EIBConfigState = {
     k8sVersion: 'v1.31.2+rke2r1',
     cniPlugin: 'cilium',
   },
-  k8sClusterToken: 'suse-edge-secret-token-' + Math.random().toString(36).substring(2, 10),
+  k8sClusterToken: 'edge-cluster-secret-token-' + Math.random().toString(36).substring(2, 10),
   apiServerVip: '192.168.10.10',
   helmCharts: [...EDGE_VERSION_PRESETS['3.6'].recommendedCharts],
   containerImages: [...EDGE_VERSION_PRESETS['3.6'].recommendedImages],
   targetDisk: '/dev/nvme0n1',
   customTargetDisk: '/dev/sdb',
-  rootPasswordHash: '$6$rounds=656000$suseedge$vR.89eK2XJ43fJkQ6oP2Fk8K9dJ3mN8L1oQ2W4eR5tY6uI7oP8aS9dF0gH1jK2lZ3x',
-  sshAuthorizedKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleKeyForSUSEEdgeRootAccess admin@edge-ops',
+  rootPasswordHash: '$6$rounds=656000$edgecluster$vR.89eK2XJ43fJkQ6oP2Fk8K9dJ3mN8L1oQ2W4eR5tY6uI7oP8aS9dF0gH1jK2lZ3x',
+  sshAuthorizedKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleKeyForEdgeClusterRootAccess admin@edge-ops',
   nodes: {
     node1: {
       enabled: true,

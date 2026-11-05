@@ -66,12 +66,12 @@ test('serializeProfileToCommentedYaml outputs valid YAML with security notice', 
     config: INITIAL_CONFIG_STATE,
   };
 
-  const yamlText = serializeProfileToCommentedYaml(profile, '1.3.0');
+  const yamlText = serializeProfileToCommentedYaml(profile, '1.3.1');
 
-  assert.ok(yamlText.includes('SUSE Edge Image Builder (EIB) - Profile Configuration File'));
+  assert.ok(yamlText.includes('Edge Image Builder (EIB) - Profile Configuration File'));
   assert.ok(yamlText.includes('SECURITY WARNING'));
   assert.ok(yamlText.includes('Industrial Gateway RKE2'));
-  assert.ok(yamlText.includes('format: suse-eib-profile'));
+  assert.ok(yamlText.includes('format: eib-profile'));
 });
 
 test('serializeProfileToEncryptedYaml and parseProfileFile roundtrip with passphrase', async () => {
@@ -88,9 +88,9 @@ test('serializeProfileToEncryptedYaml and parseProfileFile roundtrip with passph
   };
 
   const passphrase = 'SecretPassphrase!2026';
-  const encryptedYaml = await serializeProfileToEncryptedYaml(profile, passphrase, '1.3.0');
+  const encryptedYaml = await serializeProfileToEncryptedYaml(profile, passphrase, '1.3.1');
 
-  assert.ok(encryptedYaml.includes('SUSE Edge Image Builder (EIB) - ENCRYPTED Profile File'));
+  assert.ok(encryptedYaml.includes('Edge Image Builder (EIB) - ENCRYPTED Profile File'));
   assert.ok(encryptedYaml.includes('AES-256-GCM'));
   assert.ok(!encryptedYaml.includes('SuperSecretClusterToken12345!')); // Secret is not in plaintext!
 

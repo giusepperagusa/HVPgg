@@ -1,8 +1,15 @@
-# SUSE Edge Image Builder - Provisioning & Execution Assistant (EIB-PEA)
+# Edge Image Builder - Provisioning & Execution Assistant (EIB-PEA)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-emerald.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![PWA Ready](https://img.shields.io/badge/PWA-Compliant-blue.svg)](https://web.dev/progressive-web-apps/)
-[![Security: Hardened](https://img.shields.io/badge/Security-Hardened_Supply_Chain-green.svg)](https://documentation.suse.com/edge/)
+[![Community Project](https://img.shields.io/badge/Project-Community_Driven-green.svg)](https://github.com/suse-edge/edge-image-builder)
+
+> ### ⚠️ IMPORTANT NOTICE & DISCLAIMER
+> **Independent Community Tool — Not an Official SUSE Product**:
+> This project is an independent, community-driven tool and is **neither affiliated with, sponsored by, nor officially endorsed by SUSE**.
+> - **No Official Support Path**: There is **neither explicit nor implied support path** provided by SUSE or the maintainers of this tool.
+> - **Verification of Commercial Supportability**: Even when using official SUSE Customer Center (SCC) credentials, registration codes, or commercial repositories (e.g. for SLE Micro), the **actual supportability of any resulting build artifacts, images, and deployed systems must be verified directly with SUSE** under your applicable enterprise subscription agreements.
+> - **Trademarks & Attributions**: "SUSE", "SUSE Linux Enterprise", "SLE Micro", "Rancher", and "openSUSE" are trademarks or registered trademarks of SUSE LLC or its affiliates. References to "SUSE EIB" or related projects are made strictly for descriptive attribution and compatibility purposes.
 
 An interactive, secure, and client-side Progressive Web Application (PWA) acting as a **Provisioning & Execution Assistant (PEA)** for the **SUSE Edge Image Builder (EIB)**.
 
@@ -82,7 +89,7 @@ This assistant automates the end-to-end recipe configuration for generating cust
 1. Ensure `podman`, `curl`, and `sha256sum` are installed.
 2. Unzip your bundle:
    ```bash
-   unzip suse-eib-*.zip -d edge-build/ && cd edge-build/
+   unzip eib-recipe-*.zip -d edge-build/ && cd edge-build/
    ```
 3. Execute the automated builder:
    ```bash
@@ -108,7 +115,7 @@ Automated workflows are located in [`.github/workflows/release.yml`](./.github/w
 1. Runs static type checking (`npm run lint`).
 2. Executes the unit test suite (`npm test`).
 3. Compiles the production build with relative asset paths (`npm run build`).
-4. Generates compressed distribution tarballs (`suse-eib-pea-dist-v${VERSION}.tar.gz` and `suse-eib-pea-src-v${VERSION}.tar.gz`).
+4. Generates compressed distribution tarballs (`eib-pea-dist-v${VERSION}.tar.gz` and `eib-pea-src-v${VERSION}.tar.gz`).
 5. Automatically creates and publishes a GitHub Project Release with release notes extracted from `CHANGELOG.md`.
 
 ---

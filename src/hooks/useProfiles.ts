@@ -17,8 +17,10 @@ import {
   serializeProfileBundleToCommentedYaml,
 } from '../utils/profileSerializer';
 
-const STORAGE_PROFILES_KEY = 'suse_eib_profiles_v1';
-const STORAGE_ACTIVE_ID_KEY = 'suse_eib_active_profile_id_v1';
+const STORAGE_PROFILES_KEY = 'eib_profiles_v1';
+const LEGACY_STORAGE_PROFILES_KEY = 'suse_eib_profiles_v1';
+const STORAGE_ACTIVE_ID_KEY = 'eib_active_profile_id_v1';
+const LEGACY_STORAGE_ACTIVE_ID_KEY = 'suse_eib_active_profile_id_v1';
 
 // Initial default seed profile
 const DEFAULT_INITIAL_PROFILE: EIBProfile = {
@@ -36,7 +38,7 @@ export function useProfiles(
 ) {
   const [profiles, setProfiles] = useState<EIBProfile[]>(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_PROFILES_KEY);
+      const stored = localStorage.getItem(STORAGE_PROFILES_KEY) || localStorage.getItem(LEGACY_STORAGE_PROFILES_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as EIBProfile[];
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -54,7 +56,7 @@ export function useProfiles(
 
   const [activeProfileId, setActiveProfileId] = useState<string | null>(() => {
     try {
-      const storedId = localStorage.getItem(STORAGE_ACTIVE_ID_KEY);
+      const storedId = localStorage.getItem(STORAGE_ACTIVE_ID_KEY) || localStorage.getItem(LEGACY_STORAGE_ACTIVE_ID_KEY);
       if (storedId) return storedId;
     } catch {
       // ignore
@@ -272,10 +274,10 @@ export function useProfiles(
       const safeName = target.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-');
 
       if (options.encrypted && options.passphrase) {
-        fileData = await serializeProfileToEncryptedYaml(target, options.passphrase, '1.3.0');
+        fileData = await serializeProfileToEncryptedYaml(target, options.passphrase, '1.3.1');
         filename = `${safeName}.eib-profile.enc.yaml`;
       } else {
-        fileData = serializeProfileToCommentedYaml(target, '1.3.0');
+        fileData = serializeProfileToCommentedYaml(target, '1.3.1');
         filename = `${safeName}.eib-profile.yaml`;
       }
 
@@ -301,11 +303,11 @@ export function useProfiles(
       let filename: string;
 
       if (options.encrypted && options.passphrase) {
-        fileData = await serializeProfileToEncryptedYaml(profiles, options.passphrase, '1.3.0');
-        filename = `suse-eib-profiles-bundle-${Date.now()}.enc.yaml`;
+        fileData = await serializeProfileToEncryptedYaml(profiles, options.passphrase, '1.3.1');
+        filename = `eib-profiles-bundle-${Date.now()}.enc.yaml`;
       } else {
-        fileData = serializeProfileBundleToCommentedYaml(profiles, '1.3.0');
-        filename = `suse-eib-profiles-bundle-${Date.now()}.yaml`;
+        fileData = serializeProfileBundleToCommentedYaml(profiles, '1.3.1');
+        filename = `eib-profiles-bundle-${Date.now()}.yaml`;
       }
 
       const blob = new Blob([fileData], { type: 'text/yaml;charset=utf-8' });

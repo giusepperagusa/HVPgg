@@ -30,7 +30,7 @@ export interface EncryptedPayload {
 }
 
 export interface ProfileExportEnvelope {
-  format: 'suse-eib-profile' | 'suse-eib-profile-bundle';
+  format: 'eib-profile' | 'eib-profile-bundle' | 'suse-eib-profile' | 'suse-eib-profile-bundle';
   schemaVersion: number;
   appVersion: string;
   exportedAt: string;

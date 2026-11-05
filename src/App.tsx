@@ -164,7 +164,7 @@ export default function App() {
       <footer className="border-t border-slate-850 bg-slate-900/60 py-5 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            SUSE Edge Image Builder Provisioning & Execution Assistant • Licensed under{' '}
+            Edge Image Builder Provisioning & Execution Assistant (for SUSE EIB) • Licensed under{' '}
             <button
               onClick={() => setIsAboutOpen(true)}
               className="text-emerald-400 hover:underline font-semibold"
