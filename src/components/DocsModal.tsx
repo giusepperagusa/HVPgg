@@ -72,7 +72,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
               1. What is SUSE Edge Image Builder (EIB)?
             </h4>
             <p>
-              SUSE Edge Image Builder is a declarative, containerized utility that takes a vanilla OS ISO (openSUSE Leap Micro or SLE Micro) and embeds Kubernetes distributions (RKE2 / K3s), container images, Helm charts, combustion/ignition scripts, and NMState networking into a customized, self-installing ISO or raw disk image.
+              SUSE Edge Image Builder is a declarative, containerized utility that takes a vanilla OS ISO (openSUSE Leap in immutable mode or SLE Micro) and embeds Kubernetes distributions (RKE2 / K3s), container images, Helm charts, combustion/ignition scripts, and NMState networking into a customized, self-installing ISO or raw disk image.
             </p>
             <p>
               Once built, the appliance ISO operates in completely air-gapped environments without requiring an active internet connection during cluster deployment.
@@ -124,7 +124,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 Download the workspace bundle ZIP and transfer it to your Linux build host.
               </li>
               <li>
-                Unzip the workspace: <code className="font-mono text-slate-200">unzip suse-eib-*.zip -d edge-build/ && cd edge-build</code>
+                Unzip the workspace: <code className="font-mono text-slate-200">unzip eib-recipe-*.zip -d edge-build/ && cd edge-build</code>
               </li>
               <li>
                 Execute the hardened runner: <code className="font-mono text-emerald-300">./build.sh</code>
@@ -132,7 +132,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
               <li>
                 Write the output ISO to bootable USB installation media or mount it via virtual media:
                 <pre className="mt-1 p-2 rounded bg-slate-950 font-mono text-slate-300 border border-slate-800">
-                  sudo dd if=suse-edge-appliance.iso of=/dev/sdX bs=4M status=progress oflag=sync
+                  sudo dd if=edge-image-*.iso of=/dev/sdX bs=4M status=progress oflag=sync
                 </pre>
               </li>
             </ol>

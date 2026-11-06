@@ -96,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning Assistant for SUSE EIB (v1.3.2)
+              Provisioning Assistant for SUSE EIB (v1.3.3)
             </p>
           </div>
         </div>
@@ -132,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
                 environmentMode === 'commercial' ? 'bg-amber-400' : 'bg-emerald-400'
               }`}
             />
-            {environmentMode === 'commercial' ? 'Commercial (SLE Micro)' : 'Free (openSUSE Leap Micro)'}
+            {environmentMode === 'commercial' ? 'Commercial (SLE Micro)' : 'Free (openSUSE Leap 16.1 Immutable)'}
           </div>
 
           {/* Connectivity Pill */}

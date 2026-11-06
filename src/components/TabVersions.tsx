@@ -235,7 +235,7 @@ export const TabVersions: React.FC<TabVersionsProps> = ({
         <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-300 flex items-start gap-2.5">
           <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
           <span>
-            <strong>Equivalence Mapping:</strong> openSUSE Leap Micro 6.0 provides upstream equivalence with SUSE Linux Enterprise Micro 6.0. Kernel and systemd baselines match identically across both distributions.
+            <strong>Equivalence Mapping:</strong> openSUSE Leap 16.1 (Immutable Mode) provides upstream equivalence with SUSE Linux Enterprise Micro. Transactional-update and btrfs immutability baselines match across both platforms.
           </span>
         </div>
       </div>

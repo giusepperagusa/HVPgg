@@ -176,13 +176,13 @@ export const TabEnvironment: React.FC<TabEnvironmentProps> = ({
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 )}
               </div>
-              <h3 className="text-base font-bold text-white">Free Mode (openSUSE Leap Micro)</h3>
+              <h3 className="text-base font-bold text-white">Free Mode (openSUSE Leap 16.1 Immutable)</h3>
               <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                Uses official openSUSE mirrors and packages. No registration keys, no SCC subscriptions, and no telemetry required. Includes pre-configured <code className="text-emerald-300 font-mono">rpms/opensuse-leap-micro.repo</code> file inside the ZIP.
+                Uses openSUSE Leap in immutable mode (available since 16.1) with transactional-update, btrfs snapshots, and public openSUSE mirrors. No registration keys, no SCC subscriptions, and no telemetry required. Includes pre-configured <code className="text-emerald-300 font-mono">rpms/opensuse-leap.repo</code> file inside the ZIP.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
-              <span className="text-emerald-400 font-semibold font-mono">baseImage:</span> leap-micro-base.iso
+              <span className="text-emerald-400 font-semibold font-mono">baseImage:</span> leap-base.iso
             </div>
           </button>
 
@@ -312,7 +312,7 @@ export const TabEnvironment: React.FC<TabEnvironmentProps> = ({
           <div className="p-3.5 rounded-xl bg-blue-950/30 border border-blue-800/40 text-xs text-blue-200">
             <strong>Active Kiwi Mode:</strong> Kiwi will resolve packages from{' '}
             {config.environmentMode === 'free'
-              ? 'public openSUSE Leap Micro update repositories'
+              ? 'public openSUSE Leap 16.1 (Immutable) update repositories'
               : 'SUSE Customer Center authenticated commercial channels'}{' '}
             and output the generated ISO for immediate consumption by EIB.
           </div>

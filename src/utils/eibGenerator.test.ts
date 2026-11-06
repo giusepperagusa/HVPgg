@@ -19,7 +19,7 @@ import { INITIAL_CONFIG_STATE } from '../types/eib.ts';
 test('generateDefinitionYaml creates valid YAML for Free Mode', () => {
   const yamlContent = generateDefinitionYaml(INITIAL_CONFIG_STATE);
   assert.match(yamlContent, /apiVersion: '1.0'/);
-  assert.match(yamlContent, /baseImage: leap-micro-base.iso/);
+  assert.match(yamlContent, /baseImage: leap-base.iso/);
   assert.match(yamlContent, /arch: x86_64/);
   assert.match(yamlContent, /targetDevice: \/dev\/nvme0n1/);
   assert.match(yamlContent, /hostname: edge-node-01/);
@@ -82,15 +82,19 @@ test('generateBuildScript switches to Kiwi container when Kiwi pre-patch is enab
   assert.match(script, /system build/);
 });
 
-test('generateKiwiConfig produces valid XML description', () => {
+test('generateKiwiConfig produces valid XML description for openSUSE Leap 16.1 Immutable Mode', () => {
   const kiwiXml = generateKiwiConfig(INITIAL_CONFIG_STATE);
   assert.match(kiwiXml, /<image schemaversion="7.4"/);
-  assert.match(kiwiXml, /patterns-microos-base/);
+  assert.match(kiwiXml, /openSUSE Leap \(Immutable Mode\)/);
+  assert.match(kiwiXml, /patterns-base-transactional/);
+  assert.match(kiwiXml, /transactional-update/);
+  assert.match(kiwiXml, /distribution\/leap\/16.1\/repo\/oss/);
 });
 
 test('generateRepoFile creates public repos for free mode and authenticated for commercial', () => {
   const freeRepo = generateRepoFile(INITIAL_CONFIG_STATE);
-  assert.match(freeRepo, /openSUSE-Leap-Micro/);
+  assert.match(freeRepo, /openSUSE-Leap-16.1/);
+  assert.match(freeRepo, /distribution\/leap\/16.1\/repo\/oss/);
 
   const commRepo = generateRepoFile({
     ...INITIAL_CONFIG_STATE,

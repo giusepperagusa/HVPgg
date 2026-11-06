@@ -283,7 +283,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About Edge Image Builder Assistant</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.3.2
+                  v1.3.3
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -603,13 +603,49 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.3.2 */}
+              {/* Release 1.3.3 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.3.2</span>
+                    <span className="font-mono font-bold text-base text-white">v1.3.3</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-06</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    openSUSE Leap 16.1 Immutable Mode Integration
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>openSUSE Leap 16.1 Immutable Base OS:</strong> Shifted Free Mode baseline from Leap Micro to openSUSE Leap in immutable mode (available since 16.1) with transactional-update and btrfs snapshot architectures.
+                    </li>
+                    <li>
+                      <strong>SUSE Kiwi Pre-Patching Update:</strong> Updated Kiwi appliance description (<code className="font-mono text-cyan-300">kiwi-config/config.xml</code>) to include transactional-update packages (<code className="font-mono text-cyan-300">patterns-base-transactional</code>, <code className="font-mono text-cyan-300">transactional-update</code>, <code className="font-mono text-cyan-300">btrfsprogs</code>, <code className="font-mono text-cyan-300">snapper</code>) and public Leap 16.1 OSS / Update repositories.
+                    </li>
+                    <li>
+                      <strong>Injected Repository Configurations:</strong> Bundled repo file updated to <code className="font-mono text-cyan-300">rpms/opensuse-leap.repo</code> tracking official openSUSE Leap 16.1 package and update trees.
+                    </li>
+                    <li>
+                      <strong>Standardized Base Image Name:</strong> Unified Free Mode base image ISO filename to <code className="font-mono text-cyan-300">leap-base.iso</code>.
+                    </li>
+                    <li>
+                      <strong>Preserved Downstream EIB Layering:</strong> Retained all EIB Kubernetes engine customizations (RKE2/K3s, CNI plugins, Helm charts, embedded artifact registry, storage target, and 1/3-node NMState network configurations) completely unchanged on top of the immutable base.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.3.2 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.3.2</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-06</span>
@@ -875,9 +911,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                     desc: 'Declarative host networking schema used for node network interface and route configuration.',
                   },
                   {
-                    title: 'openSUSE Leap Micro Portal',
-                    url: 'https://en.opensuse.org/Portal:LeapMicro',
-                    desc: 'Lightweight immutable host OS for edge containers and microservices.',
+                    title: 'openSUSE Leap Portal',
+                    url: 'https://en.opensuse.org/Portal:Leap',
+                    desc: 'Versatile Linux distribution featuring immutable mode with transactional-update and btrfs.',
                   },
                   {
                     title: 'SUSE Linux Enterprise Micro',

@@ -91,12 +91,12 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 ## 3. Domain Logic & UX Workflow Matrix
 
 ### 3.1 Environment Mode Duality
-| Feature / Behavior | Free Mode (openSUSE Leap Micro) | Commercial Mode (SLE Micro / SLM-ICEO) |
+| Feature / Behavior | Free Mode (openSUSE Leap 16.1 Immutable) | Commercial Mode (SLE Micro / SLM-ICEO) |
 |---|---|---|
-| **Base Image Name** | `leap-micro-base.iso` | `sl-micro-base.iso` |
+| **Base Image Name** | `leap-base.iso` | `sl-micro-base.iso` |
 | **Registration / Telemetry** | Completely bypassed (no keys) | Enables SCC Registration Token, Email, and Endpoint |
-| **Repository Mirrors** | Public openSUSE Leap Micro mirrors | Authenticated SUSE Customer Center (SCC) repos |
-| **Bundle Injection** | Injects `rpms/opensuse-leap-micro.repo` | Injects `rpms/sle-micro.repo` with auth tokens |
+| **Repository Mirrors** | Public openSUSE Leap 16.1 OSS & Update mirrors | Authenticated SUSE Customer Center (SCC) repos |
+| **Bundle Injection** | Injects `rpms/opensuse-leap.repo` | Injects `rpms/sle-micro.repo` with auth tokens |
 | **Container Image Source** | `registry.opensuse.org` | `registry.suse.com` (with `podman login`) |
 | **Download Pipeline** | Direct download via curl | Authenticated curl with SCC Bearer token |
 
@@ -115,6 +115,7 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 - **Execution Workflow**:
   - When enabled, `build.sh` runs `kiwi-builder` (`registry.suse.com/edge/[VERSION]/kiwi-builder` or `registry.opensuse.org/virtualization/appliances/images/kiwi:latest`).
   - Scaffolds `kiwi-config/config.xml` containing image description schema version 7.4.
+  - For Free Mode, targets openSUSE Leap 16.1 Immutable Mode with `patterns-base-transactional`, `transactional-update`, `btrfsprogs`, and `snapper` from public Leap 16.1 repositories.
   - Kiwi resolves packages from upstream update repositories and outputs a freshly patched base ISO directly into `base-images/` for EIB consumption.
 
 ### 3.4 Multi-Node Cluster Topology & NMState
@@ -141,7 +142,7 @@ Future updates to SUSE Edge releases must be recorded in `src/types/eib.ts` (`ED
 
 ### SUSE Edge 3.6 (Current Release)
 - **EIB Version**: `3.6.0`
-- **Free OS**: openSUSE Leap Micro 6.0
+- **Free OS**: openSUSE Leap (Immutable Mode) 16.1
 - **Commercial OS**: SUSE Linux Enterprise Micro 6.0
 - **Default Kubernetes**: RKE2 `v1.31.2+rke2r1` | K3s `v1.31.2+k3s1`
 - **Validated CNI**: Cilium, Calico, Canal, Flannel
@@ -149,7 +150,7 @@ Future updates to SUSE Edge releases must be recorded in `src/types/eib.ts` (`ED
 
 ### SUSE Edge 3.5 (Previous Stable)
 - **EIB Version**: `3.5.2`
-- **Free OS**: openSUSE Leap Micro 5.5
+- **Free OS**: openSUSE Leap (Immutable Mode) 16.1
 - **Commercial OS**: SUSE Linux Enterprise Micro 5.5
 - **Default Kubernetes**: RKE2 `v1.30.5+rke2r1` | K3s `v1.30.5+k3s1`
 - **Validated CNI**: Cilium, Canal, Calico

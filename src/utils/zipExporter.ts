@@ -88,7 +88,7 @@ export function buildWorkspaceTree(config: EIBConfigState): WorkspaceFilePreview
     });
   }
 
-  const repoFileName = isFree ? 'rpms/opensuse-leap-micro.repo' : 'rpms/sle-micro.repo';
+  const repoFileName = isFree ? 'rpms/opensuse-leap.repo' : 'rpms/sle-micro.repo';
   tree.push(
     {
       path: 'rpms/',
@@ -99,7 +99,7 @@ export function buildWorkspaceTree(config: EIBConfigState): WorkspaceFilePreview
       path: repoFileName,
       type: 'file',
       content: generateRepoFile(config),
-      description: isFree ? 'Public openSUSE mirrors' : 'Commercial SCC update repos',
+      description: isFree ? 'Public openSUSE Leap 16.1 (Immutable) repository configuration' : 'Commercial SCC update repos',
     }
   );
 

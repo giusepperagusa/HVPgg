@@ -26,7 +26,7 @@ const LEGACY_STORAGE_ACTIVE_ID_KEY = 'suse_eib_active_profile_id_v1';
 const DEFAULT_INITIAL_PROFILE: EIBProfile = {
   id: 'profile-default',
   name: 'Default Production Profile',
-  description: 'Baseline dual-node RKE2 Kubernetes cluster configuration for openSUSE Leap Micro.',
+  description: 'Baseline RKE2 Kubernetes cluster configuration for openSUSE Leap 16.1 (Immutable Mode).',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   config: INITIAL_CONFIG_STATE,
