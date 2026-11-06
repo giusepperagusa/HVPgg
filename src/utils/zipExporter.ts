@@ -68,7 +68,7 @@ export function buildWorkspaceTree(config: EIBConfigState): WorkspaceFilePreview
       path: 'network/node1.yaml',
       type: 'file',
       content: generateNMStateYaml(config.nodes.node1),
-      description: `NMState configuration for ${config.nodes.node1.hostname} (Master)`,
+      description: `NMState configuration for ${config.nodes.node1.hostname} (Unified Control-Plane + Worker)`,
     });
   }
   if (config.nodes.node2.enabled) {
@@ -76,7 +76,7 @@ export function buildWorkspaceTree(config: EIBConfigState): WorkspaceFilePreview
       path: 'network/node2.yaml',
       type: 'file',
       content: generateNMStateYaml(config.nodes.node2),
-      description: `NMState configuration for ${config.nodes.node2.hostname} (Worker 1)`,
+      description: `NMState configuration for ${config.nodes.node2.hostname} (Unified Control-Plane + Worker - 3-Node Quorum)`,
     });
   }
   if (config.nodes.node3.enabled) {
@@ -84,7 +84,7 @@ export function buildWorkspaceTree(config: EIBConfigState): WorkspaceFilePreview
       path: 'network/node3.yaml',
       type: 'file',
       content: generateNMStateYaml(config.nodes.node3),
-      description: `NMState configuration for ${config.nodes.node3.hostname} (Worker 2)`,
+      description: `NMState configuration for ${config.nodes.node3.hostname} (Unified Control-Plane + Worker - 3-Node Quorum)`,
     });
   }
 

@@ -2,7 +2,7 @@
 # Edge Image Builder - Provisioning & Execution Assistant (for SUSE EIB)
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.3.1+  
+> **Applicable Version**: 1.3.2+  
 > **Project License**: AGPL-3.0-only  
 > **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
 
@@ -77,6 +77,14 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 - **Clear Technical Context**: "SUSE" is permitted ONLY when the reference or attribution is explicit and technically accurate (e.g., "for SUSE Edge Image Builder", "openSUSE Leap Micro", "SUSE Linux Enterprise Micro", "SUSE Customer Center", or "SUSE Kiwi").
 - **Prominent Non-Affiliation Disclaimers**: All user-facing documentation (`README.md`, in-app About dialog, Docs modal) must feature a clear legal notice stating that the project is not a SUSE product, is neither affiliated with nor endorsed by SUSE, provides no warranty or support path, and advises operators to verify the commercial supportability of resulting images directly with SUSE even when using SCC credentials.
 - **Safe Storage Migration**: Local storage keys should prefer neutral names (`eib_profiles_v1`) while retaining fallback reads for legacy keys (`suse_eib_profiles_v1`) to prevent data loss.
+
+### Directive 9: Embedded-etcd Quorum Topology Policy (Strictly 1 or 3 Unified Nodes)
+- **Raft Consensus Quorum Constraint**: K3s and RKE2 clusters built with embedded etcd require a strict majority quorum ($⌊N/2⌋ + 1$) to operate and elect leaders.
+- **2-Node Configurations Strictly Disallowed**: A 2-node cluster requires 2 out of 2 votes for quorum, providing **zero fault tolerance** (failure of either node halts the cluster) and exposing the deployment to catastrophic split-brain partitions. Consequently, the application MUST only allow selecting either:
+  1. **1 Node (Single-Node Appliance)**: Standalone quorum (1/1).
+  2. **3 Nodes (High-Availability Quorum Cluster)**: 2/3 quorum tolerating 1 full node failure.
+- **Unified Server Roles**: All active nodes in both 1-node and 3-node configurations operate as unified control-plane + worker nodes (`role: 'master'`, `type: 'server'`), avoiding dedicated non-workload control plane hardware at the edge.
+- **Schema Normalization**: If an imported legacy profile contains 2 enabled nodes, `normalizeEIBConfig` automatically promotes it to 3 nodes (`node2.enabled: true, node3.enabled: true`) to satisfy the Raft quorum requirement.
 
 ---
 

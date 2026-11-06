@@ -47,13 +47,35 @@ test('normalizeEIBConfig fills missing fields with defaults for older profiles',
   assert.strictEqual(normalized.nodes.node1.hostname, 'edge-master-01');
   assert.strictEqual(normalized.nodes.node1.ipAddress, '192.168.1.10');
   // Verified that node2 and node3 were safely backfilled
+  // Verified that node2 and node3 were safely backfilled to 1-node default
   assert.ok(normalized.nodes.node2);
-  assert.strictEqual(normalized.nodes.node2.enabled, true);
+  assert.strictEqual(normalized.nodes.node2.enabled, false);
   assert.ok(normalized.nodes.node3);
   assert.strictEqual(normalized.nodes.node3.enabled, false);
   // Verified official ISO URLs were backfilled
   assert.ok(normalized.baseIsoUrl.length > 0);
   assert.ok(normalized.baseIsoSha256.length > 0);
+});
+
+test('normalizeEIBConfig upgrades disallowed 2-node cluster to 3-node HA quorum', () => {
+  const twoNodeConfig = {
+    ...INITIAL_CONFIG_STATE,
+    nodes: {
+      ...INITIAL_CONFIG_STATE.nodes,
+      node1: { ...INITIAL_CONFIG_STATE.nodes.node1, enabled: true },
+      node2: { ...INITIAL_CONFIG_STATE.nodes.node2, enabled: true },
+      node3: { ...INITIAL_CONFIG_STATE.nodes.node3, enabled: false }, // Disallowed 2-node state!
+    },
+  };
+
+  const normalized = normalizeEIBConfig(twoNodeConfig);
+  // Both node2 and node3 must be enabled to maintain Raft quorum for embedded etcd
+  assert.strictEqual(normalized.nodes.node1.enabled, true);
+  assert.strictEqual(normalized.nodes.node2.enabled, true);
+  assert.strictEqual(normalized.nodes.node3.enabled, true);
+  assert.strictEqual(normalized.nodes.node1.role, 'master');
+  assert.strictEqual(normalized.nodes.node2.role, 'master');
+  assert.strictEqual(normalized.nodes.node3.role, 'master');
 });
 
 test('serializeProfileToCommentedYaml outputs valid YAML with security notice', () => {
@@ -66,7 +88,7 @@ test('serializeProfileToCommentedYaml outputs valid YAML with security notice', 
     config: INITIAL_CONFIG_STATE,
   };
 
-  const yamlText = serializeProfileToCommentedYaml(profile, '1.3.1');
+  const yamlText = serializeProfileToCommentedYaml(profile, '1.3.2');
 
   assert.ok(yamlText.includes('Edge Image Builder (EIB) - Profile Configuration File'));
   assert.ok(yamlText.includes('SECURITY WARNING'));
@@ -88,7 +110,7 @@ test('serializeProfileToEncryptedYaml and parseProfileFile roundtrip with passph
   };
 
   const passphrase = 'SecretPassphrase!2026';
-  const encryptedYaml = await serializeProfileToEncryptedYaml(profile, passphrase, '1.3.1');
+  const encryptedYaml = await serializeProfileToEncryptedYaml(profile, passphrase, '1.3.2');
 
   assert.ok(encryptedYaml.includes('Edge Image Builder (EIB) - ENCRYPTED Profile File'));
   assert.ok(encryptedYaml.includes('AES-256-GCM'));

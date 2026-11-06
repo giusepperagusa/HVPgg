@@ -274,7 +274,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div className="w-full max-w-4xl max-h-[92vh] rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-850">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-850 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <Shield className="w-5 h-5" />
@@ -283,7 +283,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About Edge Image Builder Assistant</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.3.1
+                  v1.3.2
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -302,7 +302,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Modal Subtabs */}
-        <div className="flex border-b border-slate-800 bg-slate-900 px-6 overflow-x-auto">
+        <div className="flex border-b border-slate-800 bg-slate-900 px-6 overflow-x-auto shrink-0 min-h-[44px]">
           {[
             { id: 'about', label: 'Architecture & Specs' },
             { id: 'dependencies', label: 'Dependencies & Licenses' },
@@ -313,7 +313,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`py-3 px-3.5 text-xs font-bold border-b-2 whitespace-nowrap transition ${
+              className={`py-3 px-3.5 text-xs font-bold border-b-2 whitespace-nowrap shrink-0 transition ${
                 activeTab === tab.id
                   ? 'border-emerald-500 text-emerald-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -325,7 +325,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-6 text-sm text-slate-300">
+        <div className="flex-1 min-h-0 p-6 overflow-y-auto space-y-6 text-sm text-slate-300">
           {/* TAB 1: ABOUT */}
           {activeTab === 'about' && (
             <div className="space-y-4 leading-relaxed text-xs">
@@ -603,13 +603,46 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.3.1 */}
+              {/* Release 1.3.2 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.3.1</span>
+                    <span className="font-mono font-bold text-base text-white">v1.3.2</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-06</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Quorum Architecture & UI Hardening
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Embedded-etcd Quorum Enforcement:</strong> Restricted selectable cluster topologies exclusively to either 1 Node (Single-Node Appliance / Solo Control-Plane + Worker) or 3 Nodes (HA Quorum Cluster with 3 unified Control-Plane + Worker nodes), strictly disallowing invalid 2-node configurations that lack Raft quorum fault tolerance.
+                    </li>
+                    <li>
+                      <strong>Unified Server Roles:</strong> All active nodes are configured with unified control-plane + worker roles running embedded etcd, ensuring seamless single-node and 3-node HA deployment without requiring external control-plane nodes.
+                    </li>
+                    <li>
+                      <strong>Brand Neutrality Decoupling:</strong> Removed the green "Community" badge and shield from the page header to prevent false impressions of tiered commercial editions.
+                    </li>
+                    <li>
+                      <strong>About Modal Flexbox Stability:</strong> Added strict <code className="font-mono text-cyan-300">shrink-0</code> and <code className="font-mono text-cyan-300">min-h-0</code> constraints to the About dialog header, tabs bar, and body container, preventing tabs from shrinking or collapsing when viewing extensive changelog and license entries.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.3.1 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.3.1</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-05</span>
@@ -911,7 +944,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 border-t border-slate-800 bg-slate-850 flex justify-end">
+        <div className="px-6 py-3.5 border-t border-slate-800 bg-slate-850 flex justify-end shrink-0">
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white transition"

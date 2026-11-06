@@ -274,8 +274,8 @@ export const INITIAL_CONFIG_STATE: EIBConfigState = {
       dnsServers: ['1.1.1.1', '8.8.8.8'],
     },
     node2: {
-      enabled: true,
-      role: 'worker',
+      enabled: false,
+      role: 'master',
       hostname: 'edge-node-02',
       macAddress: '52:54:00:12:34:02',
       interfaceName: 'eth0',
@@ -286,7 +286,7 @@ export const INITIAL_CONFIG_STATE: EIBConfigState = {
     },
     node3: {
       enabled: false,
-      role: 'worker',
+      role: 'master',
       hostname: 'edge-node-03',
       macAddress: '52:54:00:12:34:03',
       interfaceName: 'eth0',

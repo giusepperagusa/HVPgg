@@ -12,6 +12,7 @@ import {
   Server,
   KeyRound,
   ShieldAlert,
+  Layers,
   Plus,
   Trash2,
   CheckCircle2,
@@ -37,6 +38,22 @@ export const TabNodesStorage: React.FC<TabNodesStorageProps> = ({
   onPrev,
 }) => {
   const [activeNodeKey, setActiveNodeKey] = useState<'node1' | 'node2' | 'node3'>('node1');
+
+  const isThreeNode = Boolean(config.nodes.node2.enabled && config.nodes.node3.enabled);
+
+  const handleSelectTopology = (topology: '1-node' | '3-node') => {
+    onChange((prev) => ({
+      ...prev,
+      nodes: {
+        node1: { ...prev.nodes.node1, enabled: true, role: 'master' },
+        node2: { ...prev.nodes.node2, enabled: topology === '3-node', role: 'master' },
+        node3: { ...prev.nodes.node3, enabled: topology === '3-node', role: 'master' },
+      },
+    }));
+    if (topology === '1-node') {
+      setActiveNodeKey('node1');
+    }
+  };
 
   const handleUpdateNode = (
     key: 'node1' | 'node2' | 'node3',
@@ -72,10 +89,10 @@ export const TabNodesStorage: React.FC<TabNodesStorageProps> = ({
       {/* Header */}
       <div>
         <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <span>04. Target Storage & Multi-Node NMState Networking</span>
+          <span>04. Target Storage & Cluster NMState Networking</span>
         </h2>
         <p className="text-sm text-slate-400 mt-1">
-          Specify installation disk target and configure static IP addresses, gateways, and hardware MAC-based NMState mapping for up to 3 cluster nodes.
+          Specify installation disk target and configure either a Single-Node appliance or a 3-Node High-Availability Quorum cluster with unified control-plane + worker nodes.
         </p>
       </div>
 
@@ -140,25 +157,125 @@ export const TabNodesStorage: React.FC<TabNodesStorageProps> = ({
         )}
       </div>
 
-      {/* Multi-Node Networking Topology (Up to 3 Nodes) */}
+      {/* Cluster Topology & NMState Profiles (Strictly 1 Node or 3 Nodes) */}
       <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/50 space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Network className="w-5 h-5 text-emerald-400" />
             <div>
               <h3 className="text-sm font-bold text-white">
-                Multi-Node Cluster Topology & NMState Profiles
+                Cluster Topology & NMState Node Profiles
               </h3>
               <p className="text-xs text-slate-400">
-                NMState configurations will be generated in <code className="font-mono text-slate-300">network/*.yaml</code>.
+                Configure cluster quorum scale and hardware MAC-based NMState profiles in <code className="font-mono text-slate-300">network/*.yaml</code>.
               </p>
             </div>
           </div>
         </div>
 
+        {/* 1-Node vs 3-Node Topology Selector */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {/* Option A: 1 Node */}
+          <button
+            type="button"
+            onClick={() => handleSelectTopology('1-node')}
+            className={`p-4 rounded-xl border text-left transition relative flex flex-col justify-between gap-3 ${
+              !isThreeNode
+                ? 'bg-slate-800/90 border-emerald-500 shadow-md ring-1 ring-emerald-500/30'
+                : 'bg-slate-900/60 border-slate-800 hover:bg-slate-800/40 hover:border-slate-700'
+            }`}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2.5">
+                <div
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                    !isThreeNode
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                      : 'bg-slate-800 text-slate-400 border border-slate-700'
+                  }`}
+                >
+                  <Server className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white">Single-Node Appliance</h4>
+                  <p className="text-[11px] text-slate-400">Solo Control-Plane + Worker</p>
+                </div>
+              </div>
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                  !isThreeNode
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-700/60'
+                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}
+              >
+                1 Node (1/1 Quorum)
+              </span>
+            </div>
+
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Standalone edge appliance. Embedded etcd runs locally without remote peer replication. Ideal for single-box edge installations, micro kiosks, and branch appliances.
+            </p>
+          </button>
+
+          {/* Option B: 3 Nodes */}
+          <button
+            type="button"
+            onClick={() => handleSelectTopology('3-node')}
+            className={`p-4 rounded-xl border text-left transition relative flex flex-col justify-between gap-3 ${
+              isThreeNode
+                ? 'bg-slate-800/90 border-emerald-500 shadow-md ring-1 ring-emerald-500/30'
+                : 'bg-slate-900/60 border-slate-800 hover:bg-slate-800/40 hover:border-slate-700'
+            }`}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2.5">
+                <div
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                    isThreeNode
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                      : 'bg-slate-800 text-slate-400 border border-slate-700'
+                  }`}
+                >
+                  <Layers className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white">HA Quorum Cluster</h4>
+                  <p className="text-[11px] text-slate-400">3 Unified Nodes (Control-Plane + Worker)</p>
+                </div>
+              </div>
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                  isThreeNode
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-700/60'
+                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}
+              >
+                3 Nodes (2/3 Quorum)
+              </span>
+            </div>
+
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              High-availability Raft consensus cluster. All 3 nodes run embedded etcd with unified workload processing, tolerating 1 complete node failure with automatic quorum survival.
+            </p>
+          </button>
+        </div>
+
+        {/* Quorum & 2-Node Disallowance Notice */}
+        <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-600/40 text-amber-200/90 flex items-start gap-3">
+          <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <div className="text-[11px] leading-relaxed space-y-1">
+            <strong className="text-amber-300 block font-semibold">
+              Quorum & Raft Consensus Policy (Why 2 Nodes Are Disallowed):
+            </strong>
+            <p>
+              In embedded-etcd clusters (K3s and RKE2), Raft consensus requires a strict majority quorum ($⌊N/2⌋ + 1$). A 2-node cluster requires <strong>both nodes (2/2)</strong> to maintain quorum, offering <strong>zero failure tolerance</strong> while introducing severe split-brain risks during network partitions. Thus, production deployments are strictly limited to either <strong>1 Node (standalone)</strong> or <strong>3 Nodes (fault-tolerant HA)</strong>.
+            </p>
+          </div>
+        </div>
+
         {/* Node Tabs Selector */}
         <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
-          {(['node1', 'node2', 'node3'] as const).map((key, idx) => {
+          {(isThreeNode ? (['node1', 'node2', 'node3'] as const) : (['node1'] as const)).map((key, idx) => {
             const node = config.nodes[key];
             const isActive = activeNodeKey === key;
 
@@ -173,17 +290,11 @@ export const TabNodesStorage: React.FC<TabNodesStorageProps> = ({
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    node.enabled ? (node.role === 'master' ? 'bg-emerald-400' : 'bg-cyan-400') : 'bg-slate-600'
-                  }`}
-                />
-                <span>Node {idx + 1}: {node.hostname}</span>
-                {idx === 0 && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50">
-                    Master
-                  </span>
-                )}
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                <span className="truncate">Node {idx + 1}: {node.hostname}</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50 hidden sm:inline">
+                  {idx === 0 ? 'Primary Master' : `Master ${idx + 1}`}
+                </span>
               </button>
             );
           })}
@@ -195,125 +306,111 @@ export const TabNodesStorage: React.FC<TabNodesStorageProps> = ({
             <div className="flex items-center gap-2">
               <Server className="w-4 h-4 text-emerald-400" />
               <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
-                {activeNodeKey === 'node1' ? 'Node 1 (Appliance Master / Control Plane)' : `Node ${activeNodeKey === 'node2' ? '2' : '3'} Configuration`}
+                Node {activeNodeKey === 'node1' ? '1' : activeNodeKey === 'node2' ? '2' : '3'} Configuration (Unified Control-Plane + Worker)
               </span>
             </div>
 
-            {activeNodeKey !== 'node1' && (
-              <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-300">
-                <input
-                  type="checkbox"
-                  checked={activeNode.enabled}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { enabled: e.target.checked })}
-                  className="rounded border-slate-700 text-emerald-500 focus:ring-0 bg-slate-900"
-                />
-                <span>Enable this node in cluster bundle</span>
-              </label>
-            )}
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
+              Server Node (Embedded etcd)
+            </span>
           </div>
 
-          {activeNode.enabled ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Hostname <span className="text-emerald-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={activeNode.hostname}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { hostname: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  MAC Address (NMState Interface Binding) <span className="text-emerald-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="52:54:00:12:34:56"
-                  value={activeNode.macAddress}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { macAddress: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-emerald-300 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Interface Device Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={activeNode.interfaceName}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { interfaceName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Static IPv4 Address <span className="text-emerald-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="192.168.10.11"
-                  value={activeNode.ipAddress}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { ipAddress: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Subnet CIDR Prefix (e.g. 24 for 255.255.255.0)
-                </label>
-                <input
-                  type="number"
-                  min="8"
-                  max="32"
-                  value={activeNode.cidr}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { cidr: parseInt(e.target.value) || 24 })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Default Gateway IPv4 <span className="text-emerald-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="192.168.10.1"
-                  value={activeNode.gateway}
-                  onChange={(e) => handleUpdateNode(activeNodeKey, { gateway: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                />
-              </div>
-
-              <div className="sm:col-span-2 lg:col-span-3">
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  DNS Resolvers (comma-separated IP addresses)
-                </label>
-                <input
-                  type="text"
-                  value={activeNode.dnsServers.join(', ')}
-                  onChange={(e) => handleUpdateDns(activeNodeKey, e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
-                  placeholder="1.1.1.1, 8.8.8.8"
-                />
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Hostname <span className="text-emerald-400">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={activeNode.hostname}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { hostname: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+              />
             </div>
-          ) : (
-            <div className="p-4 text-center text-xs text-slate-400">
-              This node is currently disabled. Toggle &quot;Enable this node in cluster bundle&quot; to include it in the appliance recipe.
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                MAC Address (NMState Interface Binding) <span className="text-emerald-400">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="52:54:00:12:34:56"
+                value={activeNode.macAddress}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { macAddress: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-emerald-300 font-mono"
+              />
             </div>
-          )}
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Interface Device Name
+              </label>
+              <input
+                type="text"
+                required
+                value={activeNode.interfaceName}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { interfaceName: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Static IPv4 Address <span className="text-emerald-400">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="192.168.10.11"
+                value={activeNode.ipAddress}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { ipAddress: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Subnet CIDR Prefix (e.g. 24 for 255.255.255.0)
+              </label>
+              <input
+                type="number"
+                min="8"
+                max="32"
+                value={activeNode.cidr}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { cidr: parseInt(e.target.value) || 24 })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Default Gateway IPv4 <span className="text-emerald-400">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="192.168.10.1"
+                value={activeNode.gateway}
+                onChange={(e) => handleUpdateNode(activeNodeKey, { gateway: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+              />
+            </div>
+
+            <div className="sm:col-span-2 lg:col-span-3">
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                DNS Resolvers (comma-separated IP addresses)
+              </label>
+              <input
+                type="text"
+                value={activeNode.dnsServers.join(', ')}
+                onChange={(e) => handleUpdateDns(activeNodeKey, e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono"
+                placeholder="1.1.1.1, 8.8.8.8"
+              />
+            </div>
+          </div>
         </div>
       </div>
 

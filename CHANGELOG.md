@@ -5,6 +5,13 @@ All notable changes to the Edge Image Builder Provisioning & Execution Assistant
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-11-06
+### Changed & Hardened
+- **Embedded-etcd Quorum Topology Enforcement**: Restricted selectable cluster configurations strictly to either 1 Node (Single-Node Appliance / Solo Control-Plane + Worker) or 3 Nodes (HA Quorum Cluster with 3 unified Control-Plane + Worker nodes), completely disallowing invalid 2-node configurations that lack Raft quorum fault tolerance.
+- **Unified Server Roles**: All active nodes in both 1-node and 3-node configurations run as unified control-plane + worker nodes with embedded etcd (`role: 'master'`, `type: 'server'`).
+- **Brand Neutrality Decoupling**: Removed the green "Community" badge and shield from the page header to prevent false impressions of tiered commercial editions.
+- **About Modal Tab Bar Stability**: Added `shrink-0` and `min-h-0` flexbox constraints to prevent the tabs bar from shrinking or becoming unusable when viewing extensive tabs like Full Changelog or License.
+
 ## [1.3.1] - 2026-11-05
 ### Changed & Decoupled
 - **Project Identity & Trademark Decoupling**: Removed bare "SUSE" branding from project titles, page titles, HTML metadata, manifest headers, exported ZIP bundle filenames, and distribution tarballs.

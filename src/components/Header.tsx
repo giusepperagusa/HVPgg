@@ -7,7 +7,6 @@
 
 import React, { useState } from 'react';
 import {
-  ShieldCheck,
   Download,
   Sun,
   Moon,
@@ -95,13 +94,9 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="font-extrabold tracking-tight text-base sm:text-lg text-white truncate">
                 Edge Image Builder <span className="text-emerald-400 font-mono">PEA</span>
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-700/50">
-                <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                Community
-              </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning Assistant for SUSE EIB (v1.3.1)
+              Provisioning Assistant for SUSE EIB (v1.3.2)
             </p>
           </div>
         </div>

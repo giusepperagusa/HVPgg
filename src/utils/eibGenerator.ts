@@ -575,9 +575,9 @@ ${'```'}
 ├── build.sh                   # Hardened automated runner script (chmod +x build.sh)
 ├── manifests/                 # Pre-configured Helm chart values & manifests
 ├── network/                   # NMState node-specific network configurations
-│   ├── node1.yaml             # Node 1 (Master / Appliance Base) NMState definition
-│   ├── node2.yaml             # Node 2 (Worker / Secondary Node)
-│   └── node3.yaml             # Node 3 (Worker / Tertiary Node)
+│   ├── node1.yaml             # Node 1 (Unified Control-Plane + Worker) NMState definition
+│   ├── node2.yaml             # Node 2 (Unified Control-Plane + Worker - 3-Node Quorum)
+│   └── node3.yaml             # Node 3 (Unified Control-Plane + Worker - 3-Node Quorum)
 ├── rpms/                      # Zypper repository configuration (.repo)
 ├── kiwi-config/               # SUSE Kiwi image definition (if Kiwi pre-patch enabled)
 ├── README.md                  # This documentation
@@ -634,6 +634,13 @@ export function generateChangelogMarkdown(): string {
   return `# Changelog
 
 All notable changes to the Edge Image Builder Provisioning & Execution Assistant (EIB-PEA) and generated appliance bundles are documented here.
+
+## [1.3.2] - 2026-11-06
+### Changed & Hardened
+- **Embedded-etcd Quorum Topology Enforcement**: Restricted cluster configurations strictly to either 1 Node (Single-Node Appliance / Solo Control-Plane + Worker) or 3 Nodes (HA Quorum Cluster with 3 unified Control-Plane + Worker nodes), completely disallowing invalid 2-node configurations that lack Raft quorum fault tolerance.
+- **Unified Server Node Roles**: All active nodes run as unified control-plane + worker nodes hosting embedded etcd.
+- **Brand Neutrality**: Removed Community badge and shield from the page header to prevent misinterpretation of open-core / commercial edition tiers.
+- **About Modal Flexbox Stability**: Added \`shrink-0\` and \`min-h-0\` constraints to prevent tab bar compression in the About dialog when browsing extensive release notes.
 
 ## [1.3.1] - 2026-11-05
 ### Changed

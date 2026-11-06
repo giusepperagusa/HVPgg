@@ -143,10 +143,25 @@ export function normalizeEIBConfig(raw: unknown): EIBConfigState {
     };
   };
 
+  const rawNode1 = normalizeNode(rNodes.node1, base.nodes.node1);
+  const rawNode2 = normalizeNode(rNodes.node2, base.nodes.node2);
+  const rawNode3 = normalizeNode(rNodes.node3, base.nodes.node3);
+
+  // Quorum Enforcement: Embedded-etcd requires either 1 node or 3 nodes.
+  // 2-node clusters are disallowed due to lack of quorum fault tolerance and split-brain risks.
+  // If an imported profile has exactly 2 nodes enabled (e.g. node2 enabled but not node3),
+  // promote to 3-node HA quorum so multi-node intent and node settings are preserved safely.
+  let node2Enabled = rawNode2.enabled;
+  let node3Enabled = rawNode3.enabled;
+  if (node2Enabled !== node3Enabled) {
+    node2Enabled = true;
+    node3Enabled = true;
+  }
+
   const nodes = {
-    node1: normalizeNode(rNodes.node1, base.nodes.node1),
-    node2: normalizeNode(rNodes.node2, base.nodes.node2),
-    node3: normalizeNode(rNodes.node3, base.nodes.node3),
+    node1: { ...rawNode1, enabled: true, role: 'master' as const },
+    node2: { ...rawNode2, enabled: node2Enabled, role: 'master' as const },
+    node3: { ...rawNode3, enabled: node3Enabled, role: 'master' as const },
   };
 
   return {
@@ -173,7 +188,7 @@ export function normalizeEIBConfig(raw: unknown): EIBConfigState {
 /**
  * Serializes a single profile to human-readable, commented YAML.
  */
-export function serializeProfileToCommentedYaml(profile: EIBProfile, appVersion = '1.3.1'): string {
+export function serializeProfileToCommentedYaml(profile: EIBProfile, appVersion = '1.3.2'): string {
   const envelope: ProfileExportEnvelope = {
     format: 'eib-profile',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
@@ -219,7 +234,7 @@ ${yamlBody}
 export async function serializeProfileToEncryptedYaml(
   profileOrProfiles: EIBProfile | EIBProfile[],
   passphrase: string,
-  appVersion = '1.3.1'
+  appVersion = '1.3.2'
 ): Promise<string> {
   const isBundle = Array.isArray(profileOrProfiles);
   const plainTextEnvelope: ProfileExportEnvelope = {
@@ -267,7 +282,7 @@ ${yamlBody}
 /**
  * Serializes all profiles into a commented YAML bundle.
  */
-export function serializeProfileBundleToCommentedYaml(profiles: EIBProfile[], appVersion = '1.3.1'): string {
+export function serializeProfileBundleToCommentedYaml(profiles: EIBProfile[], appVersion = '1.3.2'): string {
   const envelope: ProfileExportEnvelope = {
     format: 'eib-profile-bundle',
     schemaVersion: CURRENT_PROFILE_SCHEMA_VERSION,
