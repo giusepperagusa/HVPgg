@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Edge Image Builder Assistant",
-  "short_name": "EIB-PEA",
-  "description": "Independent community Provisioning & Execution Assistant (PEA) for SUSE EIB, generating hardened Kubernetes appliance ISO recipes.",
+  "name": "HVPgg - Hardware to Value Project",
+  "short_name": "HVPgg",
+  "description": "Turnkey on-premises IT infrastructure appliance generator for small business enterprises.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

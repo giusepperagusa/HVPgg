@@ -1,7 +1,7 @@
 {
-  "version": "1.3.4",
-  "name": "Edge Image Builder Assistant",
-  "shortName": "EIB-PEA",
-  "buildTime": "2026-11-07T12:00:00Z",
-  "releaseNotes": "Centralized all built-in configuration parameters, URLs, filenames, container images, package manifests, and checksums in src/config/eibDefaults.ts. Converted all top-level Leap Micro/16.1 references to generic version-agnostic openSUSE Leap Immutable."
+  "version": "1.4.0",
+  "name": "HVPgg (Hardware to Value Project \"green generation\")",
+  "shortName": "HVPgg",
+  "buildTime": "2026-11-07T13:30:00Z",
+  "releaseNotes": "Project evolved to HVPgg (Hardware to Value Project 'green generation'). Reworked interface to present practical business decisions in the foreground with technical terms relegated to subtitles, tooltips, and an on-demand advanced stack configuration dialog. Established extensible 6-layer architecture roadmap."
 }

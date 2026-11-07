@@ -25,8 +25,8 @@ const LEGACY_STORAGE_ACTIVE_ID_KEY = 'suse_eib_active_profile_id_v1';
 // Initial default seed profile
 const DEFAULT_INITIAL_PROFILE: EIBProfile = {
   id: 'profile-default',
-  name: 'Default Production Profile',
-  description: 'Baseline RKE2 Kubernetes cluster configuration for openSUSE Leap (Immutable Mode).',
+  name: 'Default HVPgg Appliance Profile',
+  description: 'Baseline HVPgg turnkey on-premises IT infrastructure profile (openSUSE Leap Immutable, K8s foundation, 1/3 nodes).',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   config: INITIAL_CONFIG_STATE,

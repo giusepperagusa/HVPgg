@@ -36,10 +36,10 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <h3 className="text-base font-bold text-white">
-                Edge Appliance Deployment & Hardening Guide (for SUSE EIB)
+                HVPgg Infrastructure Appliance & Hardware Guide
               </h3>
               <p className="text-xs text-slate-400">
-                Air-gapped appliance architecture, proxy handling, and multi-node installation
+                Turnkey on-premises small business infrastructure, air-gap architecture, and node deployment
               </p>
             </div>
           </div>

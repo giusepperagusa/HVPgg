@@ -1,8 +1,8 @@
-# Edge Image Builder - Provisioning & Execution Assistant (EIB-PEA)
+# HVPgg — Hardware to Value Project ("green generation")
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-emerald.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![PWA Ready](https://img.shields.io/badge/PWA-Compliant-blue.svg)](https://web.dev/progressive-web-apps/)
-[![Community Project](https://img.shields.io/badge/Project-Community_Driven-green.svg)](https://github.com/suse-edge/edge-image-builder)
+[![Lineage: HVPgg](https://img.shields.io/badge/Lineage-HVP_%E2%86%92_HVPng_%E2%86%92_HVPgg-emerald.svg)](https://github.com/suse-edge/edge-image-builder)
 
 > ### ⚠️ IMPORTANT NOTICE & DISCLAIMER
 > **Independent Community Tool — Not an Official SUSE Product**:
@@ -11,38 +11,50 @@
 > - **Verification of Commercial Supportability**: Even when using official SUSE Customer Center (SCC) credentials, registration codes, or commercial repositories (e.g. for SLE Micro), the **actual supportability of any resulting build artifacts, images, and deployed systems must be verified directly with SUSE** under your applicable enterprise subscription agreements.
 > - **Trademarks & Attributions**: "SUSE", "SUSE Linux Enterprise", "SLE Micro", "Rancher", and "openSUSE" are trademarks or registered trademarks of SUSE LLC or its affiliates. References to "SUSE EIB" or related projects are made strictly for descriptive attribution and compatibility purposes.
 
-An interactive, secure, and client-side Progressive Web Application (PWA) acting as a **Provisioning & Execution Assistant (PEA)** for the **SUSE Edge Image Builder (EIB)**.
-
-This assistant automates the end-to-end recipe configuration for generating custom bootable ISO images capable of deploying pre-configured, air-gapped on-premises Kubernetes appliance clusters.
+**HVPgg** (**Hardware to Value Project "green generation"**) provides an opinionated, complete, ready-to-be-used on-premises IT infrastructure appliance for Small-Medium (and mostly Small-to-very-very-Small) Business enterprises that have minimal-to-nonexistent IT teams or outsource IT entirely, enabling them to focus exclusively on business value produced.
 
 ---
 
-## 1. Architectural Highlights & Key Features
+## 1. Project Evolutionary Lineage
 
-- **100% Stateless & Client-Side**: No backend servers, external tracking, or third-party databases. All cryptographic operations and file assembly occur directly in browser memory.
+1. **HVP (Heretic oVirt Project)**: The original ancestor aimed at the same turnkey small-business goal, but was built before Kubernetes on legacy virtualization (oVirt/KVM), legacy shared storage, and an Active Directory based infrastructure.
+2. **HVPng (Heretic oVirt Project "next generation")**: Modernized the stack to containers using a heterogeneous mix of technologies (Fedora CoreOS + K3s), but suffered from overly broad scope and required extensive technical expertise from end-users.
+3. **HVPgg (Hardware to Value Project "green generation")**: The SUSE-technology-flavoured ("green" chameleon heritage) evolution: unified, appliance-grade, automated with Kiwi & EIB, delivering a complete turnkey 6-layer business stack from 1 or 3 nodes.
+
+---
+
+## 2. The 6-Layer HVPgg Value Stack
+
+HVPgg orchestrates a 6-layer infrastructure appliance:
+1. **Layer 1: Immutable Host OS**: openSUSE Leap Immutable (Free Mode) or SLE Micro (Commercial Mode), built via containerized Kiwi & EIB.
+2. **Layer 2: Cloud-Native K8s Foundation**: Embedded-etcd 1-node or 3-node HA quorum (RKE2 or K3s), Longhorn distributed storage, Cilium/Calico CNI, MetalLB VIP, backup, and monitoring.
+3. **Layer 3: Modern Identity & Access (OIDC)**: Centralized OpenID-Connect SSO and role-based access control.
+4. **Layer 4: Cloud Workspace Suite**: Shared team storage, messaging/chat, web-based Office suite, and unified searching.
+5. **Layer 5: Complete Business ERP & Data Services**: Production-grade relational database, message queue, key-value store, and integrated ERP.
+6. **Layer 6: Fleet Device Management (MDM)**: Modern workstation, laptop, and mobile fleet management.
+
+---
+
+## 3. Architectural Highlights & Key Features
+
+- **User-Centric Minimal Interface**: Asks only user-known facts (machine count, resource profile, support tier, IP addresses). Low-level choices (exact engine versions, Edge baseline presets) are delegated to subtitles or the on-demand Component Engine dialog.
+- **Embedded-etcd Quorum Invariant**: Strictly enforces either 1 Node (Solo Appliance) or 3 Nodes (HA Quorum). Two-node setups are disallowable under Raft quorum principles.
+- **100% Stateless & Client-Side**: No backend servers or tracking. Configuration state and ISO recipe generation occur in browser memory with PWA offline caching.
 - **Dynamic ZIP Workspace Compilation**: Uses `JSZip` to compile and export a complete, executable deployment bundle including `definition.yaml`, hardened `build.sh`, NMState network declarations, repository configurations, and optional Kiwi appliance specifications.
-- **Environment Modes**:
-  - **Free Mode (openSUSE Leap Immutable)**: Sets `image.baseImage` to `leap-base.iso`, bypasses commercial registration checks, targets public openSUSE mirrors, and dynamically generates `rpms/opensuse-leap.repo`.
-  - **Commercial Mode (SUSE Linux Enterprise Micro / SLM-ICEO)**: Sets `image.baseImage` to `sl-micro-base.iso`, enables SUSE Customer Center (SCC) authentication tokens, and configures authenticated update repository mirrors.
 - **Multi-Architecture (x86_64 & ARM64 / aarch64) with Cross-Compilation Emulation**:
   - Automatically adapts ISO download endpoints and expected SHA-256 hashes when switching between architectures.
-  - The generated `build.sh` script detects host architecture mismatches (`uname -m` vs `aarch64`) and automatically registers QEMU user-static binfmt binaries via `multiarch/qemu-user-static` to ensure cross-compiled containers run cleanly on x86_64 host processors.
+  - The generated `build.sh` script detects host architecture mismatches (`uname -m` vs `aarch64`) and automatically registers QEMU user-static binfmt binaries via `multiarch/qemu-user-static`.
 - **Upstream Image Upgrade Pipeline: Containerized SUSE Kiwi Integration**:
-  - Optional toggle to compile a freshly patched, updated base OS ISO using containerized `kiwi-builder` (`registry.suse.com/edge/[VERSION]/kiwi-builder`), automatically exporting `kiwi-config/config.xml`.
+  - Optional toggle to compile a freshly patched, updated base OS ISO using containerized `kiwi-builder`, automatically exporting `kiwi-config/config.xml`.
 - **Enterprise Corporate Proxy Layer**:
   - Configurable HTTP, HTTPS, and No Proxy parameters with optional basic authentication.
   - Automatically exported in `build.sh` and injected into container runtimes via `-e` flags.
-- **Supply-Chain Security & Integrity Verification**:
-  - Subresource Integrity (SRI) hashes and `crossorigin="anonymous"` for all CDN libraries.
-  - Embedded SHA-256 verification via `sha256sum --check --status` inside `build.sh`.
-  - Interactive In-Browser File Hash Calculator utilizing the streaming Web Crypto API (`crypto.subtle.digest`) for zero-upload local file validation.
-- **Multi-Node NMState Declarations (Up to 3 Nodes)**:
+- **Multi-Node NMState Declarations (1 or 3 Nodes)**:
   - Granular hardware MAC address mapping, static IPv4 assignments, gateway, and DNS resolvers output to individual `network/*.yaml` files.
 - **Target Storage Device Specification**:
   - Configurable target drive path (`/dev/nvme0n1`, `/dev/sda`, `/dev/vda`, or custom) for automated unattended disk partitioning.
 - **PWA & Accessibility Standards**:
-  - Full PWA manifest and service worker integration with in-app install prompt.
-  - Automatic adaptation to dark/light/high-contrast settings with an accessible 4-way switcher (System, Dark, Light, High Contrast).
+  - Full PWA manifest and service worker integration with in-app install prompt and live version detection.
 
 ---
 

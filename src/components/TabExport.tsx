@@ -98,11 +98,60 @@ export const TabExport: React.FC<TabExportProps> = ({ config, onPrev }) => {
       {/* Header */}
       <div>
         <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <span>05. Hardened Bundle Compilation & Integrity Verification</span>
+          <span>05. Review & Generate HVPgg Appliance Bundle</span>
         </h2>
         <p className="text-sm text-slate-400 mt-1">
-          Inspect generated files, verify your local base ISO hash with the browser Web Crypto engine, and export your ready-to-run ZIP bundle.
+          Review your configured appliance profile, verify your base ISO hash, and download the complete ready-to-run recipe workspace bundle.
         </p>
+      </div>
+
+      {/* Executive Configuration Review Card */}
+      <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+              Executive Appliance Specifications
+            </h3>
+          </div>
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
+            HVPgg Green Generation
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+            <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Cluster Scale</span>
+            <span className="font-bold text-white text-sm">
+              {config.nodes.node2.enabled && config.nodes.node3.enabled ? '3 Nodes (HA Quorum)' : '1 Node (Solo Appliance)'}
+            </span>
+            <span className="text-[10px] text-slate-500 block mt-0.5 font-mono">Embedded etcd</span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+            <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Resource Profile</span>
+            <span className="font-bold text-white text-sm">
+              {config.versions.k8sEngine === 'k3s' ? 'Lightweight (K3s)' : 'Standard (RKE2)'}
+            </span>
+            <span className="text-[10px] text-emerald-400 block mt-0.5 font-mono">{config.versions.k8sVersion}</span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+            <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Support Tier</span>
+            <span className="font-bold text-white text-sm truncate block">
+              {config.environmentMode === 'free' ? 'Community Open Source' : 'Commercial Enterprise'}
+            </span>
+            <span className="text-[10px] text-slate-500 block mt-0.5 font-mono truncate">{config.versions.baseOsName}</span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+            <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Target Hardware</span>
+            <span className="font-bold text-white text-sm font-mono">
+              {config.targetArch}
+            </span>
+            <span className="text-[10px] text-cyan-400 block mt-0.5 font-mono">{config.targetDisk}</span>
+          </div>
+        </div>
       </div>
 
       {/* Prominent Action Banner */}
@@ -113,14 +162,14 @@ export const TabExport: React.FC<TabExportProps> = ({ config, onPrev }) => {
               Production Ready
             </span>
             <span className="text-xs text-emerald-400 font-mono">
-              SUSE Edge {config.versions.edgeGeneration} • {config.environmentMode.toUpperCase()}
+              HVPgg • SUSE Edge {config.versions.edgeGeneration} Core
             </span>
           </div>
           <h3 className="text-lg font-bold text-white">
-            Download Complete EIB Workspace Bundle (.zip)
+            Download Complete HVPgg Appliance Workspace (.zip)
           </h3>
           <p className="text-xs text-slate-400 mt-1 max-w-xl leading-relaxed">
-            Includes <code className="font-mono text-emerald-300">definition.yaml</code>, hardened executable <code className="font-mono text-emerald-300">build.sh</code>, multi-node NMState network profiles, repository configs, and quickstart documentation.
+            Includes <code className="font-mono text-emerald-300">definition.yaml</code>, hardened runner <code className="font-mono text-emerald-300">build.sh</code>, NMState network profiles, repository configs, and execution instructions.
           </p>
         </div>
 
@@ -350,7 +399,7 @@ export const TabExport: React.FC<TabExportProps> = ({ config, onPrev }) => {
           onClick={onPrev}
           className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition"
         >
-          &larr; Back to Nodes & Storage
+          &larr; Back to Value Stack Roadmap
         </button>
 
         <button

@@ -90,14 +90,17 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-slate-950 animate-pulse" />
           </div>
 
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 truncate">
+          <div className="flex flex-col min-w-0">
+            <div className="flex items-center gap-2 truncate">
               <span className="font-extrabold tracking-tight text-base sm:text-lg text-white truncate">
-                Edge Image Builder <span className="text-emerald-400 font-mono">PEA</span>
+                HVP<span className="text-emerald-400 font-mono">gg</span>
+              </span>
+              <span className="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-700/60 font-mono">
+                green generation
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning Assistant for SUSE EIB (v{APP_VERSION})
+              Hardware to Value Project • Turnkey On-Premises Infrastructure (v{APP_VERSION})
             </p>
           </div>
         </div>

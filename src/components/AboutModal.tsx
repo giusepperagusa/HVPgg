@@ -282,13 +282,16 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-white">About Edge Image Builder Assistant</h3>
+                <h3 className="text-base font-bold text-white">About HVPgg</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
                   v{APP_VERSION}
                 </span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  green generation
+                </span>
               </div>
               <p className="text-xs text-slate-400">
-                Independent Community Provisioning & Execution Assistant for SUSE Edge Image Builder
+                Hardware to Value Project • Turnkey On-Premises Infrastructure for Small Business
               </p>
             </div>
           </div>
@@ -305,7 +308,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         {/* Modal Subtabs */}
         <div className="flex border-b border-slate-800 bg-slate-900 px-6 overflow-x-auto shrink-0 min-h-[44px]">
           {[
-            { id: 'about', label: 'Architecture & Specs' },
+            { id: 'about', label: 'Architecture & Lineage' },
             { id: 'dependencies', label: 'Dependencies & Licenses' },
             { id: 'changelog', label: 'Full Changelog' },
             { id: 'references', label: 'Official Docs & Links' },
@@ -341,8 +344,39 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                 </p>
               </div>
 
+              {/* HVP Evolutionary Lineage Card */}
+              <div className="p-4 rounded-xl bg-slate-850/80 border border-emerald-700/40 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-400" />
+                  <h4 className="font-bold text-white text-xs">Evolutionary Lineage: From HVP to HVPgg</h4>
+                </div>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  <strong>HVPgg (Hardware to Value Project "green generation")</strong> is the latest evolution of a continuous journey to deliver an opinionated, complete, ready-to-be-used on-premises IT infrastructure for Small-Medium (and mostly Small-to-very-very-Small) enterprises that have minimal-to-nonexistent IT staff and need pure business value without operational complexity:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 pt-1">
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
+                    <span className="font-bold text-slate-300 block mb-1">1. HVP (Heretic oVirt Project)</span>
+                    <p className="text-slate-400 text-[10px]">
+                      The original generation. Targeted identical small business needs, but relied on legacy virtualization stacks (oVirt/KVM), traditional shared SAN/NAS storage, and Windows Active Directory infrastructure.
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
+                    <span className="font-bold text-slate-300 block mb-1">2. HVPng (Next Generation)</span>
+                    <p className="text-slate-400 text-[10px]">
+                      Modernized to containers with Fedora CoreOS + K3s, but was an overly heterogeneous mix of technologies with too broad a scope and required significant hands-on Linux/K8s expertise from end-users.
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-600/40 text-[11px]">
+                    <span className="font-bold text-emerald-300 block mb-1">3. HVPgg (Green Generation)</span>
+                    <p className="text-emerald-200/90 text-[10px]">
+                      The SUSE-technology-flavoured ("green" chameleon heritage) evolution: unified, appliance-grade, automated with Kiwi & EIB, delivering a complete 6-layer turnkey business stack from 1 or 3 nodes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <p>
-                The <strong>Edge Image Builder Provisioning & Execution Assistant (EIB-PEA)</strong> is an independent, stateless, client-side Progressive Web Application designed for security architects, DevOps engineers, and edge platform administrators preparing configuration recipes for SUSE Edge Image Builder (EIB).
+                The <strong>HVPgg Appliance Builder</strong> asks exclusively minimal, user-comprehensible questions (machine count, resource tier, network IPs, support preference). Technical complexities (RKE2 vs K3s, Leap vs SLE Micro, NMState network profiles, embedded-etcd quorum) are automatically resolved into ready-to-flash bootable ISO images with full lifecycle automation.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -604,13 +638,52 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
+              {/* Release 1.4.0 */}
+              <div className="p-4 rounded-xl bg-slate-850 border border-emerald-500/50 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.4.0</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
+                      Latest Release
+                    </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      HVPgg Launch
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-07</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Project Evolution to HVPgg (Hardware to Value Project "green generation")
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Scope & Goal Transformation:</strong> Evolved project into <em>HVPgg</em>, delivering an opinionated, complete, ready-to-be-used on-premises IT infrastructure appliance for Small-to-very-very-Small Business enterprises with minimal/nonexistent IT teams, focused on pure business value.
+                    </li>
+                    <li>
+                      <strong>Lineage Acknowledgment:</strong> Honors the lineage from HVP (Heretic oVirt Project: legacy virtualization & AD) to HVPng (next generation: Fedora CoreOS + K3s, high complexity) to HVPgg (green generation: turnkey SUSE-technology-flavoured automation).
+                    </li>
+                    <li>
+                      <strong>6-Layer Value Stack Architecture:</strong> Mapped out foundational and future business capabilities: Base OS (Layer 1), K8s Foundation (Layer 2), OIDC Identity & RBAC (Layer 3), Cloud Workspace Suite (Layer 4), Complete ERP & Core Data Services (Layer 5), and Fleet MDM (Layer 6).
+                    </li>
+                    <li>
+                      <strong>User-Centric Wizard Redesign:</strong> Replaced technical jargon in the primary workflow with user-known facts (machine count, resource tier, support model, primary drive, network IPs), delegating technical engine names to subtitles and badges.
+                    </li>
+                    <li>
+                      <strong>Decoupled Advanced Stack Modal:</strong> Low-level component versions (Edge 3.6 vs 3.5 baseline, Base OS ISO URL, K8s engine tags, EIB image version, CNI selector) are safely tucked into an on-demand "Component Engine & Versions" dialog with one-click reset to defaults.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
               {/* Release 1.3.4 */}
-              <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-base text-white">v1.3.4</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
-                      Latest Release
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-07</span>

@@ -33,15 +33,114 @@ import {
  * ============================================================================== */
 
 export const APP_METADATA = {
-  version: '1.3.4',
-  name: 'Edge Image Builder Assistant',
-  shortName: 'EIB-PEA',
+  version: '1.4.0',
+  name: 'HVPgg',
+  fullName: 'Hardware to Value Project "green generation"',
+  shortName: 'HVPgg',
+  tagline: 'Turnkey On-Premises IT Infrastructure for Small Businesses',
+  description: 'An opinionated, turnkey, hardware-based IT infrastructure appliance generator for small business enterprises, powered by best-of-breed open source solutions and automated SUSE Edge provisioning.',
+  lineage: {
+    ancestor1: {
+      name: 'HVP',
+      fullName: 'Heretic oVirt Project',
+      desc: 'Legacy virtualization, centralized storage & Active Directory foundation.',
+    },
+    ancestor2: {
+      name: 'HVPng',
+      fullName: 'Heretic oVirt Project "next generation"',
+      desc: 'Heterogeneous containerized stack (Fedora CoreOS + K3s), ambitious but too broad with steep technical requirements.',
+    },
+    current: {
+      name: 'HVPgg',
+      fullName: 'Hardware to Value Project "green generation"',
+      desc: 'SUSE-technology-flavoured ("green" chameleon heritage) evolution: opinionated, turnkey, minimal user friction, small-business value focused.',
+    },
+  },
   buildDate: '2026-11-07',
   license: 'AGPL-3.0-only',
   licenseName: 'GNU Affero General Public License v3.0',
 } as const;
 
 export const APP_VERSION = APP_METADATA.version;
+
+export interface HvpStackLayer {
+  layer: number;
+  id: string;
+  title: string;
+  category: string;
+  status: 'active' | 'modular-ready' | 'planned';
+  description: string;
+  technicalMechanism: string;
+  capabilities: string[];
+}
+
+/**
+ * 6-Layer HVPgg Architecture Roadmap.
+ * Prepared with an open, extensible structure to accommodate all modular components
+ * without premature hardcoding of application-level selections.
+ */
+export const HVP_VALUE_STACK_LAYERS: HvpStackLayer[] = [
+  {
+    layer: 1,
+    id: 'base-os',
+    title: 'Operating System & Appliance Engine',
+    category: 'Core Infrastructure',
+    status: 'active',
+    description: 'Immutable, transactional base operating system with btrfs snapshots and atomic updates.',
+    technicalMechanism: 'openSUSE Leap in immutable mode or SUSE Linux Enterprise Micro, built via containerized EIB & Kiwi.',
+    capabilities: ['Transactional updates', 'Btrfs read-only rootfs', 'Automated reboot snapshots', 'Zero runtime maintenance'],
+  },
+  {
+    layer: 2,
+    id: 'k8s-platform',
+    title: 'Cloud-Native Kubernetes Foundation',
+    category: 'Core Infrastructure',
+    status: 'active',
+    description: 'Embedded-etcd Kubernetes cluster with unified control-plane + worker nodes, storage replication, and networking.',
+    technicalMechanism: 'RKE2 or K3s with Cilium/Calico CNI, Longhorn distributed CSI storage, MetalLB ingress load balancing, and backup/monitoring tooling.',
+    capabilities: ['Raft quorum clustering (1 or 3 nodes)', 'Distributed block storage', 'L2/BGP VIP networking', 'Air-gapped artifact caching'],
+  },
+  {
+    layer: 3,
+    id: 'identity-sso',
+    title: 'Identity & Access Management (OIDC)',
+    category: 'Platform Services',
+    status: 'modular-ready',
+    description: 'Centralized OpenID Connect (OIDC) identity provider with Single Sign-On (SSO) and RBAC across all business applications.',
+    technicalMechanism: 'Standard OpenID Connect / OAuth2 identity platform with self-service user management, MFA, and unified directory integration.',
+    capabilities: ['Single Sign-On (SSO)', 'Multi-Factor Authentication (MFA)', 'Centralized user accounts', 'Standard OIDC token federation'],
+  },
+  {
+    layer: 4,
+    id: 'cloud-workspace',
+    title: 'Cloud Workspace & Collaboration Suite',
+    category: 'Business Applications',
+    status: 'modular-ready',
+    description: 'On-premises private cloud workspace with shared storage, collaborative spaces, messaging/chat, and web-based Office suite.',
+    technicalMechanism: 'Self-hosted cloud collaboration hub with real-time browser document editing (Word, Excel, PowerPoint compatible), team chat, and unified search.',
+    capabilities: ['Private cloud file sync & share', 'Web Office document editing', 'Real-time team chat & channels', 'Universal content search'],
+  },
+  {
+    layer: 5,
+    id: 'business-erp',
+    title: 'Business ERP & Core Data Services',
+    category: 'Business Applications',
+    status: 'modular-ready',
+    description: 'Comprehensive Enterprise Resource Planning system providing accounting, CRM, invoicing, purchasing, and inventory.',
+    technicalMechanism: 'Pre-configured ERP application layered with automated database cluster, message broker, and in-memory key-value cache.',
+    capabilities: ['Accounting & invoicing', 'Customer Relationship Management (CRM)', 'Inventory & supply chain', 'Managed database & message queues'],
+  },
+  {
+    layer: 6,
+    id: 'device-mdm',
+    title: 'Modern Device Management (MDM)',
+    category: 'Fleet Operations',
+    status: 'modular-ready',
+    description: 'Centralized endpoint management platform for company PCs, laptops, and mobile smartphones/tablets.',
+    technicalMechanism: 'Cross-platform MDM agent and policy engine managing security baselines, remote configuration, and device health compliance.',
+    capabilities: ['PC & laptop management (Linux/Windows/macOS)', 'Mobile device security policies', 'Zero-touch enrollment', 'Compliance telemetry'],
+  },
+];
 
 /* ==============================================================================
  * 2. Operating System Names, Labels & Standard Image Filenames

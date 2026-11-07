@@ -1,27 +1,34 @@
-# AI Maintenance & Development Constitution (EIB-PEA)
-# Edge Image Builder - Provisioning & Execution Assistant (for SUSE EIB)
+# AI Maintenance & Development Constitution (HVPgg)
+# Hardware to Value Project ("green generation")
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.3.4+  
+> **Applicable Version**: 1.4.0+  
 > **Project License**: AGPL-3.0-only  
-> **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
+> **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB & Kiwi Specifications, OIDC, K8s Embedded-etcd
 
-This document serves as the **master knowledge base and operational constitution** for maintaining, extending, and re-creating the **Edge Image Builder Provisioning & Execution Assistant (EIB-PEA)** application from scratch. Any future AI model or human engineer MUST adhere strictly to the rules, architectural patterns, and domain models documented below.
+This document serves as the **master knowledge base and operational constitution** for maintaining, extending, and developing **HVPgg (Hardware to Value Project "green generation")**. Any future AI model or human engineer MUST adhere strictly to the rules, architectural patterns, and domain models documented below.
 
 ---
 
-## 1. Executive Summary & Purpose
+## 1. Executive Summary, Mission & Evolutionary Lineage
 
-The **SUSE Edge Image Builder (EIB)** is an offline, declarative tool for creating customized, hardened OS images (openSUSE Leap in immutable mode or SUSE Linux Enterprise Micro) with embedded Kubernetes (RKE2 or K3s), container images, Helm charts, and declarative host networking (NMState) for edge appliance clusters.
+### 1.1 Project Mission
+**HVPgg** (**Hardware to Value Project "green generation"**) provides an opinionated, complete, ready-to-be-used on-premises (hardware-based) IT infrastructure appliance for Small-Medium (and mostly Small-to-very-very-Small) Business enterprises. These organizations typically have minimal-to-nonexistent IT teams or outsource IT entirely; their focus is strictly on the business value produced.
 
-The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web Application (PWA) that acts as an interactive wizard. It generates the complete, ready-to-run recipe workspace bundle packaged into a `.zip` file containing:
-- `definition.yaml`: Master EIB recipe following official schema.
-- `build.sh`: Automated, hardened POSIX/Bash runner script.
-- `manifests/`: Embedded Helm charts and workload manifests.
-- `network/`: Declarative NMState host networking profiles mapped by MAC address for up to 3 cluster nodes.
-- `rpms/`: Public or commercial Zypper repository specifications.
-- `kiwi-config/`: (Optional) SUSE Kiwi appliance definitions when pre-patching is active.
-- `README.md`, `CHANGELOG.md`, `LICENSE`: Full offline documentation and AGPL-3.0 text.
+### 1.2 Evolutionary Lineage
+1. **HVP (Heretic oVirt Project)**: The original ancestor aimed at the same turnkey small-business goal, but relied on legacy virtualization (oVirt/KVM), traditional shared SAN/NAS storage, and Windows Active Directory infrastructure without containers.
+2. **HVPng (Heretic oVirt Project "next generation")**: Modernized the stack to containers using a heterogeneous mix of technologies (Fedora CoreOS + K3s), but suffered from overly broad scope and required extensive technical expertise from end-users.
+3. **HVPgg (Hardware to Value Project "green generation")**: The SUSE-technology-flavoured ("green" chameleon heritage) evolution: unified, appliance-grade, automated with Kiwi & EIB, delivering a complete turnkey 6-layer business stack from 1 or 3 nodes.
+
+### 1.3 The 6-Layer Architecture Stack
+- **Layer 1: Base Host OS**: openSUSE Leap Immutable or SLE Micro, customized via Kiwi pre-patching and EIB.
+- **Layer 2: Cloud-Native K8s Foundation**: Embedded-etcd 1-node or 3-node HA quorum (RKE2 or K3s), Longhorn distributed storage, Cilium/Calico CNI, MetalLB VIP, backup, and monitoring.
+- **Layer 3: Modern Identity & Access (OIDC)**: Centralized OpenID-Connect SSO and role-based access control.
+- **Layer 4: Cloud Workspace Suite**: Shared team storage, messaging/chat, web-based Office suite, and unified searching.
+- **Layer 5: Business ERP & Core Data Services**: Production-grade relational database, message queue, key-value store, and complete ERP.
+- **Layer 6: Fleet Device Management (MDM)**: Modern workstation, laptop, and mobile fleet management.
+
+*Note on Future Modules*: Do not invent or finalize third-party software components for layers 3-6 in advance; wait for explicit user specifications per turn. Provide the open and flexible architecture structure.
 
 ---
 

@@ -9,11 +9,12 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Header } from './components/Header';
 import { TabsNav, WizardTab } from './components/TabsNav';
-import { TabEnvironment } from './components/TabEnvironment';
-import { TabVersions } from './components/TabVersions';
-import { TabKubernetes } from './components/TabKubernetes';
-import { TabNodesStorage } from './components/TabNodesStorage';
+import { TabDeploymentScale } from './components/TabDeploymentScale';
+import { TabApplianceIdentity } from './components/TabApplianceIdentity';
+import { TabSecurityAutomation } from './components/TabSecurityAutomation';
+import { TabValueStackRoadmap } from './components/TabValueStackRoadmap';
 import { TabExport } from './components/TabExport';
+import { AdvancedStackModal } from './components/AdvancedStackModal';
 import { AboutModal } from './components/AboutModal';
 import { DocsModal } from './components/DocsModal';
 import { ProfileManagerModal } from './components/ProfileManagerModal';
@@ -29,10 +30,11 @@ import { exportWorkspaceZip } from './utils/zipExporter';
 export default function App() {
   const { mode: themeMode, setMode: setThemeMode } = useTheme();
   const [config, setConfig] = useState<EIBConfigState>(INITIAL_CONFIG_STATE);
-  const [currentTab, setCurrentTab] = useState<WizardTab>('environment');
+  const [currentTab, setCurrentTab] = useState<WizardTab>('deployment');
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [isProfileManagerOpen, setIsProfileManagerOpen] = useState(false);
+  const [isAdvancedStackOpen, setIsAdvancedStackOpen] = useState(false);
   const [conflictModalData, setConflictModalData] = useState<{
     existing: EIBProfile;
     candidate: EIBProfile;
@@ -74,10 +76,10 @@ export default function App() {
   // Track completed tabs for wizard progress checkmarks
   const completedTabs = useMemo<Record<WizardTab, boolean>>(() => {
     return {
-      environment: !!config.baseIsoUrl && !!config.baseIsoSha256,
-      versions: !!config.versions.k8sVersion && !!config.versions.eibVersion,
-      kubernetes: !!config.k8sClusterToken && config.helmCharts.length > 0,
-      nodes: !!config.nodes.node1.hostname && !!config.nodes.node1.ipAddress,
+      deployment: !!config.targetArch && !!config.versions.k8sEngine,
+      identity: !!config.nodes.node1.hostname && !!config.nodes.node1.ipAddress,
+      security: true,
+      roadmap: true,
       export: true,
     };
   }, [config]);
@@ -117,45 +119,46 @@ export default function App() {
 
       {/* Main Form Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {currentTab === 'environment' && (
-          <TabEnvironment
+        {currentTab === 'deployment' && (
+          <TabDeploymentScale
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('versions')}
+            onNext={() => setCurrentTab('identity')}
+            onOpenAdvancedStack={() => setIsAdvancedStackOpen(true)}
           />
         )}
 
-        {currentTab === 'versions' && (
-          <TabVersions
+        {currentTab === 'identity' && (
+          <TabApplianceIdentity
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('kubernetes')}
-            onPrev={() => setCurrentTab('environment')}
+            onNext={() => setCurrentTab('security')}
+            onPrev={() => setCurrentTab('deployment')}
           />
         )}
 
-        {currentTab === 'kubernetes' && (
-          <TabKubernetes
+        {currentTab === 'security' && (
+          <TabSecurityAutomation
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('nodes')}
-            onPrev={() => setCurrentTab('versions')}
+            onNext={() => setCurrentTab('roadmap')}
+            onPrev={() => setCurrentTab('identity')}
+            onOpenAdvancedStack={() => setIsAdvancedStackOpen(true)}
           />
         )}
 
-        {currentTab === 'nodes' && (
-          <TabNodesStorage
+        {currentTab === 'roadmap' && (
+          <TabValueStackRoadmap
             config={config}
-            onChange={setConfig}
             onNext={() => setCurrentTab('export')}
-            onPrev={() => setCurrentTab('kubernetes')}
+            onPrev={() => setCurrentTab('security')}
           />
         )}
 
         {currentTab === 'export' && (
           <TabExport
             config={config}
-            onPrev={() => setCurrentTab('nodes')}
+            onPrev={() => setCurrentTab('roadmap')}
           />
         )}
       </main>
@@ -164,35 +167,34 @@ export default function App() {
       <footer className="border-t border-slate-850 bg-slate-900/60 py-5 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            Edge Image Builder Provisioning & Execution Assistant (for SUSE EIB) • Licensed under{' '}
+            HVPgg (Hardware to Value Project "green generation") • Licensed under{' '}
             <button
               onClick={() => setIsAboutOpen(true)}
               className="text-emerald-400 hover:underline font-semibold"
             >
               AGPL-3.0
             </button>
+            {' '}• Independent Open Source Appliance
           </p>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsDocsOpen(true)}
               className="hover:text-slate-300 transition"
             >
-              Air-Gap Guide
+              Hardware Guide
             </button>
             <button
               onClick={() => setIsAboutOpen(true)}
               className="hover:text-slate-300 transition"
             >
-              Official Documentation
+              HVP Lineage & About
             </button>
-            <a
-              href="https://github.com/suse-edge/edge-image-builder"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setIsAdvancedStackOpen(true)}
               className="hover:text-emerald-400 transition"
             >
-              EIB Upstream
-            </a>
+              Component Engine
+            </button>
           </div>
         </div>
       </footer>
@@ -200,6 +202,12 @@ export default function App() {
       {/* Modals */}
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
       <DocsModal isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
+      <AdvancedStackModal
+        isOpen={isAdvancedStackOpen}
+        onClose={() => setIsAdvancedStackOpen(false)}
+        config={config}
+        onChange={setConfig}
+      />
       
       {/* Profile Management Modal */}
       <ProfileManagerModal

@@ -13,9 +13,10 @@ import {
   HardDrive,
   PackageCheck,
   CheckCircle2,
+  Server,
 } from 'lucide-react';
 
-export type WizardTab = 'environment' | 'versions' | 'kubernetes' | 'nodes' | 'export';
+export type WizardTab = 'deployment' | 'identity' | 'security' | 'roadmap' | 'export';
 
 interface TabsNavProps {
   currentTab: WizardTab;
@@ -33,38 +34,38 @@ interface StepItem {
 
 const STEPS: StepItem[] = [
   {
-    id: 'environment',
+    id: 'deployment',
     stepNumber: '01',
-    title: 'Environment & OS',
-    subtitle: 'Free / SLE, Proxy & Kiwi',
-    icon: Sliders,
+    title: 'Hardware Scale',
+    subtitle: 'Machines, Resources & Tier',
+    icon: Server,
   },
   {
-    id: 'versions',
+    id: 'identity',
     stepNumber: '02',
-    title: 'Edge Matrix',
-    subtitle: 'Edge 3.6 / 3.5 presets',
-    icon: Layers,
-  },
-  {
-    id: 'kubernetes',
-    stepNumber: '03',
-    title: 'Kubernetes Stack',
-    subtitle: 'RKE2 / K3s, Charts & OCI',
+    title: 'Appliance Identity',
+    subtitle: 'Network, IPs & Storage',
     icon: Network,
   },
   {
-    id: 'nodes',
+    id: 'security',
+    stepNumber: '03',
+    title: 'Security & Updates',
+    subtitle: 'Proxy & Patch Pipeline',
+    icon: Sliders,
+  },
+  {
+    id: 'roadmap',
     stepNumber: '04',
-    title: 'Nodes & Storage',
-    subtitle: 'NMState & Target Disk',
-    icon: HardDrive,
+    title: 'Value Stack',
+    subtitle: '6-Layer Architecture',
+    icon: Layers,
   },
   {
     id: 'export',
     stepNumber: '05',
-    title: 'Export Bundle',
-    subtitle: 'Verify & Download ZIP',
+    title: 'Build Appliance',
+    subtitle: 'Review, Verify & ZIP',
     icon: PackageCheck,
   },
 ];
