@@ -8,8 +8,9 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import { APP_VERSION } from '../config/eibDefaults';
 
-export const APP_CURRENT_VERSION = '1.3.3';
+export const APP_CURRENT_VERSION = APP_VERSION;
 
 export interface PWAContextType {
   // Connectivity

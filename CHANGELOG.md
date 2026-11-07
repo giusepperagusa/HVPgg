@@ -5,12 +5,17 @@ All notable changes to the Edge Image Builder Provisioning & Execution Assistant
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.4] - 2026-11-07
+### Changed & Centralized
+- **Centralized Parameter & Defaults Repository**: Centralized all built-in parameters, URLs, filenames, container images, package manifests, and checksums in `src/config/eibDefaults.ts` to ensure ease of long-term maintenance, auditing, and upgrading.
+- **Version-Agnostic Leap Immutable Naming**: Streamlined top-level card titles, mode pill badges, and documentation from specific version numbers to generic "openSUSE Leap Immutable", keeping specific point release versions strictly confined to granular detail and override panels.
+
 ## [1.3.3] - 2026-11-06
 ### Changed & Upgraded
-- **openSUSE Leap 16.1 Immutable Base OS**: Replaced Free Mode base OS baseline with openSUSE Leap in immutable mode (available since 16.1), incorporating transactional-update and btrfs snapshot support for appliance immutability.
-- **SUSE Kiwi Appliance Recipe Modernization**: Updated containerized Kiwi pre-patch configuration (`kiwi-config/config.xml`) to include `patterns-base-transactional`, `transactional-update`, `btrfsprogs`, and `snapper` packages alongside public Leap 16.1 OSS (`https://download.opensuse.org/distribution/leap/16.1/repo/oss/`) and update channels.
-- **Dynamic Repository Injection**: Injected `.repo` file in exported workspace bundles standardized to `rpms/opensuse-leap.repo`, tracking official openSUSE Leap 16.1 package and update trees.
-- **Base Image ISO Standard**: Standardized Free Mode base image ISO identifier in `definition.yaml` to `leap-base.iso` with verified Leap 16.1 installer URLs and checksums.
+- **openSUSE Leap Immutable Base OS**: Replaced Free Mode base OS baseline with openSUSE Leap in immutable mode, incorporating transactional-update and btrfs snapshot support for appliance immutability.
+- **SUSE Kiwi Appliance Recipe Modernization**: Updated containerized Kiwi pre-patch configuration (`kiwi-config/config.xml`) to include `patterns-base-transactional`, `transactional-update`, `btrfsprogs`, and `snapper` packages alongside public Leap OSS and update channels.
+- **Dynamic Repository Injection**: Injected `.repo` file in exported workspace bundles standardized to `rpms/opensuse-leap.repo`, tracking official openSUSE Leap package and update trees.
+- **Base Image ISO Standard**: Standardized Free Mode base image ISO identifier in `definition.yaml` to `leap-base.iso` with verified installer URLs and checksums.
 - **EIB Layering Integrity**: Downstream Edge Image Builder layering (RKE2/K3s, CNI network plugins, Helm charts, air-gapped embedded artifact registry, storage target, and 1/3-node NMState network profiles) remains completely preserved and untouched.
 
 ## [1.3.2] - 2026-11-06

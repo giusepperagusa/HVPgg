@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { generateLicenseText, generateChangelogMarkdown } from '../utils/eibGenerator';
 import { usePWA } from '../context/PWAContext';
+import { APP_VERSION } from '../config/eibDefaults';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -283,7 +284,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-bold text-white">About Edge Image Builder Assistant</h3>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50">
-                  v1.3.3
+                  v{APP_VERSION}
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -603,13 +604,40 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.3.3 */}
+              {/* Release 1.3.4 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.3.3</span>
+                    <span className="font-mono font-bold text-base text-white">v1.3.4</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-07</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Centralized Settings & Version-Agnostic Leap Immutable
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Centralized Parameters & Defaults:</strong> Extracted all built-in parameters, URLs, filenames, container images, package manifests, kernel parameters, and checksums into a single well-commented configuration file (<code className="font-mono text-cyan-300">src/config/eibDefaults.ts</code>) for clean maintainability and easy future updates.
+                    </li>
+                    <li>
+                      <strong>Version-Agnostic Leap Immutable Naming:</strong> Streamlined top-level card titles, mode pills, and documentation from specific version numbers to generic "openSUSE Leap Immutable", keeping specific point release versions strictly confined to granular detail and override panels.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.3.3 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.3.3</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                   </div>
                   <span className="text-xs text-slate-500 font-mono">2026-11-06</span>
@@ -617,11 +645,11 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
                 <div className="space-y-2 text-xs">
                   <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
-                    openSUSE Leap 16.1 Immutable Mode Integration
+                    openSUSE Leap Immutable Mode Integration
                   </h5>
                   <ul className="list-disc list-inside space-y-1 text-slate-300">
                     <li>
-                      <strong>openSUSE Leap 16.1 Immutable Base OS:</strong> Shifted Free Mode baseline from Leap Micro to openSUSE Leap in immutable mode (available since 16.1) with transactional-update and btrfs snapshot architectures.
+                      <strong>openSUSE Leap Immutable Base OS:</strong> Shifted Free Mode baseline from Leap Micro to openSUSE Leap in immutable mode with transactional-update and btrfs snapshot architectures.
                     </li>
                     <li>
                       <strong>SUSE Kiwi Pre-Patching Update:</strong> Updated Kiwi appliance description (<code className="font-mono text-cyan-300">kiwi-config/config.xml</code>) to include transactional-update packages (<code className="font-mono text-cyan-300">patterns-base-transactional</code>, <code className="font-mono text-cyan-300">transactional-update</code>, <code className="font-mono text-cyan-300">btrfsprogs</code>, <code className="font-mono text-cyan-300">snapper</code>) and public Leap 16.1 OSS / Update repositories.
@@ -873,7 +901,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                   </h5>
                   <ul className="list-disc list-inside space-y-1 text-slate-300">
                     <li>5-tab interactive Provisioning & Execution Assistant wizard for SUSE Edge Image Builder.</li>
-                    <li>Dual Environment Modes: Free Mode (openSUSE Leap Micro) vs Commercial Mode (SLE Micro).</li>
+                    <li>Dual Environment Modes: Free Mode (openSUSE Leap Immutable) vs Commercial Mode (SLE Micro).</li>
                     <li>Multi-Architecture ARM64 (aarch64) with automated QEMU user-static emulation runner in <code className="font-mono text-slate-300">build.sh</code>.</li>
                     <li>Upstream containerized SUSE Kiwi pre-patching image upgrade pipeline.</li>
                     <li>Multi-Node NMState declarative network profiles (up to 3 cluster nodes).</li>

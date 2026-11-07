@@ -2,7 +2,7 @@
 # Edge Image Builder - Provisioning & Execution Assistant (for SUSE EIB)
 
 > **Target Audience**: Human Maintainers and Future AI-based Coding Assistants  
-> **Applicable Version**: 1.3.2+  
+> **Applicable Version**: 1.3.4+  
 > **Project License**: AGPL-3.0-only  
 > **Standard Compliance**: W3C PWA, POSIX/Bash Hardening, SUSE Edge 3.6/3.5 EIB Specifications
 
@@ -12,7 +12,7 @@ This document serves as the **master knowledge base and operational constitution
 
 ## 1. Executive Summary & Purpose
 
-The **SUSE Edge Image Builder (EIB)** is an offline, declarative tool for creating customized, hardened OS images (openSUSE Leap Micro or SUSE Linux Enterprise Micro) with embedded Kubernetes (RKE2 or K3s), container images, Helm charts, and declarative host networking (NMState) for edge appliance clusters.
+The **SUSE Edge Image Builder (EIB)** is an offline, declarative tool for creating customized, hardened OS images (openSUSE Leap in immutable mode or SUSE Linux Enterprise Micro) with embedded Kubernetes (RKE2 or K3s), container images, Helm charts, and declarative host networking (NMState) for edge appliance clusters.
 
 The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web Application (PWA) that acts as an interactive wizard. It generates the complete, ready-to-run recipe workspace bundle packaged into a `.zip` file containing:
 - `definition.yaml`: Master EIB recipe following official schema.
@@ -74,7 +74,7 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 
 ### Directive 8: Trademark Attribution & Decoupled Project Identity
 - **Independent Identity**: The project name, artifacts, page titles, HTML metadata, and release tarballs MUST NOT use unqualified "SUSE" branding (use "Edge Image Builder Assistant" or "EIB-PEA").
-- **Clear Technical Context**: "SUSE" is permitted ONLY when the reference or attribution is explicit and technically accurate (e.g., "for SUSE Edge Image Builder", "openSUSE Leap Micro", "SUSE Linux Enterprise Micro", "SUSE Customer Center", or "SUSE Kiwi").
+- **Clear Technical Context**: "SUSE" is permitted ONLY when the reference or attribution is explicit and technically accurate (e.g., "for SUSE Edge Image Builder", "openSUSE Leap Immutable", "SUSE Linux Enterprise Micro", "SUSE Customer Center", or "SUSE Kiwi").
 - **Prominent Non-Affiliation Disclaimers**: All user-facing documentation (`README.md`, in-app About dialog, Docs modal) must feature a clear legal notice stating that the project is not a SUSE product, is neither affiliated with nor endorsed by SUSE, provides no warranty or support path, and advises operators to verify the commercial supportability of resulting images directly with SUSE even when using SCC credentials.
 - **Safe Storage Migration**: Local storage keys should prefer neutral names (`eib_profiles_v1`) while retaining fallback reads for legacy keys (`suse_eib_profiles_v1`) to prevent data loss.
 
@@ -91,11 +91,11 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 ## 3. Domain Logic & UX Workflow Matrix
 
 ### 3.1 Environment Mode Duality
-| Feature / Behavior | Free Mode (openSUSE Leap 16.1 Immutable) | Commercial Mode (SLE Micro / SLM-ICEO) |
+| Feature / Behavior | Free Mode (openSUSE Leap Immutable) | Commercial Mode (SLE Micro / SLM-ICEO) |
 |---|---|---|
 | **Base Image Name** | `leap-base.iso` | `sl-micro-base.iso` |
 | **Registration / Telemetry** | Completely bypassed (no keys) | Enables SCC Registration Token, Email, and Endpoint |
-| **Repository Mirrors** | Public openSUSE Leap 16.1 OSS & Update mirrors | Authenticated SUSE Customer Center (SCC) repos |
+| **Repository Mirrors** | Public openSUSE Leap OSS & Update mirrors | Authenticated SUSE Customer Center (SCC) repos |
 | **Bundle Injection** | Injects `rpms/opensuse-leap.repo` | Injects `rpms/sle-micro.repo` with auth tokens |
 | **Container Image Source** | `registry.opensuse.org` | `registry.suse.com` (with `podman login`) |
 | **Download Pipeline** | Direct download via curl | Authenticated curl with SCC Bearer token |
@@ -115,7 +115,7 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 - **Execution Workflow**:
   - When enabled, `build.sh` runs `kiwi-builder` (`registry.suse.com/edge/[VERSION]/kiwi-builder` or `registry.opensuse.org/virtualization/appliances/images/kiwi:latest`).
   - Scaffolds `kiwi-config/config.xml` containing image description schema version 7.4.
-  - For Free Mode, targets openSUSE Leap 16.1 Immutable Mode with `patterns-base-transactional`, `transactional-update`, `btrfsprogs`, and `snapper` from public Leap 16.1 repositories.
+  - For Free Mode, targets openSUSE Leap in immutable mode with `patterns-base-transactional`, `transactional-update`, `btrfsprogs`, and `snapper` from public Leap repositories.
   - Kiwi resolves packages from upstream update repositories and outputs a freshly patched base ISO directly into `base-images/` for EIB consumption.
 
 ### 3.4 Multi-Node Cluster Topology & NMState
@@ -136,9 +136,9 @@ The **EIB-PEA** is a browser-based, client-side, zero-telemetry Progressive Web 
 
 ---
 
-## 4. Tested Component Baseline Reference (Internal Matrix)
+## 4. Tested Component Baseline Reference & Centralized Defaults Hub
 
-Future updates to SUSE Edge releases must be recorded in `src/types/eib.ts` (`EDGE_VERSION_PRESETS`):
+All versions, built-in parameters, URLs, filenames, container images, package manifests, and checksums are centralized in **`src/config/eibDefaults.ts`** as the single source of truth. Future updates to SUSE Edge releases must be recorded in `src/config/eibDefaults.ts` (`EDGE_VERSION_PRESETS`):
 
 ### SUSE Edge 3.6 (Current Release)
 - **EIB Version**: `3.6.0`
@@ -168,8 +168,11 @@ Future updates to SUSE Edge releases must be recorded in `src/types/eib.ts` (`ED
 │   ├── pwa-512x512.png        # PWA high-res launch icon
 │   ├── pwa-maskable-512x512.png # Maskable Android icon with safe padding
 │   ├── apple-touch-icon.png   # iOS Safari 180x180 PNG icon
+│   ├── version.json           # Version metadata queried for update checks
 │   └── manifest.webmanifest   # PWA manifest with relative start_url
 ├── src/
+│   ├── config/
+│   │   └── eibDefaults.ts     # Single source of truth for all URLs, images, hashes & presets
 │   ├── components/
 │   │   ├── Header.tsx         # Brand bar, mode badge, theme toggle & PWA install button
 │   │   ├── TabsNav.tsx        # 5-step wizard tab navigator with completion badges
@@ -179,15 +182,21 @@ Future updates to SUSE Edge releases must be recorded in `src/types/eib.ts` (`ED
 │   │   ├── TabNodesStorage.tsx# Drive target & 3-node NMState network sub-forms
 │   │   ├── TabExport.tsx      # File tree explorer, code previews & Web Crypto hash validator
 │   │   ├── AboutModal.tsx     # AGPL-3.0 license, package matrix, changelog & docs
-│   │   └── DocsModal.tsx      # In-app air-gap deployment & architecture guide
+│   │   ├── DocsModal.tsx      # In-app air-gap deployment & architecture guide
+│   │   ├── ProfileManagerModal.tsx # Save, export, import & conflict manager for profiles
+│   │   └── ProfileConflictModal.tsx # Side-by-side diff comparison dialog for imported profiles
+│   ├── context/
+│   │   └── PWAContext.tsx     # Offline service worker, update polling & skip-waiting controller
 │   ├── hooks/
-│   │   ├── usePWAInstall.ts   # PWA prompt and iOS Safari instructions hook
+│   │   ├── useProfiles.ts     # Multi-profile persistence and CRUD hook
 │   │   └── useTheme.ts        # Dark, light, and high-visibility contrast controller
 │   ├── types/
-│   │   └── eib.ts             # TypeScript models, state interfaces & presets
+│   │   ├── eib.ts             # TypeScript models, state interfaces & presets re-exports
+│   │   └── profile.ts         # Profile schemas, import/export types & diff structures
 │   ├── utils/
 │   │   ├── eibGenerator.ts    # Pure functions for definition.yaml, build.sh, NMState, Kiwi
 │   │   ├── eibGenerator.test.ts # Node:test unit test suite
+│   │   ├── profileSerializer.ts # Commented YAML & AES-GCM encrypted profile serialization
 │   │   └── zipExporter.ts     # JSZip in-memory file assembly & download trigger
 │   ├── App.tsx                # Main view controller & wizard step orchestrator
 │   ├── index.css              # Tailwind CSS v4 directives & contrast accessibility

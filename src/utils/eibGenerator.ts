@@ -8,6 +8,17 @@
 
 import * as yaml from 'js-yaml';
 import { EIBConfigState, NodeNetworkConfig } from '../types/eib';
+import {
+  BASE_IMAGE_FILENAMES,
+  CONTAINER_IMAGES,
+  DEFAULT_EIB_OS_PACKAGES,
+  DEFAULT_KERNEL_ARGS,
+  DEFAULT_SYSTEMD_UNITS,
+  KIWI_PACKAGES_LEAP_IMMUTABLE,
+  KIWI_PACKAGES_SLE_MICRO,
+  OS_DISPLAY_NAMES,
+  REPOSITORY_ENDPOINTS,
+} from '../config/eibDefaults';
 
 /**
  * Generates the official SUSE Edge Image Builder definition.yaml
@@ -15,7 +26,7 @@ import { EIBConfigState, NodeNetworkConfig } from '../types/eib';
  */
 export function generateDefinitionYaml(config: EIBConfigState): string {
   const isFree = config.environmentMode === 'free';
-  const baseImageName = isFree ? 'leap-base.iso' : 'sl-micro-base.iso';
+  const baseImageName = BASE_IMAGE_FILENAMES[config.environmentMode];
   const targetDisk = config.targetDisk === 'custom' ? config.customTargetDisk : config.targetDisk;
 
   const activeNodes = [config.nodes.node1, config.nodes.node2, config.nodes.node3]
@@ -38,12 +49,7 @@ export function generateDefinitionYaml(config: EIBConfigState): string {
       arch: config.targetArch,
     },
     operatingSystem: {
-      kernelArgs: [
-        'console=ttyS0,115200',
-        'console=tty0',
-        'ignition.firstboot=1',
-        'systemd.journald.forward_to_console=1',
-      ],
+      kernelArgs: [...DEFAULT_KERNEL_ARGS],
       installer: {
         targetDevice: targetDisk,
         unattended: true,
@@ -56,26 +62,11 @@ export function generateDefinitionYaml(config: EIBConfigState): string {
         },
       ],
       systemd: {
-        units: [
-          { name: 'sshd.service', enable: true },
-          { name: 'NetworkManager.service', enable: true },
-        ],
+        units: [...DEFAULT_SYSTEMD_UNITS],
       },
       packages: {
         noGPGCheck: false,
-        packageList: [
-          'curl',
-          'jq',
-          'vim',
-          'bind-utils',
-          'iptables',
-          'iproute2',
-          'ethtool',
-          'conntrack-tools',
-          'tar',
-          'gzip',
-          'nmstate',
-        ],
+        packageList: [...DEFAULT_EIB_OS_PACKAGES],
       },
     },
     kubernetes: {
@@ -189,9 +180,10 @@ export function generateNMStateYaml(node: NodeNetworkConfig): string {
  */
 export function generateKiwiConfig(config: EIBConfigState): string {
   const isFree = config.environmentMode === 'free';
-  const osName = isFree ? 'openSUSE Leap (Immutable Mode)' : 'SUSE Linux Enterprise Micro';
+  const osName = OS_DISPLAY_NAMES[config.environmentMode];
   const osVersion = config.versions.baseOsVersion;
   const arch = config.targetArch;
+  const packagesList = isFree ? KIWI_PACKAGES_LEAP_IMMUTABLE : KIWI_PACKAGES_SLE_MICRO;
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <!--
@@ -218,31 +210,20 @@ export function generateKiwiConfig(config: EIBConfigState): string {
     <timezone>UTC</timezone>
   </preferences>
   <repository type="rpm-md" status="replaceable">
-    <source path="${isFree ? `https://download.opensuse.org/distribution/leap/${osVersion}/repo/oss/` : `https://updates.suse.com/SUSE/Products/SLE-Micro/${osVersion}/${arch}/product/` }"/>
+    <source path="${isFree ? REPOSITORY_ENDPOINTS.openSuseLeap.ossRepo(osVersion) : REPOSITORY_ENDPOINTS.sleMicro.kiwiProductSource(osVersion, arch)}"/>
   </repository>
 ${isFree ? `  <repository type="rpm-md" status="replaceable">
-    <source path="https://download.opensuse.org/update/leap/${osVersion}/oss/"/>
+    <source path="${REPOSITORY_ENDPOINTS.openSuseLeap.updateRepo(osVersion)}"/>
   </repository>
 ` : ''}  <packages type="image">
-${isFree ? `    <package name="patterns-base-transactional"/>
-    <package name="transactional-update"/>
-    <package name="btrfsprogs"/>
-    <package name="snapper"/>` : `    <package name="patterns-microos-base"/>`}
-    <package name="kernel-default"/>
-    <package name="combustion"/>
-    <package name="ignition"/>
-    <package name="NetworkManager"/>
-    <package name="nmstate"/>
-    <package name="podman"/>
-    <package name="curl"/>
-    <package name="jq"/>
+${packagesList.map((pkg) => `    <package name="${pkg}"/>`).join('\n')}
   </packages>
 </image>
 `;
 }
 
 /**
- * Generates repository files for openSUSE Leap 16.1 (Immutable Mode) or SLE Micro (Commercial Mode).
+ * Generates repository files for openSUSE Leap (Immutable Mode) or SLE Micro (Commercial Mode).
  */
 export function generateRepoFile(config: EIBConfigState): string {
   const isFree = config.environmentMode === 'free';
@@ -258,21 +239,21 @@ export function generateRepoFile(config: EIBConfigState): string {
 name=openSUSE-Leap-${osVersion}-OSS
 enabled=1
 autorefresh=1
-baseurl=https://download.opensuse.org/distribution/leap/${osVersion}/repo/oss/
+baseurl=${REPOSITORY_ENDPOINTS.openSuseLeap.ossRepo(osVersion)}
 type=rpm-md
 keeppackages=0
 gpgcheck=1
-gpgkey=https://download.opensuse.org/distribution/leap/${osVersion}/repo/oss/repodata/repomd.xml.key
+gpgkey=${REPOSITORY_ENDPOINTS.openSuseLeap.ossGpgKey(osVersion)}
 
 [repo-update]
 name=openSUSE-Leap-${osVersion}-Update
 enabled=1
 autorefresh=1
-baseurl=https://download.opensuse.org/update/leap/${osVersion}/oss/
+baseurl=${REPOSITORY_ENDPOINTS.openSuseLeap.updateRepo(osVersion)}
 type=rpm-md
 keeppackages=0
 gpgcheck=1
-gpgkey=https://download.opensuse.org/update/leap/${osVersion}/oss/repodata/repomd.xml.key
+gpgkey=${REPOSITORY_ENDPOINTS.openSuseLeap.updateGpgKey(osVersion)}
 `;
   }
 
@@ -284,7 +265,7 @@ gpgkey=https://download.opensuse.org/update/leap/${osVersion}/oss/repodata/repom
 name=SLE-Micro-${osVersion}-Pool
 enabled=1
 autorefresh=1
-baseurl=https://updates.suse.com/SUSE/Products/SLE-Micro/${osVersion}/${arch}/product/?${config.scc.regCode}
+baseurl=${REPOSITORY_ENDPOINTS.sleMicro.poolRepo(osVersion, arch, config.scc.regCode)}
 type=rpm-md
 keeppackages=0
 gpgcheck=1
@@ -293,7 +274,7 @@ gpgcheck=1
 name=SLE-Micro-${osVersion}-Updates
 enabled=1
 autorefresh=1
-baseurl=https://updates.suse.com/SUSE/Updates/SLE-Micro/${osVersion}/${arch}/update/?${config.scc.regCode}
+baseurl=${REPOSITORY_ENDPOINTS.sleMicro.updateRepo(osVersion, arch, config.scc.regCode)}
 type=rpm-md
 keeppackages=0
 gpgcheck=1
@@ -306,13 +287,13 @@ gpgcheck=1
 export function generateBuildScript(config: EIBConfigState): string {
   const isFree = config.environmentMode === 'free';
   const targetArch = config.targetArch;
-  const baseImageName = isFree ? 'leap-base.iso' : 'sl-micro-base.iso';
+  const baseImageName = BASE_IMAGE_FILENAMES[config.environmentMode];
   const eibContainerImage = isFree
-    ? 'registry.opensuse.org/isv/suse/edge/eib/containerfile/suse/edge-image-builder:latest'
-    : `registry.suse.com/edge/${config.versions.edgeGeneration}/edge-image-builder:latest`;
+    ? CONTAINER_IMAGES.eib.free
+    : CONTAINER_IMAGES.eib.commercial(config.versions.edgeGeneration);
   const kiwiContainerImage = isFree
-    ? 'registry.opensuse.org/virtualization/appliances/images/kiwi:latest'
-    : `registry.suse.com/edge/${config.versions.edgeGeneration}/kiwi-builder:latest`;
+    ? CONTAINER_IMAGES.kiwi.free
+    : CONTAINER_IMAGES.kiwi.commercial(config.versions.edgeGeneration);
 
   // Proxy environment string
   let proxyBlock = '# [1/7] Enterprise Proxy Configuration\n';
@@ -504,7 +485,7 @@ else
   }
 fi
 ` : `
-log_info "Free Mode (openSUSE Leap 16.1 Immutable): Using public openSUSE OCI container registries."
+log_info "Free Mode (openSUSE Leap Immutable): Using public openSUSE OCI container registries."
 `}
 
 ${isoStageBlock}
@@ -566,7 +547,7 @@ export function generateReadmeMarkdown(config: EIBConfigState): string {
 > - **Trademarks & Attributions**: "SUSE", "SUSE Linux Enterprise", "SLE Micro", "Rancher", and "openSUSE" are trademarks or registered trademarks of SUSE LLC or its affiliates. References to "SUSE EIB" or related projects are made strictly for descriptive attribution and compatibility purposes.
 
 > **Generated by**: Provisioning & Execution Assistant (EIB-PEA) for SUSE EIB  
-> **Environment Mode**: ${isFree ? 'Free (openSUSE Leap 16.1 Immutable)' : 'Commercial (SUSE Linux Enterprise Micro)'}  
+> **Environment Mode**: ${isFree ? 'Free (openSUSE Leap Immutable)' : 'Commercial (SUSE Linux Enterprise Micro)'}  
 > **Target Architecture**: ${config.targetArch}  
 > **Kubernetes Engine**: ${config.versions.k8sEngine.toUpperCase()} (${config.versions.k8sVersion})  
 > **License**: AGPL-3.0-only  
@@ -641,9 +622,14 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to the Edge Image Builder Provisioning & Execution Assistant (EIB-PEA) and generated appliance bundles are documented here.
 
+## [1.3.4] - 2026-11-07
+### Changed & Centralized
+- **Centralized Parameter & Defaults Repository**: All built-in parameters, URLs, filenames, container images, package manifests, kernel flags, and checksums are now centralized in \`src/config/eibDefaults.ts\` for ease of long-term maintenance and upgrade.
+- **Version-Agnostic Leap Immutable Naming**: Converted all top-level mode badges, pill labels, and documentation references from specific version "16.1" to generic "openSUSE Leap Immutable", keeping specific point release versions strictly confined to granular detail and override panels.
+
 ## [1.3.3] - 2026-11-06
 ### Changed
-- **openSUSE Leap 16.1 Immutable Base OS**: Replaced Free Mode base OS with openSUSE Leap in immutable mode (available since 16.1) featuring transactional-update and btrfs snapshot capabilities.
+- **openSUSE Leap Immutable Base OS**: Replaced Free Mode base OS with openSUSE Leap in immutable mode featuring transactional-update and btrfs snapshot capabilities.
 - **SUSE Kiwi Appliance Description**: Updated Kiwi config (\`kiwi-config/config.xml\`) to use Leap 16.1 immutable package patterns (\`patterns-base-transactional\`, \`transactional-update\`, \`btrfsprogs\`, \`snapper\`) and public Leap 16.1 OSS / Update repositories.
 - **Repository Configuration**: Injected repository specification (\`rpms/opensuse-leap.repo\`) updated to track openSUSE Leap 16.1 OSS and Update repository trees.
 - **Base Image Standard**: Standardized Free Mode base image ISO identifier to \`leap-base.iso\`.
@@ -696,7 +682,7 @@ All notable changes to the Edge Image Builder Provisioning & Execution Assistant
 ## [1.0.0] - 2026-11-04
 ### Added
 - **Interactive EIB Recipe Wizard**: Full 5-tab progressive workflow covering Environment, Versions, Kubernetes, Multi-Node Network, and Storage Customization.
-- **Environment Modes**: Dual support for Free Mode (openSUSE Leap Micro) and Commercial Mode (SLE Micro) with SCC credentials.
+- **Environment Modes**: Dual support for Free Mode (openSUSE Leap Immutable) and Commercial Mode (SLE Micro) with SCC credentials.
 - **ARM64 / aarch64 Multi-Arch**: Cross-compilation support with dynamic ISO URLs and automated QEMU user-static emulation bootstrap.
 - **SUSE Kiwi Builder Integration**: Optional containerized Kiwi pre-patching phase to compile freshly updated base ISOs.
 - **Multi-Node NMState Topologies**: Granular MAC-to-interface network mapping for up to 3 cluster nodes.

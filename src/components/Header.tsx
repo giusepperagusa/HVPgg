@@ -23,6 +23,7 @@ import {
   FolderGit2,
 } from 'lucide-react';
 import { EnvironmentMode } from '../types/eib';
+import { APP_VERSION, MODE_PILL_LABELS } from '../config/eibDefaults';
 import { ThemeMode } from '../hooks/useTheme';
 import { usePWA } from '../context/PWAContext';
 
@@ -96,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden md:block truncate">
-              Provisioning Assistant for SUSE EIB (v1.3.3)
+              Provisioning Assistant for SUSE EIB (v{APP_VERSION})
             </p>
           </div>
         </div>
@@ -132,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({
                 environmentMode === 'commercial' ? 'bg-amber-400' : 'bg-emerald-400'
               }`}
             />
-            {environmentMode === 'commercial' ? 'Commercial (SLE Micro)' : 'Free (openSUSE Leap 16.1 Immutable)'}
+            {MODE_PILL_LABELS[environmentMode]}
           </div>
 
           {/* Connectivity Pill */}

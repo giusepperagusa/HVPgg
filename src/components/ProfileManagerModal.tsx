@@ -435,7 +435,7 @@ export const ProfileManagerModal: React.FC<ProfileManagerModalProps> = ({
                   type="text"
                   value={newProfileDesc}
                   onChange={(e) => setNewProfileDesc(e.target.value)}
-                  placeholder="e.g., Leap 16.1 Immutable with RKE2 v1.31 and Metallb LB"
+                  placeholder="e.g., Leap Immutable with RKE2 v1.31 and Metallb LB"
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                 />
               </div>
@@ -573,7 +573,7 @@ export const ProfileManagerModal: React.FC<ProfileManagerModalProps> = ({
                               : 'bg-emerald-950/40 text-emerald-300 border-emerald-600/40'
                           }`}
                         >
-                          {isCommercial ? 'SLE Micro (Commercial)' : 'openSUSE Leap 16.1 (Immutable)'}
+                          {isCommercial ? 'SLE Micro (Commercial)' : 'openSUSE Leap (Immutable)'}
                         </span>
                         <span className="px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-750 font-mono">
                           K8s: {p.config.versions.k8sVersion}

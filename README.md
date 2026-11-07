@@ -22,7 +22,7 @@ This assistant automates the end-to-end recipe configuration for generating cust
 - **100% Stateless & Client-Side**: No backend servers, external tracking, or third-party databases. All cryptographic operations and file assembly occur directly in browser memory.
 - **Dynamic ZIP Workspace Compilation**: Uses `JSZip` to compile and export a complete, executable deployment bundle including `definition.yaml`, hardened `build.sh`, NMState network declarations, repository configurations, and optional Kiwi appliance specifications.
 - **Environment Modes**:
-  - **Free Mode (openSUSE Leap Micro)**: Sets `image.baseImage` to `leap-micro-base.iso`, bypasses commercial registration checks, targets public openSUSE mirrors, and dynamically generates `rpms/opensuse-leap-micro.repo`.
+  - **Free Mode (openSUSE Leap Immutable)**: Sets `image.baseImage` to `leap-base.iso`, bypasses commercial registration checks, targets public openSUSE mirrors, and dynamically generates `rpms/opensuse-leap.repo`.
   - **Commercial Mode (SUSE Linux Enterprise Micro / SLM-ICEO)**: Sets `image.baseImage` to `sl-micro-base.iso`, enables SUSE Customer Center (SCC) authentication tokens, and configures authenticated update repository mirrors.
 - **Multi-Architecture (x86_64 & ARM64 / aarch64) with Cross-Compilation Emulation**:
   - Automatically adapts ISO download endpoints and expected SHA-256 hashes when switching between architectures.
@@ -51,7 +51,7 @@ This assistant automates the end-to-end recipe configuration for generating cust
 | Component | SUSE Edge 3.6 (Current) | SUSE Edge 3.5 (Previous Stable) |
 |---|---|---|
 | **EIB Tooling Engine** | v3.6.0 | v3.5.2 |
-| **Community Base OS** | openSUSE Leap Micro 6.0 | openSUSE Leap Micro 5.5 |
+| **Community Base OS** | openSUSE Leap Immutable | openSUSE Leap Immutable |
 | **Enterprise Base OS** | SUSE Linux Enterprise Micro 6.0 | SUSE Linux Enterprise Micro 5.5 |
 | **Default RKE2 Version**| `v1.31.2+rke2r1` | `v1.30.5+rke2r1` |
 | **Default K3s Version** | `v1.31.2+k3s1` | `v1.30.5+k3s1` |
@@ -125,7 +125,7 @@ Automated workflows are located in [`.github/workflows/release.yml`](./.github/w
 - **SUSE Edge Official Documentation**: [https://documentation.suse.com/edge/](https://documentation.suse.com/edge/)
 - **EIB GitHub Project**: [https://github.com/suse-edge/edge-image-builder](https://github.com/suse-edge/edge-image-builder)
 - **NMState Network Declarations**: [https://nmstate.io/](https://nmstate.io/)
-- **openSUSE Leap Micro Portal**: [https://en.opensuse.org/Portal:LeapMicro](https://en.opensuse.org/Portal:LeapMicro)
+- **openSUSE Leap Portal**: [https://en.opensuse.org/Portal:Leap](https://en.opensuse.org/Portal:Leap)
 - **SUSE Linux Enterprise Micro**: [https://www.suse.com/products/micro/](https://www.suse.com/products/micro/)
 - **SUSE KIWI Image System**: [https://osinside.github.io/kiwi/](https://osinside.github.io/kiwi/)
 
