@@ -5,6 +5,19 @@ All notable changes to the Edge Image Builder Provisioning & Execution Assistant
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-11-07
+### Changed & Evolved
+- **Project Re-scope to HVPgg (Hardware to Value Project "green generation")**:
+  - Redefined project mission: providing an opinionated, complete, ready-to-be-used on-premises IT infrastructure appliance for Small-to-very-very-Small Business enterprises with minimal/nonexistent IT teams, focused on pure business value.
+  - Documented full evolutionary lineage: HVP (Heretic oVirt Project: legacy virtualization & AD) → HVPng (heterogeneous Fedora CoreOS + K3s, high complexity) → HVPgg (green generation: turnkey automated SUSE-technology-flavoured stack).
+- **6-Layer Value Stack Architecture Model**:
+  - Established the architectural blueprint spanning Layer 1 (Base OS), Layer 2 (K8s Foundation with embedded-etcd quorum), Layer 3 (Identity & Access Management with OIDC), Layer 4 (Cloud Workspace & Collaboration Suite), Layer 5 (Business ERP & Core Data Services), and Layer 6 (Fleet Device Management / MDM).
+- **User-Centric Wizard Redesign**:
+  - Restructured the primary wizard into 5 practical steps: Hardware Scale (01), Appliance Identity (02), Security & Updates (03), Value Stack Roadmap (04), and Build Appliance (05).
+  - Elevated user-known facts (machine count, resource tier, network IPs, support tier) to the foreground, relegating technical engine names to subtitles.
+- **Decoupled Technical Stack Dialog**:
+  - Introduced the on-demand `AdvancedStackModal` ("Component Engine & Technical Overrides") for low-level version tags, CNI selectors, and upstream Edge 3.6/3.5 baseline presets with one-click restore.
+
 ## [1.3.4] - 2026-11-07
 ### Changed & Centralized
 - **Centralized Parameter & Defaults Repository**: Centralized all built-in parameters, URLs, filenames, container images, package manifests, and checksums in `src/config/eibDefaults.ts` to ensure ease of long-term maintenance, auditing, and upgrading.

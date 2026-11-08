@@ -272,7 +272,7 @@ export async function serializeProfileToEncryptedYaml(
 # Schema Ver   : ${CURRENT_PROFILE_SCHEMA_VERSION}
 #
 # NOTE: This file is password-protected. The passphrase chosen during export
-# will be required to decrypt and import this profile back into EIB-PEA.
+# will be required to decrypt and import this profile back into HVPgg Wizard.
 # ==============================================================================
 
 ${yamlBody}

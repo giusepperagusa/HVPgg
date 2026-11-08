@@ -1,6 +1,6 @@
 {
-  "name": "Edge Image Builder Assistant",
-  "description": "Independent community Provisioning & Execution Assistant (PEA) for SUSE EIB, generating hardened Kubernetes appliance ISO recipes.",
+  "name": "HVPgg Wizard",
+  "description": "Interactive appliance builder for HVPgg (Hardware to Value Project \"green generation\"), kickstarting turnkey on-premises IT infrastructure with automated EIB recipes.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

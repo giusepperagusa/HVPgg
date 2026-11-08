@@ -146,7 +146,7 @@ export const PWAUpdateNotification: React.FC = () => {
         >
           <WifiOff className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
           <span>
-            <strong>Offline Mode Active:</strong> SUSE Edge EIB-PEA is running entirely from local device cache. All recipe configurations and ZIP export tools are fully operational.
+            <strong>Offline Mode Active:</strong> HVPgg Wizard is running entirely from local device cache. All recipe configurations and ZIP export tools are fully operational.
           </span>
         </aside>
       )}
@@ -162,7 +162,7 @@ export const PWAUpdateNotification: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white">Install on iPad / iPhone</h3>
-                  <p className="text-[11px] text-slate-400">Run SUSE EIB-PEA as a native app</p>
+                  <p className="text-[11px] text-slate-400">Run HVPgg Wizard as a native app</p>
                 </div>
               </div>
               <button

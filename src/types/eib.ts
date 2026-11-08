@@ -2,8 +2,8 @@
  * @license
  * SPDX-License-Identifier: AGPL-3.0-only
  * 
- * Data models and preset types for SUSE Edge Image Builder (EIB)
- * Provisioning & Execution Assistant (PEA).
+ * Data models and preset types for HVPgg Wizard
+ * (Hardware to Value Project "green generation" Appliance Builder).
  */
 
 export type EnvironmentMode = 'free' | 'commercial';

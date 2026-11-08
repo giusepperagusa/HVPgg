@@ -8,7 +8,7 @@
  * This file serves as the single source of truth for all built-in parameters,
  * version presets, container images, download endpoints, cryptographic checksums,
  * Zypper repository structures, and default configuration states used throughout
- * the Edge Image Builder Provisioning & Execution Assistant (EIB-PEA).
+ * the HVPgg Wizard (Hardware to Value Project "green generation" Appliance Builder).
  * 
  * Future maintainers and AI assistants should edit THIS FILE to:
  * - Update SUSE Edge generation baselines (e.g., adding Edge 3.7 or updating 3.6)
@@ -34,9 +34,10 @@ import {
 
 export const APP_METADATA = {
   version: '1.4.0',
-  name: 'HVPgg',
-  fullName: 'Hardware to Value Project "green generation"',
-  shortName: 'HVPgg',
+  name: 'HVPgg Wizard',
+  fullName: 'HVPgg Wizard • Hardware to Value Project "green generation"',
+  projectSuite: 'HVPgg (Hardware to Value Project "green generation")',
+  shortName: 'HVPgg Wizard',
   tagline: 'Turnkey On-Premises IT Infrastructure for Small Businesses',
   description: 'An opinionated, turnkey, hardware-based IT infrastructure appliance generator for small business enterprises, powered by best-of-breed open source solutions and automated SUSE Edge provisioning.',
   lineage: {

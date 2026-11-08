@@ -2,8 +2,8 @@
  * @license
  * SPDX-License-Identifier: AGPL-3.0-only
  * 
- * Main Application Component for SUSE Edge Image Builder (EIB)
- * Provisioning & Execution Assistant (PEA).
+ * HVPgg Wizard — Interactive Appliance Builder for HVPgg
+ * (Hardware to Value Project "green generation")
  */
 
 import React, { useState, useMemo, useCallback } from 'react';

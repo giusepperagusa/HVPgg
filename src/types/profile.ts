@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: AGPL-3.0-only
  * 
- * Profile Management & Export/Import Data Models for SUSE Edge EIB-PEA.
+ * Profile Management & Export/Import Data Models for HVPgg Wizard.
  * Designed with backward and forward schema compatibility.
  */
 

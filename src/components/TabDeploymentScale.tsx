@@ -22,6 +22,7 @@ import {
   Lock,
   Unlock,
   AlertCircle,
+  AlertTriangle,
 } from 'lucide-react';
 import {
   EIBConfigState,
@@ -372,8 +373,16 @@ export const TabDeploymentScale: React.FC<TabDeploymentScaleProps> = ({
               <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                 For organizations with critical workloads requiring official enterprise SLAs, certified regulatory compliance, and SUSE Customer Center support channels.
               </p>
+
+              {/* Explicit Supportability Notice (Always Visible) */}
+              <div className="mt-3 p-2 rounded-lg bg-amber-950/50 border border-amber-600/40 text-[11px] text-amber-200/90 flex items-start gap-1.5 leading-normal">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Supportability Notice:</strong> Even when using valid SCC credentials, actual supportability of the resulting build artifacts and deployed systems must be verified directly with SUSE.
+                </span>
+              </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+            <div className="mt-4 pt-3 border-t border-slate-850 text-[11px] text-slate-400 flex items-center justify-between">
               <span>Operating System:</span>
               <span className="text-amber-400 font-mono font-medium">SLE Micro (Commercial)</span>
             </div>

@@ -278,7 +278,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenAbout}
             className="p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition"
-            title="About EIB-PEA & AGPL-3.0 License"
+            title="About HVPgg Wizard & AGPL-3.0 License"
             aria-label="Open About and License Modal"
           >
             <Info className="w-4 h-4" />
