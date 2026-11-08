@@ -33,7 +33,7 @@ import {
  * ============================================================================== */
 
 export const APP_METADATA = {
-  version: '1.4.0',
+  version: '1.4.1',
   name: 'HVPgg Wizard',
   fullName: 'HVPgg Wizard • Hardware to Value Project "green generation"',
   projectSuite: 'HVPgg (Hardware to Value Project "green generation")',
@@ -57,7 +57,7 @@ export const APP_METADATA = {
       desc: 'SUSE-technology-flavoured ("green" chameleon heritage) evolution: opinionated, turnkey, minimal user friction, small-business value focused.',
     },
   },
-  buildDate: '2026-11-07',
+  buildDate: '2026-11-08',
   license: 'AGPL-3.0-only',
   licenseName: 'GNU Affero General Public License v3.0',
 } as const;

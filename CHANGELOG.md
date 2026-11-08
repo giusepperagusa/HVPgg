@@ -1,9 +1,17 @@
 # Changelog
 
-All notable changes to the Edge Image Builder Provisioning & Execution Assistant (EIB-PEA) are documented in this file.
+All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "green generation") infrastructure platform are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.1] - 2026-11-08
+### Changed & Pruned
+- **Dependency Audit & Pruning**: Removed unused runtime and build packages (`@google/genai`, `motion`, `express`, `dotenv`, and `@types/express`), reducing bundle surface and avoiding unnecessary dependencies.
+- **Component & License Catalog Synchronized**: Updated in-app package catalog and documentation in `AboutModal` to mirror the streamlined dependency tree.
+- **Always-Visible Supportability Notice**: Added an explicit, persistent warning box inside the "Enterprise Production" card on Step 01 to emphasize that commercial supportability must be verified directly with SUSE even when utilizing valid SCC credentials.
+- **Project Suite vs. Provisioning Tool Distinction**: Formally distinguished between the overarching *HVPgg* project (which encompasses the 6-layer architecture, future software selections, and installed systems) and *HVPgg Wizard* (the client-side browser app for kickstarting infrastructure ISO generation via EIB).
+- **Metadata Alignment**: Updated `metadata.json`, `<title>`, and documentation headers to reflect *HVPgg Wizard*.
 
 ## [1.4.0] - 2026-11-07
 ### Changed & Evolved

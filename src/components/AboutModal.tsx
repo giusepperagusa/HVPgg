@@ -88,38 +88,6 @@ const PACKAGES_CATALOG: PackageInfo[] = [
     purpose: 'Lightweight SVG system iconography and accessibility graphics',
     homepage: 'https://lucide.dev',
   },
-  {
-    name: 'motion',
-    version: '12.23.24',
-    license: 'MIT',
-    category: 'runtime',
-    purpose: 'Hardware-accelerated fluid transitions and accessible UI animations',
-    homepage: 'https://motion.dev',
-  },
-  {
-    name: '@google/genai',
-    version: '2.4.0',
-    license: 'Apache-2.0',
-    category: 'runtime',
-    purpose: 'Official Google GenAI SDK interface',
-    homepage: 'https://github.com/googleapis/genai-js',
-  },
-  {
-    name: 'express',
-    version: '4.21.2',
-    license: 'MIT',
-    category: 'runtime',
-    purpose: 'Server-side Node.js micro-framework (for full-stack dev/preview hosting)',
-    homepage: 'https://expressjs.com',
-  },
-  {
-    name: 'dotenv',
-    version: '17.2.3',
-    license: 'BSD-2-Clause',
-    category: 'runtime',
-    purpose: 'Zero-dependency environment variables loader',
-    homepage: 'https://github.com/motdotla/dotenv',
-  },
 
   // CDN Libraries with Subresource Integrity (SRI)
   {
@@ -638,13 +606,49 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.4.0 */}
+              {/* Release 1.4.1 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-emerald-500/50 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.4.0</span>
+                    <span className="font-mono font-bold text-base text-white">v1.4.1</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Library Pruning & Hardening
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-08</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Dependency Optimization, Component Catalog Audit & Supportability Advisory
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Dependency Pruning:</strong> Audited codebase and removed unused embedded libraries and types (<code className="font-mono text-cyan-300">@google/genai</code>, <code className="font-mono text-cyan-300">motion</code>, <code className="font-mono text-cyan-300">express</code>, <code className="font-mono text-cyan-300">dotenv</code>, <code className="font-mono text-cyan-300">@types/express</code>), strictly maintaining only active production dependencies.
+                    </li>
+                    <li>
+                      <strong>Component & License Catalog Synchronized:</strong> Updated in-app dependency catalog to reflect the cleaned package inventory with verified license metadata and SRI hashes.
+                    </li>
+                    <li>
+                      <strong>Always-Visible Commercial Supportability Notice:</strong> Added an explicit advisory note to the "Enterprise Production" card in Step 01 reminding operators that actual supportability must be verified directly with SUSE even when utilizing valid SCC credentials.
+                    </li>
+                    <li>
+                      <strong>Project vs. App Naming Alignment:</strong> Clarified the distinction between <em>HVPgg</em> (the overarching turnkey small-business on-premises infrastructure project) and <em>HVPgg Wizard</em> (the interactive client-side provisioning web app).
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.4.0 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.4.0</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                       HVPgg Launch

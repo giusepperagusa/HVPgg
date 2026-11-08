@@ -1,7 +1,7 @@
 {
-  "version": "1.4.0",
-  "name": "HVPgg (Hardware to Value Project \"green generation\")",
-  "shortName": "HVPgg",
-  "buildTime": "2026-11-07T13:30:00Z",
-  "releaseNotes": "Project evolved to HVPgg (Hardware to Value Project 'green generation'). Reworked interface to present practical business decisions in the foreground with technical terms relegated to subtitles, tooltips, and an on-demand advanced stack configuration dialog. Established extensible 6-layer architecture roadmap."
+  "version": "1.4.1",
+  "name": "HVPgg Wizard (Hardware to Value Project \"green generation\")",
+  "shortName": "HVPgg Wizard",
+  "buildTime": "2026-11-08T09:00:00Z",
+  "releaseNotes": "Audit and removal of unused dependencies (@google/genai, motion, express, dotenv, @types/express). Updated embedded component and license catalog. Added always-visible commercial supportability advisory in Step 01."
 }
