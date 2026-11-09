@@ -78,9 +78,9 @@ export const TabsNav: React.FC<TabsNavProps> = ({
   return (
     <nav
       aria-label="Provisioning Wizard Steps"
-      className="bg-slate-900/60 border-b border-slate-800 p-2 sm:p-3 overflow-x-auto"
+      className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-2 sm:p-2.5 overflow-x-auto lg:sticky lg:top-[72px] lg:z-30 transition-all shadow-sm"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 min-w-[700px] lg:min-w-0">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 min-w-[650px] lg:min-w-0">
         {STEPS.map((step, idx) => {
           const isActive = currentTab === step.id;
           const isDone = completedTabs[step.id];

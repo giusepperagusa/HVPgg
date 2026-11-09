@@ -624,6 +624,11 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "green generation") infrastructure platform are documented here.
 
+## [1.4.3] - 2026-11-09
+### Changed & Enhanced
+- **Responsive Sticky Header & Stage Navigation**: Pinned title bar and 5-stage progression bar to the top on desktop displays (\`lg:sticky\`), while preserving standard natural scrolling on mobile/tablet devices (<1024px) to protect vertical viewport height for forms and keyboards.
+- **Docked Stage Navigation Bar (\`BottomNavDock\`)**: Introduced a bottom navigation dock with quick Back / Next buttons, stage progression indicator, and secondary modal launchers (Guide, Lineage & About, Component Engine Overrides).
+
 ## [1.4.2] - 2026-11-09
 ### Changed & Refined
 - **Header De-cluttering**: Removed the standalone "Online" connectivity badge and the "Free / Commercial" mode badge from the top header to maximize focus and reduce clutter.

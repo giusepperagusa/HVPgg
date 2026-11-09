@@ -609,14 +609,44 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.4.2 */}
+              {/* Release 1.4.3 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-emerald-500/50 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.4.2</span>
+                    <span className="font-mono font-bold text-base text-white">v1.4.3</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
                     </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Responsive Sticky Navigation & Dock
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-09</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Responsive Sticky Header, 5-Stage Step Bar & Bottom Navigation Dock
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Responsive Sticky Top Header:</strong> On desktop and laptop screens (&ge;1024px), the top title bar and the 5-stage wizard progression bar pin smoothly to the top of the viewport (<code className="font-mono text-cyan-300">lg:sticky</code>), ensuring the active step context and progress checkmarks remain always in sight.
+                    </li>
+                    <li>
+                      <strong>Mobile Viewport Protection:</strong> On mobile devices and smaller tablets (&lt;1024px), the header and stage bar follow natural page scrolling, avoiding viewport starvation and leaving 100% of vertical screen space for form fields and keyboards.
+                    </li>
+                    <li>
+                      <strong>Floating Bottom Navigation Dock:</strong> Added a persistent bottom navigation dock (<code className="font-mono text-cyan-300">BottomNavDock</code>) with Back / Next step advancement buttons, current stage counter, and quick launchers for documentation and component overrides.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.4.2 */}
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.4.2</span>
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                       UX Streamlining & Accessibility
                     </span>

@@ -1,7 +1,8 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.3",
   "name": "HVPgg Wizard (Hardware to Value Project \"green generation\")",
   "shortName": "HVPgg Wizard",
-  "buildTime": "2026-11-09T18:30:00Z",
-  "releaseNotes": "Streamlined top-of-page header by removing redundant Online and Mode badges, combined offline awareness into update checker, added Escape key dismissal to all modals, and audited full keyboard accessibility."
+  "buildTime": "2026-11-09T18:45:00Z",
+  "releaseNotes": "Implemented responsive sticky header & 5-stage progression bar on desktop (natural scrolling on mobile), combined with a floating bottom navigation dock for rapid stage advancement and modal launchers."
 }
+

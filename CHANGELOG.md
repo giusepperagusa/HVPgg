@@ -5,6 +5,15 @@ All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "gr
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.3] - 2026-11-09
+### Changed & Enhanced
+- **Responsive Sticky Header & Stage Navigation**:
+  - Implemented responsive top positioning: on desktop/laptop displays (`lg:` breakpoint), the primary header and the 5-stage progression bar stick seamlessly to the top (`lg:sticky lg:top-0` and `lg:sticky lg:top-[72px]`), keeping current stage context and progress checkmarks always in view.
+  - On mobile/tablet screens (`< 1024px`), both bars scroll naturally with standard document flow, preserving 100% of vertical screen height for form inputs, network configuration, and on-screen keyboards.
+- **Docked Stage Navigation Bar (`BottomNavDock`)**:
+  - Introduced a streamlined bottom navigation dock with quick Back / Next stage advancement buttons and dynamic stage indicator (`Stage 0X / 05`).
+  - Relocated secondary launcher shortcuts (Hardware Guide, Lineage & About, Component Engine Overrides) into the navigation dock to reduce top-of-page visual clutter while remaining accessible at all times.
+
 ## [1.4.2] - 2026-11-09
 ### Changed & Refined
 - **Header De-cluttering**: Removed the standalone "Online" connectivity badge and the "Free / Commercial" mode badge from the header. The mode is already summarized inside the Profile Management dialog.
