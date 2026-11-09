@@ -624,6 +624,11 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "green generation") infrastructure platform are documented here.
 
+## [1.4.5] - 2026-11-09
+### Changed & Hardened
+- **Codified Directives for Future AI & Human Engineers**: Documented Directives 10 (Strict Accessibility), 11 (Minimal Dependencies), and 12 (Viewport Ergonomics & Clean UI) in \`AI_MAINTENANCE_GUIDELINES.md\` and \`README.md\`.
+- **Eliminated Elastic Screen Bouncing**: Configured W3C standard \`overscroll-behavior: none\` on \`html, body\` in global styles, preventing trackpads and touchscreens from rubber-banding beyond document edges and exposing white borders.
+
 ## [1.4.4] - 2026-11-09
 ### Changed & Consolidated
 - **Deduplicated Stage Controls**: Removed duplicate Back/Next buttons inside form scroll bodies across Steps 01 to 05, making the sticky bottom dock the single authoritative navigation bar.

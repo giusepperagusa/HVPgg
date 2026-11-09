@@ -5,6 +5,15 @@ All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "gr
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.5] - 2026-11-09
+### Changed & Hardened
+- **Codified Directives for Future AI & Human Engineers**:
+  - Expanded `AI_MAINTENANCE_GUIDELINES.md` with Directive 10 (Strict Accessibility Standards: keyboard navigation, visible focus rings, ARIA semantic roles, universal <kbd>Escape</kbd> dismissal via `useModalDismiss`), Directive 11 (Minimal Dependencies & Zero-Slop Discipline), and Directive 12 (Viewport Ergonomics & Responsive Clean UI Design).
+  - Synchronized developer maintenance checklist and architecture directives in `README.md`.
+- **Eliminated Elastic Screen Bouncing & Rubber-Banding**:
+  - Configured standard W3C `overscroll-behavior-y: none` and `overscroll-behavior-x: none` on `html, body` in `src/index.css`.
+  - Prevents the viewport from elastically bouncing beyond document boundaries on macOS trackpads, iOS Safari, and touchscreens, eliminating unsightly white/empty gaps over the top and below the bottom without JavaScript hacks or layout compromises.
+
 ## [1.4.4] - 2026-11-09
 ### Changed & Consolidated
 - **Deduplicated Stage Navigation**: Removed duplicate Back and Next buttons from the scrollable form bodies of Steps 01, 02, 03, 04, and 05, establishing the persistent bottom dock as the single authoritative navigation bar.

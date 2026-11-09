@@ -1,9 +1,10 @@
 {
-  "version": "1.4.4",
+  "version": "1.4.5",
   "name": "HVPgg Wizard (Hardware to Value Project \"green generation\")",
   "shortName": "HVPgg Wizard",
-  "buildTime": "2026-11-09T19:05:00Z",
-  "releaseNotes": "Unified bottom navigation and footer: deduplicated Next/Back buttons from scrollable forms, removed ghost lower footer by merging AGPL-3.0 attribution into the bottom dock, eliminated redundant Component Engine button on Step 01, and deduplicated dialog tooltips."
+  "buildTime": "2026-11-09T19:25:00Z",
+  "releaseNotes": "Codified accessibility standards, minimal dependency discipline, and viewport guidelines in AI_MAINTENANCE_GUIDELINES.md and README.md. Eliminated elastic screen bounce/rubber-banding via W3C overscroll-behavior: none."
 }
+
 
 

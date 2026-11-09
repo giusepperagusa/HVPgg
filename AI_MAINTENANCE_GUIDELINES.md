@@ -93,6 +93,24 @@ This document serves as the **master knowledge base and operational constitution
 - **Unified Server Roles**: All active nodes in both 1-node and 3-node configurations operate as unified control-plane + worker nodes (`role: 'master'`, `type: 'server'`), avoiding dedicated non-workload control plane hardware at the edge.
 - **Schema Normalization**: If an imported legacy profile contains 2 enabled nodes, `normalizeEIBConfig` automatically promotes it to 3 nodes (`node2.enabled: true, node3.enabled: true`) to satisfy the Raft quorum requirement.
 
+### Directive 10: Strict Accessibility Standards (Keyboard Navigation & Universal Esc Dismissal)
+- **Keyboard Operability & Tab Order**: Every interactive element (buttons, tabs, inputs, selects, switches, modal dialogs) must be fully navigable via keyboard (<kbd>Tab</kbd>, <kbd>Shift+Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd>).
+- **Visible Focus Rings**: All controls must display clear, high-contrast focus rings (`focus:ring-2 focus:ring-emerald-500 outline-none`). Never remove focus outlines without providing an accessible alternative.
+- **Universal Modal Dismissal (`Esc` Key)**: Every modal dialog, slide-over, or alert overlay MUST implement the `useModalDismiss` hook (`src/hooks/useModalDismiss.ts`). Pressing <kbd>Escape</kbd> must immediately close the dialog cleanly without leaving stray backdrops or broken body scroll locks.
+- **Semantic ARIA Roles**: All dialogs must declare `role="dialog"` or `role="alertdialog"`, appropriate `aria-labelledby`, and `aria-describedby` tags. Step indicators must declare `aria-current="step"`.
+- **High-Contrast Theme Mode**: The application includes a designated High Visibility theme (`.high-contrast`) guaranteeing minimum WCAG AAA contrast ratios for industrial and low-vision environments.
+
+### Directive 11: Dependency Pruning & Zero-Slop Library Discipline
+- **Minimal Dependencies Policy**: The application must remain lightweight, fast-loading, and completely auditable. Never add external npm dependencies if a feature can be accomplished cleanly using standard Web APIs (DOM, Web Crypto, Fetch, CSS).
+- **Prohibited Additions**: Do not introduce heavy animation runtimes (`framer-motion`, `lottie`), redundant HTTP clients (`axios`), or backend shims (`express`, `dotenv`) on client-only surfaces.
+- **Single Source of Truth Catalog**: The in-app Component & License Catalog (`src/components/AboutModal.tsx`) and `README.md` must be kept strictly synchronized with `package.json`. If a package is pruned, it must be removed from the catalog; if an essential package is added, it must be documented alongside its version, purpose, and license.
+
+### Directive 12: Viewport Ergonomics & Responsive Clean UI Design
+- **Responsive Sticky Top Header**: On desktop screens (`lg: >= 1024px`), pin the application header (`sticky top-0 z-40`) and 5-stage progression bar (`lg:sticky lg:top-[72px] lg:z-30`) so operators retain step context and completed checkmarks while scrolling long configuration forms.
+- **Mobile Viewport Protection**: On viewports `< 1024px`, the header and stage bar MUST scroll naturally with document flow to prevent vertical viewport starvation on laptops/tablets and avoid keyboard obstruction on mobile devices.
+- **Single Authoritative Navigation Dock**: All stage progression (`Back` / `Next` / `Download ZIP`) and essential legal attribution are unified in the persistent bottom dock (`BottomNavDock`). Do not duplicate navigation buttons inside the scrollable form cards or re-introduce disjointed secondary footers.
+- **Standard W3C Overscroll Containment**: Apply `overscroll-behavior: none` to `html, body` to eliminate disorienting elastic rubber-banding beyond document edges and prevent unintended mobile pull-to-refresh without JavaScript hacks.
+
 ---
 
 ## 3. Domain Logic & UX Workflow Matrix

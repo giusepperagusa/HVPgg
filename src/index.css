@@ -10,6 +10,15 @@
     --color-suse-dark-green: #027A48;
   }
 
+  /* Standard W3C Overscroll Behavior:
+   * Prevents elastic rubber-banding / bounce beyond document scroll limits
+   * and disables browser pull-to-refresh on mobile/trackpads cleanly without JS hacks.
+   */
+  html, body {
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+  }
+
   /* High Visibility Accessibility Overrides */
   .high-contrast {
     filter: contrast(1.15);

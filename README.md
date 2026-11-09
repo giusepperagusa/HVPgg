@@ -117,6 +117,9 @@ For developers, maintainers, and future AI assistants, see the comprehensive [AI
 - Universal subpath publishing (`base: './'`).
 - Multi-architecture QEMU binfmt emulation rules.
 - Pinned SRI CDN hashes and supply-chain integrity controls.
+- **Strict Accessibility Standards (a11y)**: Full keyboard navigation, visible focus rings, ARIA roles, and universal <kbd>Escape</kbd> modal dismissal via `useModalDismiss`.
+- **Minimal Dependencies & Zero-Slop Discipline**: Maintain a lean, pruned package manifest without heavy unnecessary runtimes, keeping the in-app license catalog strictly in sync with `package.json`.
+- **Viewport Ergonomics & Clean UI Design**: Responsive sticky navigation on desktop with mobile viewport protection, unified bottom navigation dock, and standard W3C `overscroll-behavior: none` containment against elastic screen bouncing.
 - Tested component matrix updates and version bump enforcement.
 
 ---
