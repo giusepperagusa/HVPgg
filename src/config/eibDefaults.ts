@@ -33,7 +33,7 @@ import {
  * ============================================================================== */
 
 export const APP_METADATA = {
-  version: '1.4.3',
+  version: '1.4.4',
   name: 'HVPgg Wizard',
   fullName: 'HVPgg Wizard • Hardware to Value Project "green generation"',
   projectSuite: 'HVPgg (Hardware to Value Project "green generation")',

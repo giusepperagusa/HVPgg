@@ -22,16 +22,12 @@ import { EIBConfigState } from '../types/eib';
 interface TabSecurityAutomationProps {
   config: EIBConfigState;
   onChange: (updater: (prev: EIBConfigState) => EIBConfigState) => void;
-  onNext: () => void;
-  onPrev: () => void;
   onOpenAdvancedStack: () => void;
 }
 
 export const TabSecurityAutomation: React.FC<TabSecurityAutomationProps> = ({
   config,
   onChange,
-  onNext,
-  onPrev,
   onOpenAdvancedStack,
 }) => {
   return (
@@ -206,24 +202,6 @@ export const TabSecurityAutomation: React.FC<TabSecurityAutomationProps> = ({
         </p>
       </div>
 
-      {/* Navigation Footer */}
-      <div className="flex items-center justify-between pt-4">
-        <button
-          type="button"
-          onClick={onPrev}
-          className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition"
-        >
-          &larr; Back
-        </button>
-        <button
-          type="button"
-          onClick={onNext}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition active:scale-95"
-        >
-          <span>Next: HVPgg Value Stack Roadmap</span>
-          <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
     </div>
   );
 };

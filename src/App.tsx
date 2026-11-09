@@ -124,7 +124,6 @@ export default function App() {
           <TabDeploymentScale
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('identity')}
             onOpenAdvancedStack={() => setIsAdvancedStackOpen(true)}
           />
         )}
@@ -133,8 +132,6 @@ export default function App() {
           <TabApplianceIdentity
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('security')}
-            onPrev={() => setCurrentTab('deployment')}
           />
         )}
 
@@ -142,8 +139,6 @@ export default function App() {
           <TabSecurityAutomation
             config={config}
             onChange={setConfig}
-            onNext={() => setCurrentTab('roadmap')}
-            onPrev={() => setCurrentTab('identity')}
             onOpenAdvancedStack={() => setIsAdvancedStackOpen(true)}
           />
         )}
@@ -151,64 +146,23 @@ export default function App() {
         {currentTab === 'roadmap' && (
           <TabValueStackRoadmap
             config={config}
-            onNext={() => setCurrentTab('export')}
-            onPrev={() => setCurrentTab('security')}
           />
         )}
 
         {currentTab === 'export' && (
           <TabExport
             config={config}
-            onPrev={() => setCurrentTab('roadmap')}
           />
         )}
       </main>
 
-      {/* Floating / Docked Stage Navigation Controls */}
+      {/* Integrated Sticky Stage Navigation & Unified Footer */}
       <BottomNavDock
         currentTab={currentTab}
         onSelectTab={setCurrentTab}
-        onOpenAdvancedStack={() => setIsAdvancedStackOpen(true)}
-        onOpenDocs={() => setIsDocsOpen(true)}
         onOpenAbout={() => setIsAboutOpen(true)}
         onQuickExport={handleQuickExport}
       />
-
-      {/* Global Application Footer */}
-      <footer className="border-t border-slate-850 bg-slate-900/60 py-4 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>
-            HVPgg (Hardware to Value Project "green generation") • Licensed under{' '}
-            <button
-              onClick={() => setIsAboutOpen(true)}
-              className="text-emerald-400 hover:underline font-semibold"
-            >
-              AGPL-3.0
-            </button>
-            {' '}• Independent Open Source Appliance
-          </p>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setIsDocsOpen(true)}
-              className="hover:text-slate-300 transition"
-            >
-              Hardware Guide
-            </button>
-            <button
-              onClick={() => setIsAboutOpen(true)}
-              className="hover:text-slate-300 transition"
-            >
-              HVP Lineage & About
-            </button>
-            <button
-              onClick={() => setIsAdvancedStackOpen(true)}
-              className="hover:text-emerald-400 transition"
-            >
-              Component Engine
-            </button>
-          </div>
-        </div>
-      </footer>
 
       {/* Modals */}
       <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />

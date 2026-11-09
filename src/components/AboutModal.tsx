@@ -609,14 +609,47 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.4.3 */}
+              {/* Release 1.4.4 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-emerald-500/50 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.4.3</span>
+                    <span className="font-mono font-bold text-base text-white">v1.4.4</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
                     </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Bottom Dock & Footer Consolidation
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-09</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Navigation Deduplication, Unified Footer & Tooltip Cleanup
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Deduplicated Stage Controls:</strong> Removed redundant Back/Next buttons inside form scroll areas, leaving the sticky bottom dock as the single, authoritative stage navigation bar.
+                    </li>
+                    <li>
+                      <strong>Eliminated Ghost Secondary Footer:</strong> Merged project identity, AGPL-3.0 license trigger, and non-affiliation notice directly into the bottom dock, removing the jarring secondary footer that only appeared on full scroll.
+                    </li>
+                    <li>
+                      <strong>Step 01 Button Cleanup:</strong> Removed the empty-slot "Component Engine" button placeholder on Step 01, leaving the established in-form link for component version overrides.
+                    </li>
+                    <li>
+                      <strong>Deduplicated Dialog Tooltips:</strong> Kept Documentation and About modal launchers in the primary header and removed redundant duplicates from the bottom dock to ensure clean, consistent tooltips.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.4.3 */}
+              <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.4.3</span>
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                       Responsive Sticky Navigation & Dock
                     </span>

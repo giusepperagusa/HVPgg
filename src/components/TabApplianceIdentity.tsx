@@ -23,15 +23,11 @@ import { EIBConfigState, TargetDisk } from '../types/eib';
 interface TabApplianceIdentityProps {
   config: EIBConfigState;
   onChange: (updater: (prev: EIBConfigState) => EIBConfigState) => void;
-  onNext: () => void;
-  onPrev: () => void;
 }
 
 export const TabApplianceIdentity: React.FC<TabApplianceIdentityProps> = ({
   config,
   onChange,
-  onNext,
-  onPrev,
 }) => {
   const isHA = config.nodes.node2.enabled && config.nodes.node3.enabled;
 
@@ -437,24 +433,6 @@ export const TabApplianceIdentity: React.FC<TabApplianceIdentityProps> = ({
         )}
       </div>
 
-      {/* Navigation Footer */}
-      <div className="flex items-center justify-between pt-4">
-        <button
-          type="button"
-          onClick={onPrev}
-          className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition"
-        >
-          &larr; Back
-        </button>
-        <button
-          type="button"
-          onClick={onNext}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition active:scale-95"
-        >
-          <span>Next: Connectivity & OS Updates</span>
-          <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
     </div>
   );
 };

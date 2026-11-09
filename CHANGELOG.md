@@ -5,6 +5,13 @@ All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "gr
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4] - 2026-11-09
+### Changed & Consolidated
+- **Deduplicated Stage Navigation**: Removed duplicate Back and Next buttons from the scrollable form bodies of Steps 01, 02, 03, 04, and 05, establishing the persistent bottom dock as the single authoritative navigation bar.
+- **Unified Bottom Bar & Ghost Footer Elimination**: Merged the project copyright, AGPL-3.0 license trigger, and non-affiliation notice directly into `BottomNavDock`, completely removing the lower secondary footer that previously only appeared on extreme scroll.
+- **Removed Redundant Step 01 Component Engine Placeholder**: Eliminated the redundant "Component Engine" button from the left side of the bottom dock on Step 01, leaving the canonical access path inside Step 01's form body ("Looking for specific component versions? Open Advanced Stack Overrides").
+- **Deduplicated Dialog Tooltips**: Retained Documentation and About modal launchers in the primary header and removed redundant duplicates from the bottom dock to ensure clean, consistent tooltips and clear visual hierarchy.
+
 ## [1.4.3] - 2026-11-09
 ### Changed & Enhanced
 - **Responsive Sticky Header & Stage Navigation**:

@@ -2,8 +2,7 @@
  * @license
  * SPDX-License-Identifier: AGPL-3.0-only
  * 
- * Floating/Docked Wizard Navigation Bar with quick Prev/Next stage controls
- * and quick modal launchers to streamline screen estate.
+ * Floating/Docked Wizard Navigation Bar with stage controls and merged legal/licensing metadata.
  */
 
 import React from 'react';
@@ -11,18 +10,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
-  BookOpen,
-  Info,
-  Layers,
-  Sparkles,
 } from 'lucide-react';
 import { WizardTab } from './TabsNav';
 
 interface BottomNavDockProps {
   currentTab: WizardTab;
   onSelectTab: (tab: WizardTab) => void;
-  onOpenAdvancedStack?: () => void;
-  onOpenDocs?: () => void;
   onOpenAbout?: () => void;
   onQuickExport?: () => void;
 }
@@ -38,8 +31,6 @@ const TAB_ORDER: { id: WizardTab; label: string; stepNumber: string }[] = [
 export const BottomNavDock: React.FC<BottomNavDockProps> = ({
   currentTab,
   onSelectTab,
-  onOpenAdvancedStack,
-  onOpenDocs,
   onOpenAbout,
   onQuickExport,
 }) => {
@@ -48,42 +39,32 @@ export const BottomNavDock: React.FC<BottomNavDockProps> = ({
   const nextTab = currentIndex < TAB_ORDER.length - 1 ? TAB_ORDER[currentIndex + 1] : null;
 
   return (
-    <aside
-      aria-label="Appliance Builder Step Navigation"
-      className="sticky bottom-0 z-30 w-full bg-slate-900/95 backdrop-blur-md border-t border-slate-800 shadow-2xl py-2.5 px-4 sm:px-6 lg:px-8 transition-all"
+    <footer
+      aria-label="Appliance Builder Step Navigation & License"
+      className="sticky bottom-0 z-30 w-full bg-slate-900/95 backdrop-blur-md border-t border-slate-800 shadow-2xl py-2 px-4 sm:px-6 lg:px-8 transition-all"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-        {/* Left: Previous Step or Quick Overrides Link */}
-        <div className="flex items-center gap-2">
+        {/* Left: Previous Step (or empty placeholder to preserve flex balance) */}
+        <div className="flex items-center min-w-[90px] sm:min-w-[150px]">
           {prevTab ? (
             <button
               type="button"
               onClick={() => onSelectTab(prevTab.id)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 hover:border-slate-600 transition active:scale-95 shadow-sm"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 hover:border-slate-600 transition active:scale-95 shadow-sm"
               aria-label={`Go back to Step ${prevTab.stepNumber}: ${prevTab.label}`}
             >
               <ChevronLeft className="w-4 h-4 text-slate-400" />
               <span className="hidden sm:inline">Back:</span>
               <span className="text-white font-medium">{prevTab.label}</span>
             </button>
-          ) : onOpenAdvancedStack ? (
-            <button
-              type="button"
-              onClick={onOpenAdvancedStack}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-emerald-400 hover:bg-slate-800/60 border border-transparent hover:border-slate-700 transition"
-              title="Inspect or override exact engine versions and baseline presets"
-            >
-              <Layers className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Component Engine</span>
-            </button>
           ) : null}
         </div>
 
-        {/* Center: Stage Progress & Dialog Shortcut Links */}
-        <div className="flex items-center gap-4">
+        {/* Center: Stage Progress Counter & Integrated License/Attribution */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 text-center min-w-0">
           {/* Quick step counter badge */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
-            <span className="hidden md:inline text-slate-500">Stage:</span>
+          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+            <span className="hidden md:inline text-slate-500">Stage</span>
             <span className="text-emerald-400 font-bold">{TAB_ORDER[currentIndex]?.stepNumber}</span>
             <span className="text-slate-600">/</span>
             <span>05</span>
@@ -92,40 +73,34 @@ export const BottomNavDock: React.FC<BottomNavDockProps> = ({
             </span>
           </div>
 
-          {/* Quick Utility Links moved to footer to de-clutter header */}
-          <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-slate-800">
-            {onOpenDocs && (
-              <button
-                type="button"
-                onClick={onOpenDocs}
-                className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded hover:bg-slate-800"
-                title="View Hardware & Provisioning Guide"
-              >
-                <BookOpen className="w-3 h-3 text-cyan-400" />
-                <span>Guide</span>
-              </button>
-            )}
-            {onOpenAbout && (
+          {/* Unified Project attribution & license (merged from legacy lower footer) */}
+          <div className="text-[11px] text-slate-500 truncate hidden md:inline-flex items-center gap-1.5 border-l border-slate-800 pl-3">
+            <span>HVPgg</span>
+            <span>•</span>
+            {onOpenAbout ? (
               <button
                 type="button"
                 onClick={onOpenAbout}
-                className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 transition px-2 py-1 rounded hover:bg-slate-800"
-                title="About HVPgg Lineage, Stack and AGPL-3.0 License"
+                className="text-emerald-400 hover:underline font-semibold"
+                title="View Open Source License (AGPL-3.0) and Project Lineage"
               >
-                <Info className="w-3 h-3 text-emerald-400" />
-                <span>Lineage & About</span>
+                AGPL-3.0
               </button>
+            ) : (
+              <span className="text-emerald-400 font-semibold">AGPL-3.0</span>
             )}
+            <span>•</span>
+            <span className="text-slate-500">Independent Open Source Appliance</span>
           </div>
         </div>
 
-        {/* Right: Next Step or Build Action */}
-        <div className="flex items-center gap-2">
+        {/* Right: Next Step or Download Action */}
+        <div className="flex items-center justify-end min-w-[90px] sm:min-w-[150px]">
           {nextTab ? (
             <button
               type="button"
               onClick={() => onSelectTab(nextTab.id)}
-              className="flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 transition active:scale-95"
+              className="flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 transition active:scale-95"
               aria-label={`Advance to Step ${nextTab.stepNumber}: ${nextTab.label}`}
             >
               <span>Next: {nextTab.label}</span>
@@ -135,7 +110,7 @@ export const BottomNavDock: React.FC<BottomNavDockProps> = ({
             <button
               type="button"
               onClick={onQuickExport}
-              className="flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 transition active:scale-95"
+              className="flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 transition active:scale-95"
               aria-label="Download and Build Appliance ZIP Bundle"
             >
               <Download className="w-4 h-4" />
@@ -144,6 +119,6 @@ export const BottomNavDock: React.FC<BottomNavDockProps> = ({
           )}
         </div>
       </div>
-    </aside>
+    </footer>
   );
 };

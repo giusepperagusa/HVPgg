@@ -36,14 +36,12 @@ import { BASE_IMAGE_FILENAMES } from '../config/eibDefaults';
 interface TabDeploymentScaleProps {
   config: EIBConfigState;
   onChange: (updater: (prev: EIBConfigState) => EIBConfigState) => void;
-  onNext: () => void;
   onOpenAdvancedStack?: () => void;
 }
 
 export const TabDeploymentScale: React.FC<TabDeploymentScaleProps> = ({
   config,
   onChange,
-  onNext,
   onOpenAdvancedStack,
 }) => {
   const [showRegCode, setShowRegCode] = useState(false);
@@ -496,9 +494,9 @@ export const TabDeploymentScale: React.FC<TabDeploymentScaleProps> = ({
         </div>
       </div>
 
-      {/* Navigation Footer */}
-      <div className="flex items-center justify-between pt-4">
-        {onOpenAdvancedStack && (
+      {/* Optional Advanced Stack Overrides Link */}
+      {onOpenAdvancedStack && (
+        <div className="pt-2 pb-4 text-center">
           <button
             type="button"
             onClick={onOpenAdvancedStack}
@@ -506,16 +504,8 @@ export const TabDeploymentScale: React.FC<TabDeploymentScaleProps> = ({
           >
             Looking for specific component versions? Open Advanced Stack Overrides
           </button>
-        )}
-        <button
-          type="button"
-          onClick={onNext}
-          className="ml-auto flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition active:scale-95"
-        >
-          <span>Next: Network & Appliance Identity</span>
-          <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

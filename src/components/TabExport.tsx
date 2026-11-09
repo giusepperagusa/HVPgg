@@ -26,10 +26,9 @@ import { buildWorkspaceTree, exportWorkspaceZip, WorkspaceFilePreview } from '..
 
 interface TabExportProps {
   config: EIBConfigState;
-  onPrev: () => void;
 }
 
-export const TabExport: React.FC<TabExportProps> = ({ config, onPrev }) => {
+export const TabExport: React.FC<TabExportProps> = ({ config }) => {
   const [selectedFilePath, setSelectedFilePath] = useState<string>('definition.yaml');
   const [copiedFile, setCopiedFile] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -392,25 +391,6 @@ export const TabExport: React.FC<TabExportProps> = ({ config, onPrev }) => {
         </div>
       </div>
 
-      {/* Navigation Footer */}
-      <div className="flex items-center justify-between pt-4">
-        <button
-          type="button"
-          onClick={onPrev}
-          className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition"
-        >
-          &larr; Back to Value Stack Roadmap
-        </button>
-
-        <button
-          type="button"
-          onClick={handleDownloadZip}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition active:scale-95"
-        >
-          <Download className="w-4 h-4" />
-          <span>Download Workspace ZIP</span>
-        </button>
-      </div>
     </div>
   );
 };

@@ -624,6 +624,13 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "green generation") infrastructure platform are documented here.
 
+## [1.4.4] - 2026-11-09
+### Changed & Consolidated
+- **Deduplicated Stage Controls**: Removed duplicate Back/Next buttons inside form scroll bodies across Steps 01 to 05, making the sticky bottom dock the single authoritative navigation bar.
+- **Unified Bottom Bar & Ghost Footer Elimination**: Merged project attribution, AGPL-3.0 license trigger, and non-affiliation notice directly into the bottom dock, removing the jarring secondary footer that only appeared on full scroll.
+- **Removed Redundant Step 01 Component Engine Placeholder**: Eliminated the redundant "Component Engine" button placeholder on Step 01, leaving the canonical link inside Step 01's form body.
+- **Deduplicated Dialog Tooltips**: Retained Documentation and About modal launchers in the primary header and removed redundant duplicates from the bottom dock to ensure clean, consistent tooltips.
+
 ## [1.4.3] - 2026-11-09
 ### Changed & Enhanced
 - **Responsive Sticky Header & Stage Navigation**: Pinned title bar and 5-stage progression bar to the top on desktop displays (\`lg:sticky\`), while preserving standard natural scrolling on mobile/tablet devices (<1024px) to protect vertical viewport height for forms and keyboards.
