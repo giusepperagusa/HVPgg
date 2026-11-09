@@ -30,6 +30,7 @@ import {
 import { generateLicenseText, generateChangelogMarkdown } from '../utils/eibGenerator';
 import { usePWA } from '../context/PWAContext';
 import { APP_VERSION } from '../config/eibDefaults';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -193,6 +194,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
     updateCheckMessage,
     lastUpdateCheck,
   } = usePWA();
+
+  useModalDismiss(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -606,13 +609,49 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* TAB 3: FULL CHANGELOG */}
           {activeTab === 'changelog' && (
             <div className="space-y-6">
-              {/* Release 1.4.1 */}
+              {/* Release 1.4.2 */}
               <div className="p-4 rounded-xl bg-slate-850 border border-emerald-500/50 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-base text-white">v1.4.1</span>
+                    <span className="font-mono font-bold text-base text-white">v1.4.2</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700">
                       Latest Release
+                    </span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      UX Streamlining & Accessibility
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">2026-11-09</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <h5 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">
+                    Header De-cluttering, Combined Online Updates & Universal Escape Key Dismissal
+                  </h5>
+                  <ul className="list-disc list-inside space-y-1 text-slate-300">
+                    <li>
+                      <strong>Header De-cluttering:</strong> Removed redundant "Online" and "Free/Commercial" badges from the top header to maximize vertical clarity and avoid visual noise. Subscription mode remains centrally reviewed in the Profile Manager and Step 01.
+                    </li>
+                    <li>
+                      <strong>Combined Online Update Checker:</strong> Unified offline and online states directly into the "Check for Updates" button. When offline, the button becomes unclickable with an explicit tooltip explaining that internet connectivity is required.
+                    </li>
+                    <li>
+                      <strong>Universal Escape Key Dismissal:</strong> Integrated <code className="font-mono text-cyan-300">useModalDismiss</code> hook across all modal dialogs (About, Documentation, Component Engine Overrides, Profile Manager, Profile Collision Diff, and iOS Guide), enabling instant <kbd className="px-1 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-200 font-mono text-[10px]">Esc</kbd> key exit.
+                    </li>
+                    <li>
+                      <strong>Keyboard Navigation & Accessibility:</strong> Enforced accessible tab orders, visible focus rings, ARIA roles, and keyboard-operable controls across all wizard forms.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Release 1.4.1 */}
+              <div className="p-4 rounded-xl bg-slate-850/50 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-base text-white">v1.4.1</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                      Previous Release
                     </span>
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                       Library Pruning & Hardening

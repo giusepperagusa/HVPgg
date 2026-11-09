@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { EIBProfile, ProfileConflictResolution } from '../types/profile';
 import { parseProfileFile } from '../utils/profileSerializer';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 interface ProfileManagerModalProps {
   isOpen: boolean;
@@ -105,6 +106,8 @@ export const ProfileManagerModal: React.FC<ProfileManagerModalProps> = ({
 
   // Hidden file input
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useModalDismiss(isOpen, onClose);
 
   if (!isOpen) return null;
 

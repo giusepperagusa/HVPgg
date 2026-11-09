@@ -16,6 +16,7 @@ import {
   Layers,
   Network,
 } from 'lucide-react';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 interface DocsModalProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ interface DocsModalProps {
 }
 
 export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
+  useModalDismiss(isOpen, onClose);
+
   if (!isOpen) return null;
 
   return (

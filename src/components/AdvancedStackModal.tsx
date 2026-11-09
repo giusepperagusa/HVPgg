@@ -26,6 +26,7 @@ import {
   EdgeGeneration,
   EDGE_VERSION_PRESETS,
 } from '../types/eib';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 interface AdvancedStackModalProps {
   isOpen: boolean;
@@ -41,6 +42,8 @@ export const AdvancedStackModal: React.FC<AdvancedStackModalProps> = ({
   onChange,
 }) => {
   const [copiedHash, setCopiedHash] = React.useState(false);
+
+  useModalDismiss(isOpen, onClose);
 
   if (!isOpen) return null;
 

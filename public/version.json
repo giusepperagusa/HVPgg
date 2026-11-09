@@ -1,7 +1,7 @@
 {
-  "version": "1.4.1",
+  "version": "1.4.2",
   "name": "HVPgg Wizard (Hardware to Value Project \"green generation\")",
   "shortName": "HVPgg Wizard",
-  "buildTime": "2026-11-08T09:00:00Z",
-  "releaseNotes": "Audit and removal of unused dependencies (@google/genai, motion, express, dotenv, @types/express). Updated embedded component and license catalog. Added always-visible commercial supportability advisory in Step 01."
+  "buildTime": "2026-11-09T18:30:00Z",
+  "releaseNotes": "Streamlined top-of-page header by removing redundant Online and Mode badges, combined offline awareness into update checker, added Escape key dismissal to all modals, and audited full keyboard accessibility."
 }

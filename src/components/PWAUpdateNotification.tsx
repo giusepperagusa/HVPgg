@@ -20,6 +20,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { usePWA } from '../context/PWAContext';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 export const PWAUpdateNotification: React.FC = () => {
   const {
@@ -34,6 +35,8 @@ export const PWAUpdateNotification: React.FC = () => {
     showIOSGuide,
     setShowIOSGuide,
   } = usePWA();
+
+  useModalDismiss(showIOSGuide, () => setShowIOSGuide(false));
 
   // Auto-dismiss offline ready notification after 7 seconds
   useEffect(() => {

@@ -123,73 +123,46 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {/* Mode Pill Indicator */}
-          <div
-            className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${
-              environmentMode === 'commercial'
-                ? 'bg-amber-950/40 text-amber-300 border-amber-600/40'
-                : 'bg-emerald-950/40 text-emerald-300 border-emerald-600/40'
-            }`}
-          >
-            <span
-              className={`w-2 h-2 rounded-full ${
-                environmentMode === 'commercial' ? 'bg-amber-400' : 'bg-emerald-400'
-              }`}
-            />
-            {MODE_PILL_LABELS[environmentMode]}
-          </div>
-
-          {/* Connectivity Pill */}
-          <div
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border bg-slate-800/80 border-slate-700 text-slate-300"
-            title={isOnline ? 'Online (Client-Side Safe)' : 'Offline Mode (PWA Cached)'}
-          >
-            {isOnline ? (
-              <>
-                <Wifi className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden lg:inline">Online</span>
-              </>
-            ) : (
-              <>
-                <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-                <span className="text-amber-300">Offline PWA</span>
-              </>
-            )}
-          </div>
-
-          {/* Standalone Local App Badge */}
-          {isInstalled && (
-            <div
-              className="hidden xl:flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border bg-emerald-950/30 border-emerald-800/40 text-emerald-300"
-              title="Running as installed local PWA application"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Installed App</span>
-            </div>
-          )}
-
-          {/* Check for Updates Button */}
+          {/* Check for Updates Button (combines online state & update checks) */}
           <button
             onClick={async () => {
-              const res = await checkForUpdate(true);
+              if (!isOnline) return;
+              await checkForUpdate(true);
               setShowStatusToast(true);
               setTimeout(() => setShowStatusToast(false), 4500);
             }}
-            disabled={isCheckingUpdate}
-            className={`relative p-2 rounded-lg transition ${
-              isUpdateAvailable
+            disabled={!isOnline || isCheckingUpdate}
+            className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+              !isOnline
+                ? 'bg-slate-900/60 text-slate-500 border border-slate-800 cursor-not-allowed opacity-75'
+                : isUpdateAvailable
                 ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-lg shadow-emerald-500/20'
-                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+                : 'text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-750 border border-slate-700'
             }`}
             title={
-              isUpdateAvailable
+              !isOnline
+                ? 'Device is currently offline — update check requires active internet connectivity'
+                : isUpdateAvailable
                 ? `Update v${updateVersion || 'new'} ready! Click to apply`
-                : `Check for Online Updates (Running v${currentVersion})`
+                : `Check for Online Updates (Online • Running v${currentVersion})`
             }
-            aria-label="Check for Online Updates"
+            aria-label={
+              !isOnline
+                ? 'Updates unavailable while offline'
+                : isUpdateAvailable
+                ? 'Apply available application update'
+                : 'Check for online application updates'
+            }
           >
-            <RefreshCw className={`w-4 h-4 ${isCheckingUpdate ? 'animate-spin text-emerald-400' : ''}`} />
-            {isUpdateAvailable && (
+            {isOnline ? (
+              <RefreshCw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin text-emerald-400' : 'text-emerald-400'}`} />
+            ) : (
+              <WifiOff className="w-3.5 h-3.5 text-slate-500" />
+            )}
+            <span className="hidden sm:inline">
+              {!isOnline ? 'Offline' : isCheckingUpdate ? 'Checking...' : isUpdateAvailable ? 'Update Ready' : 'Check Updates'}
+            </span>
+            {isUpdateAvailable && isOnline && (
               <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>

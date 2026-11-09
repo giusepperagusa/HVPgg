@@ -5,6 +5,13 @@ All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "gr
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2] - 2026-11-09
+### Changed & Refined
+- **Header De-cluttering**: Removed the standalone "Online" connectivity badge and the "Free / Commercial" mode badge from the header. The mode is already summarized inside the Profile Management dialog.
+- **Integrated Update Checker & Connectivity State**: Merged online connectivity detection directly into the "Check for Updates" button. When offline, the button is automatically disabled with explanatory tooltip hints (`Offline - update check unavailable`), streamlining header indicators into a single intuitive action.
+- **Universal Escape Key Modal Dismissal**: Integrated `useModalDismiss` across all modal dialogs (`AboutModal`, `DocsModal`, `AdvancedStackModal`, `ProfileManagerModal`, `ProfileConflictModal`, and `PWAUpdateNotification`), allowing immediate keyboard exit via the `Esc` key.
+- **Keyboard Navigation & Accessibility (a11y)**: Ensured comprehensive keyboard focus rings, standard button types, ARIA labels, and logical form tab order across wizard stages and modals.
+
 ## [1.4.1] - 2026-11-08
 ### Changed & Pruned
 - **Dependency Audit & Pruning**: Removed unused runtime and build packages (`@google/genai`, `motion`, `express`, `dotenv`, and `@types/express`), reducing bundle surface and avoiding unnecessary dependencies.

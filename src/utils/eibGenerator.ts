@@ -624,6 +624,13 @@ export function generateChangelogMarkdown(): string {
 
 All notable changes to HVPgg Wizard and the HVPgg (Hardware to Value Project "green generation") infrastructure platform are documented here.
 
+## [1.4.2] - 2026-11-09
+### Changed & Refined
+- **Header De-cluttering**: Removed the standalone "Online" connectivity badge and the "Free / Commercial" mode badge from the top header to maximize focus and reduce clutter.
+- **Combined Update Checker & Connectivity State**: Merged online connectivity detection directly into the "Check for Updates" button, disabling it when offline with explanatory tooltip cues.
+- **Universal Escape Key Modal Dismissal**: Integrated \`useModalDismiss\` across all modal dialogs (\`AboutModal\`, \`DocsModal\`, \`AdvancedStackModal\`, \`ProfileManagerModal\`, \`ProfileConflictModal\`, and \`PWAUpdateNotification\`), allowing immediate keyboard exit via the \`Esc\` key.
+- **Keyboard Navigation & Accessibility (a11y)**: Ensured comprehensive keyboard focus rings, standard button types, ARIA labels, and logical form tab order across wizard stages and modals.
+
 ## [1.4.1] - 2026-11-08
 ### Changed & Pruned
 - **Dependency Audit & Pruning**: Removed unused runtime and build packages (\`@google/genai\`, \`motion\`, \`express\`, \`dotenv\`, and \`@types/express\`), reducing bundle surface and avoiding unnecessary dependencies.

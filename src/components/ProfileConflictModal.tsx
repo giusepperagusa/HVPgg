@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { EIBProfile, ProfileConflictResolution } from '../types/profile';
 import { compareProfiles } from '../utils/profileSerializer';
+import { useModalDismiss } from '../hooks/useModalDismiss';
 
 interface ProfileConflictModalProps {
   isOpen: boolean;
@@ -35,6 +36,8 @@ export const ProfileConflictModal: React.FC<ProfileConflictModalProps> = ({
   onResolve,
   onCancel,
 }) => {
+  useModalDismiss(isOpen, onCancel);
+
   const [renameValue, setRenameValue] = useState(
     `${importedProfile.name} (Imported ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`
   );
